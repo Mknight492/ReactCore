@@ -1,0 +1,17 @@
+.container {
+    margin-right: 30px;
+    padding: 10px;
+}
+
+.selected{
+    background-color: #3d315B;
+}
+.link{
+    color: #9ab87a;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.link:hover{
+    color: #708b75;
+}

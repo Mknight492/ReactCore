@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="source\components\history\" />
+    <Folder Include="source\components\navigation\" />
+    <Folder Include="source\components\navigation-item\" />
+    <Folder Include="source\components\pages\index\" />
+    <Folder Include="source\components\pages\search\" />
+    <Folder Include="source\actions\" />
+    <Folder Include="source\store\" />
+    <Folder Include="source\reducers\" />
+    <Folder Include="source\sagas\" />
+  </ItemGroup>
+
+</Project>

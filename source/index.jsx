@@ -1,72 +1,46 @@
 ﻿//envornmnet setup imports
-import 'babel-regenerator-runtime'
+import "babel-regenerator-runtime";
 
 //React imports
-import React from 'react'
-import {render} from 'react-dom'
-import App from './components/app/app'
-
-//HMR imports
-//import { AppContainer } from 'react-hot-loader'
+import React from "react";
+import { render } from "react-dom";
+import App from "./components/app/app";
 
 //Redux Imports
-import {Provider} from 'react-redux'
-
-import reducer from './reducers'
-import {configureStore, history} from './store/configure-store'
-
-
+import { Provider } from "react-redux";
+import { configureStore, history, sagas } from "./store/configure-store";
 
 //routing Imports
-import { Router, Route, Switch } from 'react-router'
-import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
+import { ConnectedRouter } from "connected-react-router";
 
-
-//Page imports
-import IndexPage from './components/pages/index/index-page.container'
-import SearchPage from './components/pages/search/search-page.container'
-
-
-
-
-//creating saga and history
+//saga imports
+import WeatherSaga from "./sagas/weatherSaga";
 
 //generating redux store with middleware NB routerMiddleWare must remain fist
+let store = configureStore();
 
-
-console.log(process.env.NODE_ENV)
-
-const store = configureStore()
-
-const appRoot = document.getElementById('app')
+sagas.run(WeatherSaga);
 
 const renderApp = () => {
-    render(
+  render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <Switch>
-                <Route exact path ="/" component={IndexPage} />
-                <Route exact path ="/search" component={SearchPage} />
-            </Switch>
-        </ConnectedRouter>
-    </Provider>
-    ,appRoot
-    )
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>,
+    document.getElementById("app")
+  );
+};
+renderApp();
+
+if (module.hot) {
+  module.hot.accept("./components/app/app", () => {
+    renderApp();
+  });
 }
-renderApp()
-
-
-if (module.hot){
-	module.hot.accept('./components/app/app', () => {
-		renderApp()
-	});
-}
-
 
 //allow HMR for js and css imports and auto reloading on changing html
-if (process.env.NODE_ENV === "development") {
-    require('./index.html')
-    
+if (module.hot) {
+  require("./index.html");
+  module.hot.accept();
 }
-
-module.hot.accept()

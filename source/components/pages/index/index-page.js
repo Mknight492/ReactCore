@@ -1,17 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-export default function IndexPage(){
-    return(
-        <div>
-            <h2>Index bitches</h2>
-            <Link to="/search"> Go To Search</Link>
-        </div>
-    )
+export default function IndexPage() {
+  return (
+    <div>
+      <h2>Home page</h2>
+    </div>
+  );
 }
 
-IndexPage.propTypes ={
-    //tests: PropTypes.array.isRequired,
-    //addTest: PropTypes.func.isRequired
-}
+IndexPage.propTypes = {};

@@ -347,7 +347,9 @@ ASALocalRun/
 
 Utilities
 wwwroot
-
+yarn.lock
+yarn-error.log
+security.js
 # End of https://www.gitignore.io/api/code,visualstudio
 
 

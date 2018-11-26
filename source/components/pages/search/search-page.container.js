@@ -1,14 +1,15 @@
-import { connect } from 'react-redux'
-import searchPage from './search-page'
+import { connect } from "react-redux";
+import searchPage from "./search-page";
 
-function mapStateToProps (state) {
-    return {
-    }
+function mapStateToProps(state) {
+  return {};
 }
 
-function mapDispatchToProps (dispatch) {
-    return {
-    }
+function mapDispatchToProps(dispatch) {
+  return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(searchPage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(searchPage);

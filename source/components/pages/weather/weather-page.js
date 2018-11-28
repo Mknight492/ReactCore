@@ -22,7 +22,7 @@ export default function WeatherPage({
 
   return (
     <div>
-      <h2 onClick={getWeather}> Weather Page </h2>
+      <h2 onClick={getWeather}> Weather Page</h2>
       <button
         onClick={() => {
           clickHandler();

@@ -3,11 +3,10 @@ import {
   WEATHER_SEARCH_FAILURE,
   WEATHER_SEARCH_SUCCESS
 } from "../actions/weatherActions";
-import { LOCATION_CHANGE } from "connected-react-router";
 
 const initalState = {
   currentPosition: {
-    latitude: -0.61735,
+    latitude: -1.11735,
     longitude: 73.0803
   },
   locationWeather: undefined
@@ -35,8 +34,6 @@ export default function WeatherReducer(state, action) {
           temp: action.payload.main.temp
         }
       };
-    case LOCATION_CHANGE:
-      return initalState;
     default:
       return state;
   }

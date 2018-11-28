@@ -1,13 +1,12 @@
 import { combineReducers } from "redux";
 
-import { connectRouter } from "connected-react-router";
 import testReducer from "./testReducer";
 import WeatherReducer from "./weatherReducer";
 
 //NB connectRouter must be first
-export default history =>
-  combineReducers({
-    router: connectRouter(history),
+export default () => {
+  return combineReducers({
     test: testReducer,
     weather: WeatherReducer
   });
+};

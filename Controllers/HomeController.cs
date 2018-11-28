@@ -12,5 +12,15 @@ namespace ReactCore.Controllers
         {
             return View();
         }
+
+        public IActionResult Net()
+        {
+            return View();
+        }
+
+        public IActionResult Test()
+        {
+            return View();
+        }
     }
 }

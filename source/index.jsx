@@ -8,10 +8,7 @@ import App from "./components/app/app";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import { configureStore, history, sagas } from "./store/configure-store";
-
-//routing Imports
-import { ConnectedRouter } from "connected-react-router";
+import { configureStore, sagas } from "./store/configure-store";
 
 //saga imports
 import WeatherSaga from "./sagas/weatherSaga";
@@ -24,9 +21,7 @@ sagas.run(WeatherSaga);
 const renderApp = () => {
   render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
+      <App />
     </Provider>,
     document.getElementById("app")
   );
@@ -34,13 +29,11 @@ const renderApp = () => {
 renderApp();
 
 if (module.hot) {
-  module.hot.accept("./components/app/app", () => {
+  module.hot.accept("./components/app/app.js", () => {
     renderApp();
   });
 }
 
-//allow HMR for js and css imports and auto reloading on changing html
 if (module.hot) {
   require("./index.html");
-  module.hot.accept();
 }

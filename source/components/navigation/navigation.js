@@ -1,15 +1,18 @@
 import React from "react";
-
-import { Link } from "react-router-dom";
+import styles from "./navigation.css";
+import { Link } from "@reach/router";
 const NavigationComponent = () => {
   return (
-    <div>
+    <div className={styles.container}>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to={"/"}>Home</Link>
         </li>
         <li>
-          <Link to="/weather"> Weather</Link>
+          <Link to={"/weather"}> Weather</Link>
+        </li>
+        <li>
+          <a href="/home/net"> to Net </a>
         </li>
       </ul>
     </div>

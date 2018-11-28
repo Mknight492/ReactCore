@@ -1,7 +1,6 @@
-import createRootReducer from "../reducers/index";
-
 //redux imports
 import { createStore, applyMiddleware } from "redux";
+import createRootReducer from "../reducers/index";
 
 //logger imports
 import { createLogger } from "redux-logger";
@@ -9,49 +8,29 @@ import { createLogger } from "redux-logger";
 //Saga Imports
 import createSagaMiddleware from "redux-saga";
 
-//router imports
-import { routerMiddleware } from "connected-react-router";
-import createBrowserHistory from "history/createBrowserHistory";
-
 //generating initial state
 const initialState = {};
-
-const history = createBrowserHistory();
 
 //generate middleware
 const sagas = createSagaMiddleware();
 
-const middleWare = applyMiddleware(
-  routerMiddleware(history),
-  createLogger(),
-  sagas
-);
+const middleWare = applyMiddleware(createLogger(), sagas);
 
 const configureStore = () => {
-  const store = createStore(
-    createRootReducer(history),
-    initialState,
-    middleWare
-  );
+  const store = createStore(createRootReducer(), {}, middleWare);
+  console.log("store created - attempt HMR");
   if (module.hot) {
+    console.log("attempting HMR");
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept("../reducers/index", () => {
-      console.log("accepting old reducer");
-      const nextRootReducer = require("../reducers/index");
+    module.hot.accept("../reducers", () => {
+      const nextRootReducer = require("../reducers").default();
       store.replaceReducer(nextRootReducer);
+      console.log("HMR complete");
     });
   }
   return store;
 };
 
-export { history, configureStore, sagas };
+export { configureStore, sagas };
 
-/*
- {
-  const store = createStore(rootReducer, initialState);
-
-
-
-  return store;
-}
-*/
+//f

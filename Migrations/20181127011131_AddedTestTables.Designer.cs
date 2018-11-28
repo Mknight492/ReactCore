@@ -10,7 +10,7 @@ using System;
 
 namespace ReactCore.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20181127011131_AddedTestTables")]
     partial class AddedTestTables
     {

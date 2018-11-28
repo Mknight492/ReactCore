@@ -14,6 +14,9 @@ const NavigationComponent = () => {
         <li>
           <a href="/home/net"> to Net </a>
         </li>
+        <li>
+          <Link to={"/apitest"}> APITest</Link>
+        </li>
       </ul>
     </div>
   );

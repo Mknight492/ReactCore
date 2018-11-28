@@ -12,16 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-    <Folder Include="source\components\history\" />
-    <Folder Include="source\components\navigation\" />
-    <Folder Include="source\components\navigation-item\" />
-    <Folder Include="source\components\pages\index\" />
-    <Folder Include="source\components\pages\search\" />
-    <Folder Include="source\actions\" />
-    <Folder Include="source\store\" />
-    <Folder Include="source\reducers\" />
-    <Folder Include="source\sagas\" />
+    <Folder Include="Client\" />
   </ItemGroup>
 
 </Project>

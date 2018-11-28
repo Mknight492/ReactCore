@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ReactCore.Data;
 using ReactCore.Models;
@@ -16,10 +17,10 @@ namespace ReactCore.Controllers.APIs
     public class TestAPIController : Controller
     {
 
-        private readonly ApplicationDBContext _db;
+        private readonly ApplicationDbContext _db;
 
 
-        public TestAPIController(ApplicationDBContext db)
+        public TestAPIController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -38,6 +39,18 @@ namespace ReactCore.Controllers.APIs
             //var testsInDb = _db.Tests.All( w=>w.testString == "hmm");
             //var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dummyData);
             return new JsonResult(dummyData);
+        }
+
+
+        [HttpGet("api/loadtest")]
+        public async Task<IActionResult> Get()
+        {
+
+            var APIData = await _db.Tests.ToListAsync();
+
+            //var testsInDb = _db.Tests.All( w=>w.testString == "hmm");
+            //var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dummyData);
+            return new JsonResult(APIData);
         }
     }
 }

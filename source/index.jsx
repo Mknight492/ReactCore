@@ -12,11 +12,12 @@ import { configureStore, sagas } from "./store/configure-store";
 
 //saga imports
 import WeatherSaga from "./sagas/weatherSaga";
-
+import TestApiSaga from "./sagas/testApiSaga";
 //generating redux store with middleware NB routerMiddleWare must remain fist
 let store = configureStore();
 
 sagas.run(WeatherSaga);
+sagas.run(TestApiSaga);
 
 const renderApp = () => {
   render(

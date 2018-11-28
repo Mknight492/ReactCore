@@ -8,6 +8,7 @@ import Navigation from "../../components/navigation/navigation";
 import IndexPage from "../pages/index/index-page.container";
 import WeatherPage from "../pages/weather/weather-page.container";
 import FourZeroFour from "../pages/four-zero-four/four-zero-four";
+import ApiTestPage from "../pages/APITest/apitest.container";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Router>
         <IndexPage path="/" />
         <WeatherPage path="/weather" />
+        <ApiTestPage path="/apitest" />
       </Router>
     </div>
   );

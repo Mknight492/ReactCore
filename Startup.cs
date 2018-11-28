@@ -31,7 +31,7 @@ namespace ReactCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<ApplicationDBContext>(options
+            services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(connectionString));
         }
 
@@ -49,7 +49,7 @@ namespace ReactCore
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>{
+            app.UseMvc( routes =>{
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"

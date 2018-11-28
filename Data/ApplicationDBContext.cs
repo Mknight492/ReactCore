@@ -7,13 +7,14 @@ using ReactCore.Models;
 
 namespace ReactCore.Data
 {
-    public class ApplicationDBContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        { }
+        {
+        }
 
         public DbSet<Test> Tests { get; set; }
-        public DbSet<Test2> Tests2 { get; set; }
+        public DbSet<Test2> Test2s { get; set; }
     }
 }

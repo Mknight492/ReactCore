@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styles from "./friend.css";
 
 class FriendComponent extends React.Component {
   constructor(...args) {
@@ -33,10 +34,8 @@ class FriendComponent extends React.Component {
 
   deleteTest(event) {
     const { loadAPI, id } = this.props;
-    console.log(id);
     event.preventDefault();
     async function addTest() {
-      console.log(id);
       await fetch(`/api/testapi/${id}`, {
         method: "DELETE",
         headers: {
@@ -54,7 +53,7 @@ class FriendComponent extends React.Component {
   render() {
     const { isActive, id, changeActiveTest } = this.props;
     return (
-      <div>
+      <div className={styles.container}>
         {isActive == id ? (
           <>
             <input
@@ -70,7 +69,7 @@ class FriendComponent extends React.Component {
             <p>
               {this.state.testString} {id} {isActive == id && "I'm Active"}
             </p>
-            <button onClick={() => changeActiveTest(id)}>Change</button>
+            <button onClick={() => changeActiveTest(id)}>Change..</button>
           </>
         )}
       </div>

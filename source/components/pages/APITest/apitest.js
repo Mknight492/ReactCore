@@ -42,7 +42,8 @@ class ApiTestPage extends React.Component {
     const { testArray } = this.props;
     return (
       <div>
-        <h2>API Test Page</h2>
+        <h2> im here </h2>
+        <h2>API Test Page..</h2>
         <form onSubmit={event => this.handleFormSubmit(event)}>
           <label htmlFor="text" id="text">
             New value to add:

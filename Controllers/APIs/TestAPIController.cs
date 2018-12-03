@@ -36,7 +36,7 @@ namespace ReactCore.Controllers.APIs
         }
 
 
-        [HttpGet("{id}", Name = "GetTest")]
+        [HttpGet("{id}", Name = "GetTest")] //[HttpGet("[action]/{id}") NB action="getbyid"
         public async Task<IActionResult> GetById(long id)
         {
 
@@ -67,7 +67,7 @@ namespace ReactCore.Controllers.APIs
             }
 
             testToUpdate.testString = test.testString;
-            _db.SaveChanges();
+            _db.Tests.Update(testToUpdate);
             return Ok(new
             {
                 success = true,
@@ -84,7 +84,7 @@ namespace ReactCore.Controllers.APIs
                 return NotFound();
             }
 
-            _db.Remove(testToDelete);
+            _db.Tests.Remove(testToDelete);
            await _db.SaveChangesAsync();
 
             return Ok(new

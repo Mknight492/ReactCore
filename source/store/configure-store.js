@@ -11,6 +11,10 @@ import createSagaMiddleware from "redux-saga";
 //generating initial state
 const initialState = {};
 
+import WeatherSaga from "../sagas/weatherSaga";
+import TestApiSaga from "../sagas/testApiSaga";
+//generating redux store with middleware NB routerMiddleWare must remain fist
+
 //generate middleware
 const sagas = createSagaMiddleware();
 

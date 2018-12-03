@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
 const presetConfig = require("./build-utils/loadPresets");
+const postcssPresetEnv = require("postcss-preset-env");
 
 module.exports = ({ mode, presets } = { mode: "development", presets: [] }) => {
   return webpackMerge(
@@ -48,6 +49,34 @@ module.exports = ({ mode, presets } = { mode: "development", presets: [] }) => {
           {
             test: /\.html$/,
             loader: "raw-loader"
+          },
+          {
+            test: /\.scss$/,
+            use: [
+              "style-loader",
+              { loader: "css-loader", options: { importLoaders: 1 } },
+              {
+                loader: "postcss-loader",
+                options: {
+                  ident: "postcss",
+                  plugins: () => [
+                    require("postcss-mixins"),
+                    postcssPresetEnv({
+                      exportTo: "./wwwroot/file.css",
+                      features: {
+                        "nesting-rules": true
+                      }
+                    }),
+                    require("postcss-simple-vars")(),
+                    require("postcss-import")(),
+                    require("postcss-hexrgba"),
+                    require("postcss-selector-not")
+                  ]
+                }
+              },
+              "resolve-url-loader",
+              "sass-loader"
+            ]
           }
         ]
       },

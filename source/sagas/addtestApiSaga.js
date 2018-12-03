@@ -7,10 +7,9 @@ import {
   LOAD_TEST_API
 } from "../actions/testActions";
 
-function* TestApiRequest() {
+function* AddTestApiRequest() {
   try {
-    const APIdata = yield fetch("api/testapi");
-    console.log(APIdata);
+    const APIdata = yield fetch("api/loadtest");
     const APIJson = yield APIdata.json();
     console.log(`${APIJson} from saga`);
 

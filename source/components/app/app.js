@@ -10,6 +10,9 @@ import WeatherPage from "../pages/weather/weather-page.container";
 import FourZeroFour from "../pages/four-zero-four/four-zero-four";
 import ApiTestPage from "../pages/APITest/apitest.container";
 
+//import global style
+import styles from "./app.css";
+
 const App = () => {
   return (
     <div>

@@ -1,20 +1,20 @@
 import { connect } from "react-redux";
-import ApiTestPage from "./apitest";
-import { loadTestApi, addTestGenerator } from "../../../actions/testActions";
+import Friend from "./friend";
+import { changeTestGenerator, loadTestApi } from "../../actions/testActions";
 
 function mapStateToProps(state) {
   return {
-    testArray: state.test.testArray
+    isActive: state.test.isActive
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    changeActiveTest: id => {
+      dispatch(changeTestGenerator(id));
+    },
     loadAPI: () => {
       dispatch(loadTestApi());
-    },
-    addTestApi: string => {
-      dispatch(addTestGenerator(string));
     }
   };
 }
@@ -22,4 +22,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApiTestPage);
+)(Friend);

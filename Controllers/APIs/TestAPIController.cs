@@ -14,7 +14,8 @@ namespace ReactCore.Controllers.APIs
 {
     
     [Produces("application/json")]
-    public class TestAPIController : Controller
+    [Route("api/[controller]")]
+    public class TestAPIController : ControllerBase
     {
 
         private readonly ApplicationDbContext _db;
@@ -25,32 +26,73 @@ namespace ReactCore.Controllers.APIs
             _db = db;
         }
 
-
-        // GET: api/<controller>
-        [HttpGet("api/test")]
-        public async Task<IActionResult> Get(string test)
-        {
-            var dummyData = new Test
-            {
-                testString = test
-            };
-            _db.Tests.Add(dummyData);
-            _db.SaveChanges();
-            //var testsInDb = _db.Tests.All( w=>w.testString == "hmm");
-            //var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dummyData);
-            return new JsonResult(dummyData);
-        }
-
-
-        [HttpGet("api/loadtest")]
-        public async Task<IActionResult> Get()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
 
             var APIData = await _db.Tests.ToListAsync();
 
-            //var testsInDb = _db.Tests.All( w=>w.testString == "hmm");
-            //var JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dummyData);
             return new JsonResult(APIData);
         }
+
+
+        [HttpGet("{id}", Name = "GetTest")]
+        public async Task<IActionResult> GetById(long id)
+        {
+
+            var APIData = await _db.Tests.FindAsync(id);
+            if (APIData == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(APIData);
+        }
+        // GET: api/<controller>
+        [HttpPost]
+        //[ActionName("Gettests")]
+        public async Task<IActionResult> Create([FromBody]Test test)
+        {
+            _db.Tests.Add(test);
+            _db.SaveChanges();
+            return CreatedAtRoute("GetTest", new {id = test.id}, test);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Test test)
+        {
+            var testToUpdate = _db.Tests.Find(test.id);
+            if (testToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            testToUpdate.testString = test.testString;
+            _db.SaveChanges();
+            return Ok(new
+            {
+                success = true,
+                returncode = "200"
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Test testToDelete = _db.Tests.Find(id);
+            if (testToDelete == null)
+            {
+                return NotFound();
+            }
+
+            _db.Remove(testToDelete);
+           await _db.SaveChangesAsync();
+
+            return Ok(new
+            {
+                success = true,
+                returncode = "200"
+            });
+        }
+
     }
 }

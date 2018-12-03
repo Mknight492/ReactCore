@@ -10,7 +10,7 @@ import App from "./components/app/app";
 import { Provider } from "react-redux";
 import { configureStore, sagas } from "./store/configure-store";
 
-//saga imports
+//saga import
 import WeatherSaga from "./sagas/weatherSaga";
 import TestApiSaga from "./sagas/testApiSaga";
 //generating redux store with middleware NB routerMiddleWare must remain fist

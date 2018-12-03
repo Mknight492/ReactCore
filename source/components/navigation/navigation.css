@@ -1,7 +1,23 @@
 .container {
-  display: block;
-  position: sticky;
+  overflow: hidden;
+  position: fixed;
   top: 0;
-  left: 0;
+  color: blue;
+  width: 100%;
   margin-bottom: 100px;
+  background-color: grey;
+  z-index: 5;
+}
+
+.container a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.main {
+  margin-top: 30px;
 }

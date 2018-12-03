@@ -350,6 +350,7 @@ wwwroot
 yarn.lock
 yarn-error.log
 security.js
+coverage
 # End of https://www.gitignore.io/api/code,visualstudio
 
 

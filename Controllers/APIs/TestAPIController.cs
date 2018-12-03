@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -15,6 +17,7 @@ namespace ReactCore.Controllers.APIs
     
     [Produces("application/json")]
     [Route("api/[controller]")]
+  
     public class TestAPIController : ControllerBase
     {
 
@@ -52,6 +55,7 @@ namespace ReactCore.Controllers.APIs
         //[ActionName("Gettests")]
         public async Task<IActionResult> Create([FromBody]Test test)
         {
+            test.testString = HttpUtility.HtmlEncode(test.testString);
             _db.Tests.Add(test);
             _db.SaveChanges();
             return CreatedAtRoute("GetTest", new {id = test.id}, test);

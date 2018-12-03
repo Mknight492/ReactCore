@@ -34,8 +34,8 @@ namespace ReactCore
             services.AddMvc();
             services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(connectionString));
-
-
+            //services.AddSpaStaticFiles();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,8 +51,8 @@ namespace ReactCore
             }
 
             app.UseStaticFiles();
-
-            app.UseHttpsRedirection(); //this may be handled by AWS instead
+            //app.UseSpaStaticFiles();
+            app.UseHttpsRedirection(); //this maybe
             app.UseSignalR(routes => { routes.MapHub<OnlineHub>("/onlineHub"); });
 
             app.UseMvc( routes =>{

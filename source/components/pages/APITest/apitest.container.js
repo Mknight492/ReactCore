@@ -1,6 +1,9 @@
 import { connect } from "react-redux";
 import ApiTestPage from "./apitest";
-import { loadTestApi, addTestGenerator } from "../../../actions/testActions";
+import {
+  loadTestApi,
+  addTestGenerator
+} from "../../../redux/actions/testActions";
 
 function mapStateToProps(state) {
   return {

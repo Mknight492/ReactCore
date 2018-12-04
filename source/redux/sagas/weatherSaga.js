@@ -6,7 +6,7 @@ import {
   weatherFailureAction,
   PERFORM_WEATHER_SEARCH
 } from "../actions/weatherActions";
-import { weatherAPI } from "../../security";
+import { weatherAPI } from "../../../security";
 
 const selectWeatherState = state => state.weather;
 

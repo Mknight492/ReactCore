@@ -4,15 +4,15 @@ import "babel-regenerator-runtime";
 //React imports
 import React from "react";
 import { render } from "react-dom";
-import App from "./components/app/app";
+import App from "./components/app/app.container";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import { configureStore, sagas } from "./store/configure-store";
+import { configureStore, sagas } from "./redux/store/configure-store";
 
 //saga import
-import WeatherSaga from "./sagas/weatherSaga";
-import TestApiSaga from "./sagas/testApiSaga";
+import WeatherSaga from "./redux//sagas/weatherSaga";
+import TestApiSaga from "./redux/sagas/testApiSaga";
 //generating redux store with middleware NB routerMiddleWare must remain fist
 let store = configureStore();
 

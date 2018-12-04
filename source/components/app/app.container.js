@@ -1,28 +1,19 @@
 import { connect } from "react-redux";
-import Friend from "./friend";
+import App from "./app";
 import {
   changeTestGenerator,
   loadTestApi
 } from "../../redux/actions/testActions";
 
 function mapStateToProps(state) {
-  return {
-    isActive: state.test.isActive
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    changeActiveTest: id => {
-      dispatch(changeTestGenerator(id));
-    },
-    loadAPI: () => {
-      dispatch(loadTestApi());
-    }
-  };
+  return {};
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Friend);
+)(App);

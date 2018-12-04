@@ -34,6 +34,8 @@ export default function WeatherReducer(state, action) {
           temp: action.payload.main.temp
         }
       };
+    case WEATHER_SEARCH_FAILURE:
+      return state;
     default:
       return state;
   }

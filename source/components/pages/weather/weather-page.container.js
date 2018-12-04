@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import {
   positionSuccessAction,
   performWeatherSearch
-} from "../../../actions/weatherActions";
+} from "../../../redux/actions/weatherActions";
 import WeatherPage from "./weather-page";
 
 const mapStateToProps = state => ({

@@ -2,6 +2,7 @@
 
 //routing Imports
 import { Router } from "@reach/router";
+import { history } from "../../helpers";
 
 //import pages
 import Navigation from "../../components/navigation/navigation";
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <div>
       <Navigation />
-      <Router>
+      <Router history={history}>
         <IndexPage path="/" />
         <WeatherPage path="/weather" />
         <ApiTestPage path="/apitest" />

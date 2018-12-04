@@ -11,8 +11,6 @@ import createSagaMiddleware from "redux-saga";
 //generating initial state
 const initialState = {};
 
-import WeatherSaga from "../sagas/weatherSaga";
-import TestApiSaga from "../sagas/testApiSaga";
 //generating redux store with middleware NB routerMiddleWare must remain fist
 
 //generate middleware
@@ -21,7 +19,7 @@ const sagas = createSagaMiddleware();
 const middleWare = applyMiddleware(createLogger(), sagas);
 
 const configureStore = () => {
-  const store = createStore(createRootReducer(), {}, middleWare);
+  const store = createStore(createRootReducer(), initialState, middleWare);
   console.log("store created - attempt HMR");
   if (module.hot) {
     console.log("attempting HMR");

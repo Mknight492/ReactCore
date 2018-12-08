@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 
 import styles from "./weather-page.css";
 import MapComponent from "../../map/map";
+import Friend from "../../friend/friend.container";
 
 export default function WeatherPage({
   position,
   dispatchUpdatedPosition,
   locationWeather,
-  getWeather
+  getWeather,
+  testArray
 }) {
   const getlocation = () => {
     navigator.geolocation.getCurrentPosition(newPosition => {
@@ -53,6 +55,17 @@ export default function WeatherPage({
           />
         </div>
       )}
+      {testArray &&
+        Object.values(testArray).map(el => {
+          return (
+            <Friend
+              key={el.id}
+              testString={el.testString}
+              clickHandler={id => this.FriendClick(id)}
+              id={el.id}
+            />
+          );
+        })}
     </div>
   );
 }
@@ -62,11 +75,3 @@ WeatherPage.propTypes = {
   dispatchUpdatedPosition: PropTypes.func.isRequired,
   locationWeather: PropTypes.object
 };
-
-function loadJS(src) {
-  var ref = window.document.getElementsByTagName("script")[0];
-  var script = window.document.createElement("script");
-  script.src = src;
-  script.async = true;
-  ref.parentNode.insertBefore(script, ref);
-}

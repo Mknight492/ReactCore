@@ -10,7 +10,7 @@ class FriendComponent extends React.Component {
     };
   }
   changeTest(event) {
-    const { loadAPI, id } = this.props;
+    const { loadAPI, id, changeActiveTest } = this.props;
     const { testString } = this.state;
     event.preventDefault();
     async function addTest() {
@@ -29,11 +29,12 @@ class FriendComponent extends React.Component {
       loadAPI();
     }
     addTest();
+    changeActiveTest();
     //this.setState({ value: "" });
   }
 
   deleteTest(event) {
-    const { loadAPI, id } = this.props;
+    const { loadAPI, id, changeActiveTest } = this.props;
     event.preventDefault();
     async function addTest() {
       await fetch(`/api/testapi/${id}`, {
@@ -46,6 +47,7 @@ class FriendComponent extends React.Component {
       loadAPI();
     }
     addTest();
+    changeActiveTest();
     //this.setState({ value: "" });
   }
 

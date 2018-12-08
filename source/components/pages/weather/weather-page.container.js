@@ -7,7 +7,8 @@ import WeatherPage from "./weather-page";
 
 const mapStateToProps = state => ({
   position: state.weather.currentPosition,
-  locationWeather: state.weather.locationWeather
+  locationWeather: state.weather.locationWeather,
+  testArray: state.test.testArray
 });
 
 const mapDispatchToProps = dispatch => ({

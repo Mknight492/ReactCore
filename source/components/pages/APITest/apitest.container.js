@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import ApiTestPage from "./apitest";
 import {
   loadTestApi,
-  addTestGenerator
+  addTestGenerator,
+  changeTestGenerator
 } from "../../../redux/actions/testActions";
 
 function mapStateToProps(state) {
@@ -18,6 +19,9 @@ function mapDispatchToProps(dispatch) {
     },
     addTestApi: string => {
       dispatch(addTestGenerator(string));
+    },
+    changeTest: () => {
+      dispatch(changeTestGenerator(null));
     }
   };
 }

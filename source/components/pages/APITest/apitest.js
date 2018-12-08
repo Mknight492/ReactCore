@@ -20,7 +20,7 @@ class ApiTestPage extends React.Component {
   }
 
   handleFormSubmit(event) {
-    const { loadAPI } = this.props;
+    const { loadAPI, changeTest } = this.props;
     event.preventDefault();
     async function addTest(value) {
       const data = JSON.stringify({ testString: value });
@@ -35,6 +35,7 @@ class ApiTestPage extends React.Component {
       loadAPI();
     }
     addTest(this.state.value);
+    changeTest();
     //this.setState({ value: "" });
   }
 

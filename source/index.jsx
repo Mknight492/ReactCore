@@ -30,7 +30,7 @@ const renderApp = () => {
 renderApp();
 
 if (module.hot) {
-  module.hot.accept("./components/app/app.js", () => {
+  module.hot.accept("./components/app/app.container.js", () => {
     renderApp();
   });
 }

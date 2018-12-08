@@ -72,6 +72,7 @@ namespace ReactCore.Controllers.APIs
 
             testToUpdate.testString = test.testString;
             _db.Tests.Update(testToUpdate);
+            _db.SaveChanges();
             return Ok(new
             {
                 success = true,

@@ -85,7 +85,9 @@
     "react-test-renderer": "^16.6.3",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.2",
+    "redux-thunk": "^2.3.0",
     "resolve-url-loader": "^3.0.0",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^7.1.0",
+    "thunk": "^0.0.1"
   }
 }

@@ -32,6 +32,7 @@ export default function WeatherPage({
       >
         get location
       </button>
+
       {position && (
         <div>
           {position.latitude} {position.longitude}

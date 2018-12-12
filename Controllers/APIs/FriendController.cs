@@ -18,61 +18,67 @@ namespace ReactCore.Controllers.APIs
     [Produces("application/json")]
     [Route("api/[controller]")]
   
-    public class TestAPIController : ControllerBase
+    public class FriendController : ControllerBase
     {
 
         private readonly ApplicationDbContext _db;
 
 
-        public TestAPIController(ApplicationDbContext db)
+        public FriendController(ApplicationDbContext db)
         {
             _db = db;
         }
 
+
         [HttpGet]
+        // GET: api/Friend
         public async Task<IActionResult> GetAll()
         {
 
-            var APIData = await _db.Tests.ToListAsync();
+            var APIData = await _db.Friends.ToListAsync();
 
             return new JsonResult(APIData);
         }
 
 
-        [HttpGet("{id}", Name = "GetTest")] //[HttpGet("[action]/{id}") NB action="getbyid"
+        [HttpGet("{id}")] 
+        //GET: api/friend/5
         public async Task<IActionResult> GetById(long id)
         {
 
-            var APIData = await _db.Tests.FindAsync(id);
-            if (APIData == null)
+            var friend = await _db.Friends.FindAsync(id);
+            if (friend == null)
             {
                 return NotFound();
             }
-            return new JsonResult(APIData);
+            return new JsonResult(friend);
         }
-        // GET: api/<controller>
+
+        
         [HttpPost]
-        //[ActionName("Gettests")]
-        public async Task<IActionResult> Create([FromBody]Test test)
+        // POST: api/friend
+        public async Task<IActionResult> Create([FromBody]Friend friend)
         {
-            test.testString = HttpUtility.HtmlEncode(test.testString);
-            _db.Tests.Add(test);
+
+            _db.Friends.Add(friend);
             _db.SaveChanges();
-            return CreatedAtRoute("GetTest", new {id = test.id}, test);
+            return CreatedAtRoute("GetTest", new {id = friend.Id}, friend);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Test test)
-        {
-            var testToUpdate = _db.Tests.Find(test.id);
-            if (testToUpdate == null)
+        public async Task<IActionResult> Update([FromBody] Friend friend)
+        { 
+            var friendToUpdate = _db.Friends.Find(friend.Id);
+            if (friendToUpdate == null)
             {
                 return NotFound();
             }
 
-            testToUpdate.testString = test.testString;
-            _db.Tests.Update(testToUpdate);
-            _db.SaveChanges();
+            friendToUpdate.Name = friend.Name;
+            friendToUpdate.Location = friend.Location;
+
+            _db.Friends.Update(friendToUpdate);
+            await _db.SaveChangesAsync();
             return Ok(new
             {
                 success = true,
@@ -83,13 +89,13 @@ namespace ReactCore.Controllers.APIs
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            Test testToDelete = _db.Tests.Find(id);
+            Friend testToDelete = _db.Friends.Find(id);
             if (testToDelete == null)
             {
                 return NotFound();
             }
 
-            _db.Tests.Remove(testToDelete);
+            _db.Friends.Remove(testToDelete);
            await _db.SaveChangesAsync();
 
             return Ok(new

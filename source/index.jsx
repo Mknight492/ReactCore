@@ -11,13 +11,14 @@ import { Provider } from "react-redux";
 import { configureStore, sagas } from "./redux/store/configure-store";
 
 //saga import
-import WeatherSaga from "./redux//sagas/weatherSaga";
-import TestApiSaga from "./redux/sagas/testApiSaga";
+
+import rootSaga from "./redux/sagas";
+
 //generating redux store with middleware NB routerMiddleWare must remain fist
+
 let store = configureStore();
 
-sagas.run(WeatherSaga);
-sagas.run(TestApiSaga);
+sagas.run(rootSaga);
 
 const renderApp = () => {
   render(

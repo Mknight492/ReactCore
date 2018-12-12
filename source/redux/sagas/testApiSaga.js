@@ -9,7 +9,7 @@ import {
 
 function* TestApiRequest() {
   try {
-    const APIdata = yield fetch("api/testapi");
+    const APIdata = yield call(fetch("api/testapi"));
     console.log(APIdata);
     const APIJson = yield APIdata.json();
     console.log(`${APIJson} from saga`);

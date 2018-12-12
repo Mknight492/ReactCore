@@ -1,3 +1,6 @@
+@value colors: "../../../css/colors.css";
+@value bluexx, red, green from colors;
+
 .map {
   width: 100vw;
   height: 100vh;

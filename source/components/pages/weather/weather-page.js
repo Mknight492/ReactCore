@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./weather-page.css";
 import MapComponent from "../../map/map";
 import Friend from "../../friend/friend.container";
+import FriendForm from "../../friendForm/friendForm.container";
 
 export default function WeatherPage({
   position,
@@ -32,7 +33,7 @@ export default function WeatherPage({
       >
         get location
       </button>
-
+      <FriendForm />
       {position && (
         <div>
           {position.latitude} {position.longitude}
@@ -47,7 +48,7 @@ export default function WeatherPage({
         </h2>
       )}
 
-      {position && google && (
+      {position && false && google && (
         <div>
           <MapComponent
             mapKey={"gerge"}

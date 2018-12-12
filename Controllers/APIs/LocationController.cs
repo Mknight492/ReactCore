@@ -21,9 +21,17 @@ namespace ReactCore.Controllers.APIs
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get(string type, string query = null)
         {
-            return new string[] { "value1", "value2" };
+            if (type.Equals("location") && query != null)
+            {
+                var customerQuery = _db.Locations
+                    .Where(L => L.Name.ToLower().Contains(query.ToLower()))
+                    .ToList();
+                return Ok(customerQuery);
+            }
+
+            return Ok();
         }
 
         // GET api/<controller>/5

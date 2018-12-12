@@ -14,8 +14,8 @@ namespace ReactCore.Data
         {
         }
 
-        public DbSet<Test> Tests { get; set; }
-        public DbSet<Test2> Test2s { get; set; }
+        public DbSet<Friend> Friends { get; set; }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Locations> Locations { get; set; }
     }

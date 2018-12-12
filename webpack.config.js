@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
 const presetConfig = require("./build-utils/loadPresets");
+const postcssModulesValues = require("postcss-modules-values");
 
 module.exports = {
   mode: "development",
@@ -39,6 +40,12 @@ module.exports = {
               modules: true,
               importLoaders: 1,
               localIdentName: "[name]__[local]___[hash:base64]"
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: [postcssModulesValues]
             }
           }
         ]

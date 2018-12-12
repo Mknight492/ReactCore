@@ -1,6 +1,6 @@
 import axios from "axios";
-import { takeLatest } from "redux-saga";
-import { put, call, select } from "redux-saga/effects"; //select allows you to access values from state
+//import { takeLatest } from "redux-saga";
+import { put, call, select, takeLatest } from "redux-saga/effects"; //select allows you to access values from state
 import {
   weatherSuccessAction,
   weatherFailureAction,
@@ -10,9 +10,9 @@ import { weatherAPI } from "../../../security";
 
 const selectWeatherState = state => state.weather;
 
-function* APIRequest() {
+function* APIRequest(action) {
   const { currentPosition } = yield select(selectWeatherState);
-
+  console.log(action.payload);
   try {
     const APIdata = yield call(
       axios.get,

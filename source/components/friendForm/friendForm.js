@@ -1,90 +1,113 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./friend.css";
+import styles from "./friendForm.css";
+import Autocomplete from "react-autocomplete";
 
-class FriendComponent extends React.Component {
+class FriendFormComponent extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      testString: this.props.testString
+      id: "",
+      results: []
     };
   }
-  changeTest(event) {
-    const { loadAPI, id, changeActiveTest } = this.props;
-    const { testString } = this.state;
+  getCity() {
     event.preventDefault();
-    async function addTest() {
-      const data = JSON.stringify({
-        id,
-        testString
-      });
-      await fetch(`/api/testapi`, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: data
-      });
-      loadAPI();
-    }
-    addTest();
-    changeActiveTest();
-    //this.setState({ value: "" });
-  }
-
-  deleteTest(event) {
-    const { loadAPI, id, changeActiveTest } = this.props;
-    event.preventDefault();
-    async function addTest() {
-      await fetch(`/api/testapi/${id}`, {
-        method: "DELETE",
+    const { id } = this.state;
+    async function getLocation() {
+      const result = await fetch(`/api/location/${id}`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
       });
-      loadAPI();
+      const JSONv = await result.json();
+      return JSONv;
     }
-    addTest();
-    changeActiveTest();
-    //this.setState({ value: "" });
+    return getLocation();
+  }
+
+  changeHandler(event) {
+    let searchTerm = event.target.value;
+    this.setState({ id: searchTerm });
+    if (!isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
+      console.log(searchTerm);
+      getCities(event.target.value).then(result => {
+        result = result.slice(0, 5);
+        let names = result.map(location => ({ label: location.name }));
+        this.setState({ results: names });
+      });
+    } else {
+      console.log("no search term");
+      this.setState({ results: [] });
+    }
+  }
+
+  submitHandler(event) {
+    event.preventDefault();
+    console.log("form submitter");
   }
 
   //const { testString } = this.props;
   render() {
-    const { isActive, id, changeActiveTest } = this.props;
     return (
       <div className={styles.container}>
-        {isActive == id ? (
-          <>
-            <input
-              type="text"
-              value={this.state.testString}
-              onChange={e => this.setState({ testString: e.target.value })}
-            />
-            <button onClick={e => this.changeTest(e)}>Update</button>
-            <button onClick={e => this.deleteTest(e)}>Delete</button>
-          </>
-        ) : (
-          <>
-            <p>
-              {this.state.testString} {id} {isActive == id && "I'm Active"}
-            </p>
-            <button onClick={() => changeActiveTest(id)}>Change..</button>
-          </>
-        )}
+        <form
+          onSubmit={e => {
+            this.submitHandler(e);
+          }}
+        >
+          <label htmlFor="name"> Name: </label>
+          <input name="name" />
+
+          <label htmlFor={"location"}> Location: </label>
+          <Autocomplete
+            name="location"
+            getItemValue={item => item.label}
+            items={[...this.state.results]}
+            renderItem={(item, isHighlighted) => (
+              <div
+                style={{ background: isHighlighted ? "lightgray" : "white" }}
+              >
+                {item.label}
+              </div>
+            )}
+            value={this.state.id}
+            onChange={e => this.changeHandler(e)}
+            onSelect={val => this.setState({ id: val })}
+            key={1}
+            placeholder="damn"
+          />
+          <button type="submit" key={2}>
+            Add friend
+          </button>
+        </form>
       </div>
     );
   }
 }
 
-FriendComponent.propTypes = {
-  testString: PropTypes.string.isRequired,
-  isActive: PropTypes.number,
-  id: PropTypes.number.isRequired,
-  changeActiveTest: PropTypes.func.isRequired,
-  loadAPI: PropTypes.func.isRequired
-};
+FriendFormComponent.propTypes = {};
 
-export default FriendComponent;
+export default FriendFormComponent;
+
+//async function kept her instead of in redux as it only effects local state - not global app state.
+async function getCities(name) {
+  const result = await fetch(`/api/location?type=location&query=${name}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+  const parsedResult = await result.json();
+  return parsedResult;
+}
+
+//helper function
+function isNullOrWhiteSpace(input) {
+  if (typeof input === "undefined" || input == null) return true;
+
+  return input.replace(/\s/g, "").length < 1;
+}

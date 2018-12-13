@@ -14,6 +14,7 @@ using ReactCore.Data;
 using ReactCore.Hubs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ReactCore.Helpers;
 using ReactCore.Models;
@@ -48,6 +49,44 @@ namespace ReactCore
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+    
+            //add Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                    options =>
+                    {
+                        // Password settings.
+                        options.Password.RequireDigit = true;
+                        options.Password.RequireLowercase = true;
+                        options.Password.RequireNonAlphanumeric = true;
+                        options.Password.RequireUppercase = true;
+                        options.Password.RequiredLength = 6;
+                        options.Password.RequiredUniqueChars = 1;
+
+                        // Lockout settings.
+                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                        options.Lockout.MaxFailedAccessAttempts = 5;
+                        options.Lockout.AllowedForNewUsers = true;
+
+                        // User settings.
+                        options.User.AllowedUserNameCharacters =
+                            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                        options.User.RequireUniqueEmail = false;
+                    })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            
+            //Add Cookie
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
 
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
@@ -91,9 +130,7 @@ namespace ReactCore
             //app.UseSpaStaticFiles();
             app.UseHttpsRedirection(); //this maybe
             app.UseSignalR(routes => { routes.MapHub<OnlineHub>("/onlineHub"); });
-            //Mapper.Initialize(cfg => cfg.CreateMap<User, UserDto>());
-
-
+           
 
             // global cors policy
             app.UseCors(x => x
@@ -101,6 +138,8 @@ namespace ReactCore
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
 

@@ -14,6 +14,8 @@ import FourZeroFour from "../pages/four-zero-four/four-zero-four";
 import ApiTestPage from "../pages/APITest/apitest.container";
 import { RegisterPage } from "../pages/register/registerPage";
 import { LoginPage } from "../pages/login/loginPage";
+import { IdentityPage } from "../pages/Identity/identity";
+import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 
 //import global style
 import styles from "./app.css";
@@ -29,15 +31,20 @@ const App = () => {
         <ApiTestPage path="/apitest" />
         <RegisterPage path="/register" />
         <LoginPage path="/login" />
+        <IdentityPage path="/identity" />
+        <IdentityLoginPage path="/identityLogin" />
       </Router>
     </div>
   ) : (
     <div>
       <Navigation />
       <Router history={history}>
+        <WeatherPage path="/weather" />
         <IndexPage path="/" />
         <RegisterPage path="/register" />
         <LoginPage path="/login" />
+        <IdentityPage path="/identity" />
+        <IdentityLoginPage path="/identityLogin" />
       </Router>
     </div>
   );

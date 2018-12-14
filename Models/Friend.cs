@@ -21,9 +21,9 @@ namespace ReactCore.Models
         [ForeignKey("LocationId")]
         public Locations Location { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

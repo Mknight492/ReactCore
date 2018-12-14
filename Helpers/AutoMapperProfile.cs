@@ -11,8 +11,8 @@ namespace ReactCore.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<ApplicationUser, ApplicationUserDto>();
+            CreateMap<ApplicationUserDto, ApplicationUser>();
         }
        
     }

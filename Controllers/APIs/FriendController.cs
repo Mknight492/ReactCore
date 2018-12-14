@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ReactCore.Data;
 using ReactCore.Models;
+using ReactCore.Models.FriendViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,22 +26,27 @@ namespace ReactCore.Controllers.APIs
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public FriendController(ApplicationDbContext db)
+        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
 
         [HttpGet]
+        [Authorize]
         // GET: api/Friend
         public async Task<IActionResult> GetAll()
         {
-
+            const string init = "init";
+            var user2 = await _userManager.GetUserAsync(User);
+            var clamsIdentity = this.User.Identity as ClaimsIdentity;
+            var user2is = clamsIdentity.FindFirst(ClaimTypes.Name)?.Value;
             var APIData = await _db.Friends.ToListAsync();
 
-            return new JsonResult(APIData);
+            return new JsonResult(user2);
         }
 
 
@@ -57,12 +66,22 @@ namespace ReactCore.Controllers.APIs
         
         [HttpPost]
         // POST: api/friend
-        public async Task<IActionResult> Create([FromBody]Friend friend)
+        public async Task<IActionResult> Create([FromBody]AddFriendModel friend)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var newFriend = new Friend
+            {
+                Name = friend.Name,
+                Location = friend.Location,
+                LocationId = friend.Location.Geonameid,
+                User = user,
+                UserId = user.Id
+            };
+            
 
-            _db.Friends.Add(friend);
+            _db.Friends.Add(newFriend);
             _db.SaveChanges();
-            return CreatedAtRoute("GetTest", new {id = friend.Id}, friend);
+            return CreatedAtRoute("GetTest", new {id = newFriend.Id}, newFriend);
         }
 
         [HttpPut]

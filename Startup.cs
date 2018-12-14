@@ -40,7 +40,7 @@ namespace ReactCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper();
-            services.AddMvc();
+            
             services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(connectionString));
             //services.AddSpaStaticFiles();
@@ -57,7 +57,7 @@ namespace ReactCore
                         // Password settings.
                         options.Password.RequireDigit = true;
                         options.Password.RequireLowercase = true;
-                        options.Password.RequireNonAlphanumeric = true;
+                        options.Password.RequireNonAlphanumeric = false;
                         options.Password.RequireUppercase = true;
                         options.Password.RequiredLength = 6;
                         options.Password.RequiredUniqueChars = 1;
@@ -75,42 +75,10 @@ namespace ReactCore
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             
-            //Add Cookie
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.SlidingExpiration = true;
-            });
-
-
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-                {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddMvc();
 
         }
 
@@ -157,3 +125,25 @@ namespace ReactCore
         }
     }
 }
+
+/*
+ 
+
+                //Add Cookie
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+
+            // configure jwt authentication
+
+
+
+    */

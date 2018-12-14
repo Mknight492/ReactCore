@@ -23,6 +23,16 @@ export default function WeatherPage({
     getlocation();
   };
 
+  async function testHandler() {
+    const result = await fetch("/api/Friend");
+    const parseResult = await result.json();
+    console.log(parseResult);
+  }
+
+  const validateHandler = () => {
+    Validate();
+  };
+
   return (
     <div>
       <h2 onClick={getWeather}> Weather Page</h2>
@@ -47,6 +57,14 @@ export default function WeatherPage({
           <i className="fas fa-cloud-rain" />
         </h2>
       )}
+      <button onClick={() => testHandler()}> TestHanlder </button>
+      <button
+        onClick={() => {
+          validateHandler();
+        }}
+      >
+        Validate
+      </button>
 
       {position && false && google && (
         <div>
@@ -77,3 +95,17 @@ WeatherPage.propTypes = {
   dispatchUpdatedPosition: PropTypes.func.isRequired,
   locationWeather: PropTypes.object
 };
+
+async function Validate() {
+  const loggedIn = await fetch("/Account/validate", {
+    method: "GET",
+    headers: {
+      RequestVerificationToken: document.getElementsByName(
+        "__RequestVerificationToken"
+      )[0].value
+    }
+  });
+  console.log(loggedIn);
+  const loggedInParsed = await loggedIn.json();
+  console.log(loggedInParsed);
+}

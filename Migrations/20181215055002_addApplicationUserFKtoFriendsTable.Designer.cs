@@ -10,8 +10,8 @@ using ReactCore.Data;
 namespace ReactCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181214054619_ChangeFriendTableUserIdColumnToStringAsIsAGUID")]
-    partial class ChangeFriendTableUserIdColumnToStringAsIsAGUID
+    [Migration("20181215055002_addApplicationUserFKtoFriendsTable")]
+    partial class addApplicationUserFKtoFriendsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,27 +254,6 @@ namespace ReactCore.Migrations
                     b.HasKey("Geonameid");
 
                     b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("ReactCore.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

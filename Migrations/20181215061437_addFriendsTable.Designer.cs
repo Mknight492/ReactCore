@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactCore.Data;
 
 namespace ReactCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181215061437_addFriendsTable")]
+    partial class addFriendsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,11 +192,7 @@ namespace ReactCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Latitude");
-
                     b.Property<int>("LocationId");
-
-                    b.Property<double>("Longitude");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -241,9 +239,9 @@ namespace ReactCore.Migrations
 
                     b.Property<string>("FeatureCode");
 
-                    b.Property<double>("Latitude");
+                    b.Property<double?>("Latitude");
 
-                    b.Property<double>("Longitude");
+                    b.Property<double?>("Longitude");
 
                     b.Property<DateTime?>("ModificationDate");
 

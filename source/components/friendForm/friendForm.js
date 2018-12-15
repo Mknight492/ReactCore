@@ -8,7 +8,9 @@ class FriendFormComponent extends React.Component {
     super(...args);
     this.state = {
       id: "",
-      results: []
+      name: "",
+      results: [],
+      Locations: []
     };
   }
   getCity() {
@@ -35,6 +37,7 @@ class FriendFormComponent extends React.Component {
       console.log(searchTerm);
       getCities(event.target.value).then(result => {
         result = result.slice(0, 5);
+        this.setState({ Locations: result });
         let names = result.map(location => ({ label: location.name }));
         this.setState({ results: names });
       });
@@ -46,7 +49,11 @@ class FriendFormComponent extends React.Component {
 
   submitHandler(event) {
     event.preventDefault();
-    console.log("form submitter");
+    const location = this.state.Locations.filter(L => {
+      return (L.name = this.state.id);
+    });
+    console.log(location);
+    submitForm(this.state.name, location[0]);
   }
 
   //const { testString } = this.props;
@@ -59,7 +66,11 @@ class FriendFormComponent extends React.Component {
           }}
         >
           <label htmlFor="name"> Name: </label>
-          <input name="name" />
+          <input
+            name="name"
+            onChange={e => this.setState({ name: e.target.value })}
+            value={this.state.name}
+          />
 
           <label htmlFor={"location"}> Location: </label>
           <Autocomplete
@@ -110,4 +121,17 @@ function isNullOrWhiteSpace(input) {
   if (typeof input === "undefined" || input == null) return true;
 
   return input.replace(/\s/g, "").length < 1;
+}
+
+async function submitForm(Name, Location) {
+  const data = JSON.stringify({ Name, Location });
+  console.log(data);
+  const result = await fetch("/api/friend", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: data
+  });
 }

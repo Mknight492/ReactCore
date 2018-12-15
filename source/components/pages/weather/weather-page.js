@@ -66,6 +66,13 @@ export default function WeatherPage({
         Validate
       </button>
 
+      <button
+        onClick={() => {
+          logOut();
+        }}
+      >
+        Logout
+      </button>
       {position && false && google && (
         <div>
           <MapComponent
@@ -108,4 +115,18 @@ async function Validate() {
   console.log(loggedIn);
   const loggedInParsed = await loggedIn.json();
   console.log(loggedInParsed);
+}
+
+async function logOut() {
+  const result = await fetch("/Account/Logout", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      RequestVerificationToken: document.getElementsByName(
+        "__RequestVerificationToken"
+      )[0].value
+    }
+  });
+  console.log(result);
 }

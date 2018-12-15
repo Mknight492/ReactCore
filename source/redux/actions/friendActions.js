@@ -1,28 +1,40 @@
 import { friendConstants } from "../constants";
 
-export const addTestGenerator = test => ({
-  type: friendConstants.ADD_TEST,
+export const friendActions = {
+  addFriendAttemptAG,
+  addFriendSuccessAG,
+  addFriendFailureAG,
+  loadFriendAttemptAG,
+  loadFriendSuccessAG,
+  loadFriendFailureAG,
+  changeFriendAG
+};
+
+const addFriendAttemptAG = test => ({
+  type: friendConstants.ADD_FRIEND_ATTEMPT,
   test
 });
-export const addTestSuccess = () => ({
-  type: friendConstants.ADD_TEST_SUCCESS
+const addFriendSuccessAG = () => ({
+  type: friendConstants.ADD_FRIEND_SUCCESS
 });
-export const addTestFailure = () => ({
-  type: friendConstants.ADD_TEST_FAILURE
-});
-
-export const loadTestApi = () => ({ type: friendConstants.LOAD_TEST_API });
-
-export const loadTestApiSuccess = testArray => ({
-  type: friendConstants.LOAD_TEST_API_SUCCESS,
-  payload: testArray
+const addFriendFailureAG = () => ({
+  type: friendConstants.ADD_FRIEND_FAILURE
 });
 
-export const loadTestApiFailure = () => ({
-  type: friendConstants.LOAD_TEST_API_FAILURE
+const loadFriendAttemptAG = () => ({
+  type: friendConstants.LOAD_FRIEND_ATTEMPT
 });
 
-export const changeTestGenerator = id => ({
-  type: friendConstants.CHANGE_ACTIVE_TEST,
+const loadFriendSuccessAG = friendArray => ({
+  type: friendConstants.LOAD_FRIEND_SUCCESS,
+  payload: friendArray
+});
+
+const loadFriendFailureAG = () => ({
+  type: friendConstants.LOAD_FRIEND_FAILURE
+});
+
+const changeFriendAG = id => ({
+  type: friendConstants.CHANGE_ACTIVE_FRIEND,
   payload: id
 });

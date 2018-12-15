@@ -10,8 +10,8 @@ using ReactCore.Data;
 namespace ReactCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181214084059_RemoveUserTableAsReplacedByIdentityFramework")]
-    partial class RemoveUserTableAsReplacedByIdentityFramework
+    [Migration("20181215082724_EditLocationTableMakeLatAndLongNotNullable")]
+    partial class EditLocationTableMakeLatAndLongNotNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,7 +192,11 @@ namespace ReactCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("Latitude");
+
                     b.Property<int>("LocationId");
+
+                    b.Property<double>("Longitude");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -239,9 +243,9 @@ namespace ReactCore.Migrations
 
                     b.Property<string>("FeatureCode");
 
-                    b.Property<double?>("Latitude");
+                    b.Property<double>("Latitude");
 
-                    b.Property<double?>("Longitude");
+                    b.Property<double>("Longitude");
 
                     b.Property<DateTime?>("ModificationDate");
 

@@ -40,13 +40,10 @@ namespace ReactCore.Controllers.APIs
         // GET: api/Friend
         public async Task<IActionResult> GetAll()
         {
-            const string init = "init";
-            var user2 = await _userManager.GetUserAsync(User);
-            var clamsIdentity = this.User.Identity as ClaimsIdentity;
-            var user2is = clamsIdentity.FindFirst(ClaimTypes.Name)?.Value;
-            var APIData = await _db.Friends.ToListAsync();
+            var user = await _userManager.GetUserAsync(User);
+            var userFriends = await _db.Friends.Where(f=>f.UserId ==user.Id ).ToListAsync();
 
-            return new JsonResult(user2);
+            return new JsonResult(userFriends);
         }
 
 
@@ -72,16 +69,16 @@ namespace ReactCore.Controllers.APIs
             var newFriend = new Friend
             {
                 Name = friend.Name,
-                Location = friend.Location,
                 LocationId = friend.Location.Geonameid,
-                User = user,
-                UserId = user.Id
+                UserId = user.Id,
+                Latitude = friend.Location.Latitude,
+                Longitude = friend.Location.Longitude
             };
             
 
             _db.Friends.Add(newFriend);
             _db.SaveChanges();
-            return CreatedAtRoute("GetTest", new {id = newFriend.Id}, newFriend);
+            return CreatedAtRoute("api/friend", new {id = newFriend.Id}, newFriend);
         }
 
         [HttpPut]

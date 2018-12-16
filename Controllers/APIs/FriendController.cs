@@ -42,7 +42,10 @@ namespace ReactCore.Controllers.APIs
         {
             var user = await _userManager.GetUserAsync(User);
             var userFriends = await _db.Friends.Where(f=>f.UserId ==user.Id ).ToListAsync();
-
+            foreach (Friend friend in userFriends)
+            {
+                friend.Location = _db.Locations.FirstOrDefault(l => l.Geonameid == friend.LocationId);
+            }
             return new JsonResult(userFriends);
         }
 

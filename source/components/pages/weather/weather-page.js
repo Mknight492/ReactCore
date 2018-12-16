@@ -3,31 +3,24 @@ import PropTypes from "prop-types";
 
 import styles from "./weather-page.css";
 import MapComponent from "../../map/map";
-import Friend from "../../friend/friend.container";
+import Friends from "../../friends/friends.container";
 import FriendForm from "../../friendForm/friendForm.container";
 
 export default function WeatherPage({
   position,
   dispatchUpdatedPosition,
   locationWeather,
-  getWeather,
-  testArray
+  getWeather
 }) {
   const getlocation = () => {
     navigator.geolocation.getCurrentPosition(newPosition => {
-      dispatchUpdatedPosition(newPosition);
+      dispatchUpdatedPosition(newPosition.coords);
     });
   };
 
   const clickHandler = () => {
     getlocation();
   };
-
-  async function testHandler() {
-    const result = await fetch("/api/Friend");
-    const parseResult = await result.json();
-    console.log(parseResult);
-  }
 
   const validateHandler = () => {
     Validate();
@@ -57,7 +50,6 @@ export default function WeatherPage({
           <i className="fas fa-cloud-rain" />
         </h2>
       )}
-      <button onClick={() => testHandler()}> TestHanlder </button>
       <button
         onClick={() => {
           validateHandler();
@@ -82,17 +74,7 @@ export default function WeatherPage({
           />
         </div>
       )}
-      {testArray &&
-        Object.values(testArray).map(el => {
-          return (
-            <Friend
-              key={el.id}
-              testString={el.testString}
-              clickHandler={id => this.FriendClick(id)}
-              id={el.id}
-            />
-          );
-        })}
+      <Friends />
     </div>
   );
 }
@@ -112,9 +94,7 @@ async function Validate() {
       )[0].value
     }
   });
-  console.log(loggedIn);
   const loggedInParsed = await loggedIn.json();
-  console.log(loggedInParsed);
 }
 
 async function logOut() {
@@ -128,5 +108,4 @@ async function logOut() {
       )[0].value
     }
   });
-  console.log(result);
 }

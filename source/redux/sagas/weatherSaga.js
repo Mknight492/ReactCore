@@ -1,6 +1,6 @@
 import axios from "axios";
 //import { takeLatest } from "redux-saga";
-import { put, call, select, takeLatest } from "redux-saga/effects"; //select allows you to access values from state
+import { put, call, takeLatest } from "redux-saga/effects"; //select allows you to access values from state
 import {
   weatherSuccessAction,
   weatherFailureAction,
@@ -8,19 +8,15 @@ import {
 } from "../actions/weatherActions";
 import { weatherAPI } from "../../../security";
 
-const selectWeatherState = state => state.weather;
-
 function* APIRequest(action) {
-  const { currentPosition } = yield select(selectWeatherState);
-  console.log(action.payload);
   try {
     const APIdata = yield call(
       axios.get,
       "http://api.openweathermap.org/data/2.5/weather",
       {
         params: {
-          lat: currentPosition.latitude,
-          lon: currentPosition.longitude,
+          lat: action.payload.latitude,
+          lon: action.payload.longitude,
           appid: weatherAPI,
           units: "metric"
         }

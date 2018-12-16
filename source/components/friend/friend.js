@@ -1,78 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./friend.css";
+import axios from "axios";
+import { weatherAPI } from "../../../security";
 
 class FriendComponent extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      testString: this.props.testString
+      weather: null
     };
   }
-  changeTest(event) {
-    const { loadAPI, id, changeActiveTest } = this.props;
-    const { testString } = this.state;
-    event.preventDefault();
-    async function addTest() {
-      const data = JSON.stringify({
-        id,
-        testString
-      });
-      await fetch(`/api/testapi`, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: data
-      });
-      loadAPI();
-    }
-    addTest();
-    changeActiveTest();
-    //this.setState({ value: "" });
+
+  componentDidMount() {
+    const { name, latitude, longitude } = this.props;
+    getWeather(latitude, longitude, weatherAPI).then(result => {
+      console.log(result);
+      this.setState({ weather: result });
+    });
   }
 
-  deleteTest(event) {
-    const { loadAPI, id, changeActiveTest } = this.props;
-    event.preventDefault();
-    async function addTest() {
-      await fetch(`/api/testapi/${id}`, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-      loadAPI();
-    }
-    addTest();
-    changeActiveTest();
-    //this.setState({ value: "" });
-  }
-
-  //const { testString } = this.props;
   render() {
-    const { isActive, id, changeActiveTest } = this.props;
+    const { weather } = this.state;
+    const { name, latitude, longitude, location } = this.props;
     return (
-      <div className={styles.container}>
-        {isActive == id ? (
-          <>
-            <input
-              type="text"
-              value={this.state.testString}
-              onChange={e => this.setState({ testString: e.target.value })}
-            />
-            <button onClick={e => this.changeTest(e)}>Update</button>
-            <button onClick={e => this.deleteTest(e)}>Delete</button>
-          </>
-        ) : (
-          <>
-            <p>
-              {this.state.testString} {id} {isActive == id && "I'm Active"}
-            </p>
-            <button onClick={() => changeActiveTest(id)}>Change..</button>
-          </>
+      <div className="friend">
+        {name} , {latitude}, {longitude}, {location}
+        {weather && (
+          <div>
+            {" "}
+            {weather.main.temp}, {weather.weather[0].main},{" "}
+            {weather.weather[0].description}
+          </div>
         )}
       </div>
     );
@@ -80,11 +39,19 @@ class FriendComponent extends React.Component {
 }
 
 FriendComponent.propTypes = {
-  testString: PropTypes.string.isRequired,
-  isActive: PropTypes.number,
-  id: PropTypes.number.isRequired,
-  changeActiveTest: PropTypes.func.isRequired,
-  loadAPI: PropTypes.func.isRequired
+  testString: PropTypes.string.isRequired
 };
 
 export default FriendComponent;
+
+async function getWeather(latitude, longitude, APIkey) {
+  try {
+    const APIdata = await fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`
+    );
+    const APIdataParsed = await APIdata.json();
+    return APIdataParsed;
+  } catch (e) {
+    return e;
+  }
+}

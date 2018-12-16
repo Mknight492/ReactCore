@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dispatchUpdatedPosition: position => {
     dispatch(positionSuccessAction(position));
-    dispatch(performWeatherSearch());
+    dispatch(performWeatherSearch(position));
   },
   getWeather: () => {
     dispatch(performWeatherSearch());

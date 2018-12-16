@@ -8,9 +8,9 @@ export const positionSuccessAction = position => ({
   position
 });
 
-export const performWeatherSearch = () => ({
+export const performWeatherSearch = position => ({
   type: PERFORM_WEATHER_SEARCH,
-  payload: "data"
+  payload: position
 });
 
 export const weatherSuccessAction = weatherAPIdata => ({

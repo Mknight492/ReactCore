@@ -29,8 +29,6 @@ const App = () => {
         <IndexPage path="/" />
         <WeatherPage path="/weather" />
         <ApiTestPage path="/apitest" />
-        <RegisterPage path="/register" />
-        <LoginPage path="/login" />
         <IdentityPage path="/identity" />
         <IdentityLoginPage path="/identityLogin" />
       </Router>
@@ -41,8 +39,7 @@ const App = () => {
       <Router history={history}>
         <WeatherPage path="/weather" />
         <IndexPage path="/" />
-        <RegisterPage path="/register" />
-        <LoginPage path="/login" />
+
         <IdentityPage path="/identity" />
         <IdentityLoginPage path="/identityLogin" />
       </Router>

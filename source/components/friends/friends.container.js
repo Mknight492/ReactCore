@@ -1,15 +1,17 @@
 import { connect } from "react-redux";
-import Friend from "./friend";
+import Friends from "./friends";
 import { friendActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    friendsObj: state.friends.friendsObj
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getFriendWeather: (lat, long) => {
-      dispatch();
+    loadFriends: () => {
+      dispatch(friendActions.loadFriendAttemptAG());
     }
   };
 }
@@ -17,4 +19,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Friend);
+)(Friends);

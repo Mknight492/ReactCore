@@ -21,7 +21,7 @@ export default function WeatherReducer(state, action) {
     case POSITION_SUCCESS:
       return {
         ...state,
-        currentPosition: action.position.coords
+        currentPosition: action.coords
       };
     case WEATHER_SEARCH_SUCCESS:
       return {

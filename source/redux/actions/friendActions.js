@@ -1,15 +1,5 @@
 import { friendConstants } from "../constants";
 
-export const friendActions = {
-  addFriendAttemptAG,
-  addFriendSuccessAG,
-  addFriendFailureAG,
-  loadFriendAttemptAG,
-  loadFriendSuccessAG,
-  loadFriendFailureAG,
-  changeFriendAG
-};
-
 const addFriendAttemptAG = test => ({
   type: friendConstants.ADD_FRIEND_ATTEMPT,
   test
@@ -38,3 +28,13 @@ const changeFriendAG = id => ({
   type: friendConstants.CHANGE_ACTIVE_FRIEND,
   payload: id
 });
+
+export const friendActions = {
+  addFriendAttemptAG,
+  addFriendSuccessAG,
+  addFriendFailureAG,
+  loadFriendAttemptAG,
+  loadFriendSuccessAG,
+  loadFriendFailureAG,
+  changeFriendAG
+};

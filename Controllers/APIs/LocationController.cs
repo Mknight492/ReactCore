@@ -26,7 +26,8 @@ namespace ReactCore.Controllers.APIs
             if (type.Equals("location") && query != null)
             {
                 var customerQuery = _db.Locations
-                    .Where(L => L.Name.ToLower().Contains(query.ToLower()))
+                    .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                    .Take(10)
                     .ToList();
                 return Ok(customerQuery);
             }
@@ -63,6 +64,16 @@ namespace ReactCore.Controllers.APIs
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        public bool HasTwoDecimalPlace(double number)
+        {
+            if ((number * 10) % 1 == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

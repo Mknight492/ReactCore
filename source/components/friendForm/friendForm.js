@@ -7,7 +7,7 @@ class FriendFormComponent extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      id: "",
+      locationTypeAhead: "",
       name: "",
       results: [],
       Locations: []
@@ -15,9 +15,9 @@ class FriendFormComponent extends React.Component {
   }
   getCity() {
     event.preventDefault();
-    const { id } = this.state;
+    const { locationTypeAhead } = this.state;
     async function getLocation() {
-      const result = await fetch(`/api/location/${id}`, {
+      const result = await fetch(`/api/location/${locationTypeAhead}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -32,9 +32,8 @@ class FriendFormComponent extends React.Component {
 
   changeHandler(event) {
     let searchTerm = event.target.value;
-    this.setState({ id: searchTerm });
+    this.setState({ locationTypeAhead: searchTerm });
     if (!isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
-      console.log(searchTerm);
       getCities(event.target.value).then(result => {
         result = result.slice(0, 5);
         this.setState({ Locations: result });
@@ -42,7 +41,6 @@ class FriendFormComponent extends React.Component {
         this.setState({ results: names });
       });
     } else {
-      console.log("no search term");
       this.setState({ results: [] });
     }
   }
@@ -50,9 +48,10 @@ class FriendFormComponent extends React.Component {
   submitHandler(event) {
     event.preventDefault();
     const location = this.state.Locations.filter(L => {
-      return (L.name = this.state.id);
+      //console.log(L.name + " " + this.state.locationTypeAhead);
+      //console.log(L.name ===this.state.locationTypeAhead);
+      return L.name === this.state.locationTypeAhead;
     });
-    console.log(location);
     submitForm(this.state.name, location[0]);
   }
 
@@ -84,9 +83,9 @@ class FriendFormComponent extends React.Component {
                 {item.label}
               </div>
             )}
-            value={this.state.id}
+            value={this.state.locationTypeAhead}
             onChange={e => this.changeHandler(e)}
-            onSelect={val => this.setState({ id: val })}
+            onSelect={val => this.setState({ locationTypeAhead: val })}
             key={1}
             placeholder="damn"
           />
@@ -125,7 +124,6 @@ function isNullOrWhiteSpace(input) {
 
 async function submitForm(Name, Location) {
   const data = JSON.stringify({ Name, Location });
-  console.log(data);
   const result = await fetch("/api/friend", {
     method: "POST",
     headers: {

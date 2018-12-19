@@ -1,9 +1,6 @@
 import { connect } from "react-redux";
 import Friend from "./friendForm";
-import {
-  changeTestGenerator,
-  loadTestApi
-} from "../../redux/actions/testActions";
+import { friendActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
   return {};
@@ -11,11 +8,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeActiveTest: id => {
-      dispatch(changeTestGenerator(id));
-    },
-    loadAPI: () => {
-      dispatch(loadTestApi());
+    loadFriends: () => {
+      dispatch(friendActions.loadFriendAttemptAG());
     }
   };
 }

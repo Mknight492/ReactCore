@@ -5,7 +5,9 @@ import Friend from "../friend/friend.container";
 class FriendsComponent extends React.Component {
   constructor(...args) {
     super(...args);
-    this.state = {};
+    this.state = {
+      friendsObj: this.props.friendsObj
+    };
   }
   componentDidMount() {
     const { loadFriends } = this.props;

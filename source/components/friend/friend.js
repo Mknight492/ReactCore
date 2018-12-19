@@ -27,7 +27,7 @@ class FriendComponent extends React.Component {
       <div className="friend">
         {name} , {latitude}, {longitude}, {location}
         {weather && (
-          <div>
+          <div style={{ paddingBottom: "10px" }}>
             {" "}
             {weather.main.temp}, {weather.weather[0].main},{" "}
             {weather.weather[0].description}

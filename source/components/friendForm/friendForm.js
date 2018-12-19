@@ -46,13 +46,14 @@ class FriendFormComponent extends React.Component {
   }
 
   submitHandler(event) {
+    const { loadFriends } = this.props;
     event.preventDefault();
     const location = this.state.Locations.filter(L => {
-      //console.log(L.name + " " + this.state.locationTypeAhead);
-      //console.log(L.name ===this.state.locationTypeAhead);
       return L.name === this.state.locationTypeAhead;
     });
-    submitForm(this.state.name, location[0]);
+    submitForm(this.state.name, location[0]).then(result => {
+      loadFriends();
+    });
   }
 
   //const { testString } = this.props;

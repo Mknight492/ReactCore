@@ -41,11 +41,11 @@ namespace ReactCore.Controllers.APIs
         public async Task<IActionResult> GetAll()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userFriends = await _db.Friends.Where(f=>f.UserId ==user.Id ).ToListAsync();
-            foreach (Friend friend in userFriends)
-            {
-                friend.Location = _db.Locations.FirstOrDefault(l => l.Geonameid == friend.LocationId);
-            }
+            var userFriends = await _db.Friends
+                .Where(f=>f.UserId ==user.Id )
+                .Include(f=>f.Location)
+                .ToListAsync();
+
             return new JsonResult(userFriends);
         }
 
@@ -81,7 +81,7 @@ namespace ReactCore.Controllers.APIs
 
             _db.Friends.Add(newFriend);
             _db.SaveChanges();
-            return CreatedAtRoute("api/friend", new {id = newFriend.Id}, newFriend);
+            return CreatedAtRoute("friend", new {id = newFriend.Id}, newFriend);
         }
 
         [HttpPut]

@@ -7,11 +7,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    getFriendWeather: (lat, long) => {
-      dispatch();
-    }
-  };
+  return {};
 }
 
 export default connect(

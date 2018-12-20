@@ -26,8 +26,5 @@ namespace ReactCore.Models
         public double Longitude { get; set; }   
         [Required]
         public string UserId { get; set; }
-        [Required]
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
     }
 }

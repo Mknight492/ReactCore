@@ -310,8 +310,8 @@ namespace ReactCore.Migrations
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactCore.Models.ApplicationUser", "User")
-                        .WithMany()
+                    b.HasOne("ReactCore.Models.ApplicationUser")
+                        .WithMany("Friends")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

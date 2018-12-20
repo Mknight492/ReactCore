@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,13 @@ namespace ReactCore.Controllers.APIs
 
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IMapper _mapper;
 
-        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _db = db;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
 
@@ -44,8 +47,8 @@ namespace ReactCore.Controllers.APIs
             var userFriends = await _db.Friends
                 .Where(f=>f.UserId ==user.Id )
                 .Include(f=>f.Location)
+                .AsNoTracking()
                 .ToListAsync();
-
             return new JsonResult(userFriends);
         }
 
@@ -68,12 +71,12 @@ namespace ReactCore.Controllers.APIs
         // POST: api/friend
         public async Task<IActionResult> Create([FromBody]AddFriendModel friend)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var userId =  _userManager.GetUserId(User);
             var newFriend = new Friend
             {
                 Name = friend.Name,
                 LocationId = friend.Location.Geonameid,
-                UserId = user.Id,
+                UserId = userId,
                 Latitude = friend.Location.Latitude,
                 Longitude = friend.Location.Longitude
             };
@@ -85,7 +88,7 @@ namespace ReactCore.Controllers.APIs
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Friend friend)
+        public async Task<IActionResult> Update([FromBody] EditFriendModel friend)
         { 
             var friendToUpdate = _db.Friends.Find(friend.Id);
             if (friendToUpdate == null)
@@ -94,7 +97,7 @@ namespace ReactCore.Controllers.APIs
             }
 
             friendToUpdate.Name = friend.Name;
-            friendToUpdate.Location = friend.Location;
+            friendToUpdate.LocationId = friend.Location.Geonameid;
 
             _db.Friends.Update(friendToUpdate);
             await _db.SaveChangesAsync();

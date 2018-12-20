@@ -17,5 +17,14 @@ namespace ReactCore.Data
 
         public DbSet<Friend> Friends { get; set; }
         public DbSet<Locations> Locations { get; set; }
+
+        // Specify DbSet properties etc
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //User-Friend one to Many relation
+            modelBuilder.Entity<Friend>().HasOne<ApplicationUser>().WithMany(u => u.Friends).HasForeignKey(f => f.UserId);
+        }
     }
 }

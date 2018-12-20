@@ -10,8 +10,8 @@ using ReactCore.Data;
 namespace ReactCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181215055002_addApplicationUserFKtoFriendsTable")]
-    partial class addApplicationUserFKtoFriendsTable
+    [Migration("20181220003918_AddedOneToManyRelationshipWithAppUserAndFriends")]
+    partial class AddedOneToManyRelationshipWithAppUserAndFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,7 +192,11 @@ namespace ReactCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("Latitude");
+
                     b.Property<int>("LocationId");
+
+                    b.Property<double>("Longitude");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -239,9 +243,9 @@ namespace ReactCore.Migrations
 
                     b.Property<string>("FeatureCode");
 
-                    b.Property<double?>("Latitude");
+                    b.Property<double>("Latitude");
 
-                    b.Property<double?>("Longitude");
+                    b.Property<double>("Longitude");
 
                     b.Property<DateTime?>("ModificationDate");
 
@@ -308,8 +312,8 @@ namespace ReactCore.Migrations
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactCore.Models.ApplicationUser", "User")
-                        .WithMany()
+                    b.HasOne("ReactCore.Models.ApplicationUser")
+                        .WithMany("Friends")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

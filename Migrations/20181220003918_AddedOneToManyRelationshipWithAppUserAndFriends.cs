@@ -2,7 +2,7 @@
 
 namespace ReactCore.Migrations
 {
-    public partial class addApplicationUserFKtoFriendsTable : Migration
+    public partial class AddedOneToManyRelationshipWithAppUserAndFriends : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

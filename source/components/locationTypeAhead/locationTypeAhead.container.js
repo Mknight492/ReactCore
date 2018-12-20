@@ -1,18 +1,13 @@
 import { connect } from "react-redux";
-import Friend from "./friend";
+import LocationTypeAhead from "./locationTypeAhead";
 import { friendActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
-  return {
-    isActive: state.friends.isActive
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeActive: id => {
-      dispatch(friendActions.changeFriendAG(id));
-    },
     loadFriends: () => {
       dispatch(friendActions.loadFriendAttemptAG());
     }
@@ -22,4 +17,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Friend);
+)(LocationTypeAhead);

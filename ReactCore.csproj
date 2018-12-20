@@ -13,6 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181219232634_EditFriendTableToHaveApplicationDTo.cs" />
+    <Compile Remove="Migrations\20181219232634_EditFriendTableToHaveApplicationDTo.Designer.cs" />
+    <Compile Remove="Migrations\20181219235839_removeUserNavgationPropertyFromFrendObject.cs" />
+    <Compile Remove="Migrations\20181219235839_removeUserNavgationPropertyFromFrendObject.Designer.cs" />
+    <Compile Remove="Migrations\20181220003048_AddedOneToManyRelationshipWithAppUserAndFriends.cs" />
+    <Compile Remove="Migrations\20181220003048_AddedOneToManyRelationshipWithAppUserAndFriends.Designer.cs" />
+    <Compile Remove="Migrations\20181220004228_RemoveRelationshipWithAppUserAndFriends.cs" />
+    <Compile Remove="Migrations\20181220004228_RemoveRelationshipWithAppUserAndFriends.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

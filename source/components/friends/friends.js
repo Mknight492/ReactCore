@@ -26,6 +26,8 @@ class FriendsComponent extends React.Component {
                 latitude={el.latitude}
                 longitude={el.longitude}
                 location={el.location.name}
+                locations={[el.location]}
+                Id={el.id}
               />
             );
           })}

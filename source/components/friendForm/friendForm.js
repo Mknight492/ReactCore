@@ -90,9 +90,7 @@ class FriendFormComponent extends React.Component {
             key={1}
             placeholder="damn"
           />
-          <button type="submit" key={2}>
-            Add friend
-          </button>
+          <button type="submit">Add friend</button>
         </form>
       </div>
     );

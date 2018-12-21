@@ -5,6 +5,40 @@ const webpackMerge = require("webpack-merge");
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
 const presetConfig = require("./build-utils/loadPresets");
 const postcssModulesValues = require("postcss-modules-values");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+var autoprefixer = require("autoprefixer");
+
+const CSSModuleLoader = {
+  loader: "css-loader",
+  options: {
+    modules: true,
+    sourceMap: true,
+    localIdentName: "[local]__[hash:base64:5]",
+    minimize: true
+  }
+};
+
+const CSSLoader = {
+  loader: "css-loader",
+  options: {
+    modules: false,
+    sourceMap: true,
+    minimize: true
+  }
+};
+
+const postCSSLoader = {
+  loader: "postcss-loader",
+  options: {
+    ident: "postcss",
+    sourceMap: true,
+    plugins: () => [
+      autoprefixer({
+        browsers: [">1%", "last 4 versions", "Firefox ESR", "not ie < 9"]
+      })
+    ]
+  }
+};
 
 module.exports = {
   mode: "development",
@@ -53,6 +87,15 @@ module.exports = {
       {
         test: /\.html$/,
         loader: "raw-loader"
+      },
+      {
+        test: /\.scss$/,
+        exclude: [/\.module\.scss$/],
+        use: ["style-loader", CSSLoader, postCSSLoader, "sass-loader"]
+      },
+      {
+        test: /\.module\.scss$/,
+        use: ["style-loader", CSSModuleLoader, postCSSLoader, "sass-loader"]
       }
     ]
   },
@@ -67,6 +110,12 @@ module.exports = {
       filename: path.resolve(__dirname, "./views/home/index.cshtml"),
       inject: "body"
     }),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, "./source/assets"),
+        to: ""
+      }
+    ])
   ]
 };

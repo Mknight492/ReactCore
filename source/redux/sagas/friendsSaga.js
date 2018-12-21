@@ -2,10 +2,11 @@ import { put, call, takeLatest } from "redux-saga/effects"; //select allows you 
 import { friendConstants } from "../constants";
 import { friendActions } from "../actions";
 import { weatherAPI } from "../../../security";
+import { HF } from "../../helpers";
 
 function* loadFriendsData() {
   try {
-    const friendArray = yield fetch("api/friend");
+    const friendArray = yield HF.AFfetch("api/friend");
     const friendArrayParsed = yield friendArray.json();
     yield put(friendActions.loadFriendSuccessAG(friendArrayParsed));
   } catch (e) {

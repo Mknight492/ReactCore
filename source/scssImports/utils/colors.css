@@ -1,0 +1,9 @@
+.primary {
+  color: pink;
+}
+
+.small {
+  min-width: 500px;
+}
+
+@value b: #0c7777;

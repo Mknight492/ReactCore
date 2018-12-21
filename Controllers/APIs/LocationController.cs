@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReactCore.Data;
@@ -11,6 +12,8 @@ using ReactCore.Data;
 namespace ReactCore.Controllers.APIs
 {
     [Route("api/[controller]")]
+    [Authorize]
+    [ValidateAntiForgeryToken]
     public class LocationController : Controller
     {
         private readonly ApplicationDbContext _db;

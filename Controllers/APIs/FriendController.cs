@@ -22,7 +22,8 @@ namespace ReactCore.Controllers.APIs
     
     [Produces("application/json")]
     [Route("api/[controller]")]
-  
+    [Authorize]
+    [ValidateAntiForgeryToken]
     public class FriendController : ControllerBase
     {
 

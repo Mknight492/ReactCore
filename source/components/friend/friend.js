@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./friend.css";
+//import styles from "./friend.css";
 import FriendForm from "../friendForm/friendForm.container";
 import { weatherAPI } from "../../../security";
 import LocationTypeAhead from "../locationTypeAhead/locationTypeAhead";
 import { locationServices } from "../../redux/services";
-import { helperFunctions } from "../../helpers";
-import { throws } from "assert";
+import { HF } from "../../helpers";
+import WeatherIcon from "../weatherIcon/weatherIcon";
+import MapComponent from "../map/map";
+import styles from "./friend.module.scss";
+import cx from "classnames";
 
 class FriendComponent extends React.Component {
   constructor(...args) {
@@ -25,6 +28,7 @@ class FriendComponent extends React.Component {
     getWeather(latitude, longitude, weatherAPI).then(result => {
       this.setState({ weather: result });
     });
+    console.log(styles);
   }
 
   //new value is passed into form
@@ -32,10 +36,7 @@ class FriendComponent extends React.Component {
     //value is placed in variable searchTerm
     let searchTerm = event.target.value;
     this.setState({ location: searchTerm });
-    if (
-      !helperFunctions.isNullOrWhiteSpace(searchTerm) &&
-      searchTerm.length >= 3
-    ) {
+    if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       locationServices.getCities(searchTerm).then(result => {
         result = result.slice(0, 5);
         this.setState({ locations: result });
@@ -54,9 +55,7 @@ class FriendComponent extends React.Component {
   editFriend(event) {
     const { loadFriends, Id } = this.props;
     event.preventDefault();
-    console.log(this.state.locations);
     const location = this.state.locations.filter(L => {
-      console.log(this.state.locations, L.name, L.name === this.state.location);
       return L.name === this.state.location;
     });
     locationServices
@@ -78,8 +77,18 @@ class FriendComponent extends React.Component {
   render() {
     const { weather, name, location } = this.state;
     const { latitude, longitude, changeActive, Id, isActive } = this.props;
+    const date = new Date().toLocaleString(undefined, {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    //let containerClass = classNames(styles.container, "flex-col");
+
     return isActive === Id ? (
-      <div>
+      <div className={"placeholder"}>
         <input
           defaultValue={this.state.name}
           onChange={e => this.setState({ name: e.target.value })}
@@ -96,14 +105,22 @@ class FriendComponent extends React.Component {
         <button onClick={e => this.deleteFriend(e)}> Delete</button>
       </div>
     ) : (
-      <div className="friend">
-        {name} , {latitude}, {longitude}, {location}
+      <div className={styles.container}>
+        <h3> {name}</h3>
+        <h4> {location} </h4>
         {weather && (
           <div style={{ paddingBottom: "10px" }}>
-            {" "}
-            {weather.main.temp}, {weather.weather[0].main},{" "}
+            {weather.main.temp}, {weather.weather[0].main},
             {weather.weather[0].description} {isActive}
+            {date}
             <button onClick={() => changeActive(Id)}> Edit </button>
+            <MapComponent
+              mapKey={Id}
+              position={{ latitude, longitude }}
+              style={styles.map}
+              zoom={9}
+              weather={weather.weather[0].main}
+            />
           </div>
         )}
       </div>

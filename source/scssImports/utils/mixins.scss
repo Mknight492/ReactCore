@@ -1,0 +1,42 @@
+//global mixins
+
+// NB some mixins have been left inside local files if they are only used in that file
+
+@mixin atVerySmall {
+  @media (min-width: 400px) {
+    @content;
+  }
+}
+
+@mixin atSmall {
+  @media (min-width: 530px) {
+    @content;
+  }
+}
+
+@mixin atMedium {
+  @media (min-width: 800px) {
+    @content;
+  }
+}
+
+@mixin atLarge {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin clearfix {
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+@mixin hoverOpacity($opacity) {
+  transition: opacity 0.3s ease-in-out;
+  &:hover {
+    opacity: #{$opacity};
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Friend from "../friend/friend.container";
-
+import styles from "./friends.module.scss";
 class FriendsComponent extends React.Component {
   constructor(...args) {
     super(...args);
@@ -16,7 +16,7 @@ class FriendsComponent extends React.Component {
   render() {
     const { friendsObj } = this.props;
     return (
-      <div className="friends">
+      <div className={styles.container}>
         {friendsObj &&
           Object.values(friendsObj).map(el => {
             return (

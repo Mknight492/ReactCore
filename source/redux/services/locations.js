@@ -1,3 +1,5 @@
+import { HF } from "../../helpers";
+
 export const locationServices = {
   getCities,
   submitForm,
@@ -6,7 +8,7 @@ export const locationServices = {
 };
 
 async function getCities(name) {
-  const result = await fetch(`/api/location?type=location&query=${name}`, {
+  const result = await HF.AFfetch(`/api/location?type=location&query=${name}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -19,7 +21,7 @@ async function getCities(name) {
 
 async function submitForm(Name, Location) {
   const data = JSON.stringify({ Name, Location });
-  const result = await fetch("/api/friend", {
+  const result = await HF.AFfetch("/api/friend", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -32,7 +34,7 @@ async function submitForm(Name, Location) {
 
 async function editFriend(Name, Location, Id) {
   const data = JSON.stringify({ Name, Location, Id });
-  const result = await fetch("/api/friend", {
+  const result = await HF.AFfetch("/api/friend", {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -44,7 +46,7 @@ async function editFriend(Name, Location, Id) {
 }
 
 async function deleteFriend(Id) {
-  const result = await fetch("/api/friend/" + Id, {
+  const result = await HF.AFfetch("/api/friend/" + Id, {
     method: "DELETE",
     headers: {
       Accept: "application/json",

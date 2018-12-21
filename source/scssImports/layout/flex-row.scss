@@ -1,0 +1,64 @@
+.flex-row {
+  display: flex;
+}
+.flex-row {
+  flex-wrap: wrap;
+
+  &--padding-top {
+    padding-top: 10px;
+  }
+  &--align-center {
+    align-items: center;
+  }
+}
+
+.flex-col {
+  &--padding-1rem {
+    padding: 1.64rem 1rem;
+  }
+
+  &--100s-50m-33l {
+    width: 100%;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include atMedium {
+      width: 50%;
+    }
+    @include atLarge {
+      width: 33%;
+    }
+  }
+
+  &--100s-33m-33l {
+    width: 100%;
+    @include atMedium {
+      width: 33%;
+    }
+  }
+
+  &--100s-66m-66l {
+    width: 100%;
+
+    @include atMedium {
+      width: 66%;
+    }
+  }
+
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+
+  &--max600 {
+    max-width: 600px;
+  }
+
+  &--max400 {
+    max-width: 400px;
+  }
+}

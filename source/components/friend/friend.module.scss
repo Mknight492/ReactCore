@@ -1,0 +1,20 @@
+@import "../../scssImports/variables.scss";
+
+.container {
+  color: $color-primary-1;
+  text-align: center;
+  @include atSmall {
+    width: 100%;
+  }
+  @include atMedium {
+    width: 50%;
+  }
+  @include atLarge {
+    width: 33%;
+  }
+}
+
+.map {
+  width: 200px;
+  height: 200px;
+}

@@ -4,7 +4,8 @@ export const locationServices = {
   getCities,
   submitForm,
   editFriend,
-  deleteFriend
+  deleteFriend,
+  getWeather
 };
 
 async function getCities(name) {
@@ -54,4 +55,16 @@ async function deleteFriend(Id) {
     }
   });
   return result;
+}
+
+async function getWeather(latitude, longitude, APIkey) {
+  try {
+    const APIdata = await fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`
+    );
+    const APIdataParsed = await APIdata.json();
+    return APIdataParsed;
+  } catch (e) {
+    return e;
+  }
 }

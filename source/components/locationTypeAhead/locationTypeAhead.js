@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Autocomplete from "react-autocomplete";
-import { locationServices } from "../../redux/services";
-import { helperFunctions } from "../../helpers";
+import styles from "./locationTypeAhead.module.scss";
+
 class LocationTypeAhead extends React.Component {
   constructor(...args) {
     super(...args);
@@ -18,9 +18,10 @@ class LocationTypeAhead extends React.Component {
   render() {
     const { changeHandler, value, items, submitHandler } = this.props;
     return (
-      <div>
+      <div className={styles.container}>
         <label htmlFor={"location"}> Location: </label>
         <Autocomplete
+          className={styles.autocomplete}
           name="location"
           getItemValue={item => item.label}
           items={[...items]}

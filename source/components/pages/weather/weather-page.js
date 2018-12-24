@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import styles from "./weather-page.css";
+import styles from "./weather-page.module.scss";
 import MapComponent from "../../map/map";
 import Friends from "../../friends/friends.container";
 import FriendForm from "../../friendForm/friendForm.container";
@@ -36,7 +36,7 @@ export default function WeatherPage({
       >
         get location
       </button>
-      <FriendForm />
+
       {position && (
         <div>
           {position.latitude} {position.longitude}

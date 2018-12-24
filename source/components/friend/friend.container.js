@@ -1,6 +1,9 @@
 import { connect } from "react-redux";
 import Friend from "./friend";
 import { friendActions } from "../../redux/actions";
+import OutsideClick from "../../higherOrderComponents/OutsideClick";
+import React from "react";
+import FriendComponent from "./friend";
 
 function mapStateToProps(state) {
   return {
@@ -19,7 +22,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
+const ConnectFriend = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Friend);
+
+export default OutsideClick(ConnectFriend);

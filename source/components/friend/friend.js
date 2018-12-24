@@ -14,6 +14,7 @@ import cx from "classnames";
 class FriendComponent extends React.Component {
   constructor(...args) {
     super(...args);
+    this.ref = React.createRef();
     this.state = {
       weather: null,
       name: this.props.name,
@@ -28,7 +29,13 @@ class FriendComponent extends React.Component {
     getWeather(latitude, longitude, weatherAPI).then(result => {
       this.setState({ weather: result });
     });
-    console.log(styles);
+  }
+
+  componentDidUpdate() {
+    const { Id, isActive } = this.props;
+    if (Id === isActive) {
+      window.addEventListener;
+    }
   }
 
   //new value is passed into form
@@ -85,35 +92,41 @@ class FriendComponent extends React.Component {
       minute: "2-digit"
     });
 
-    //let containerClass = classNames(styles.container, "flex-col");
+    let containerClass = cx(styles.container);
 
-    return isActive === Id ? (
-      <div className={"placeholder"}>
-        <input
-          defaultValue={this.state.name}
-          onChange={e => this.setState({ name: e.target.value })}
-        />
-        <LocationTypeAhead
-          changeHandler={e => this.changeHandler(e)}
-          submitHandler={val => this.submitHandler(val)}
-          value={location}
-          items={this.state.results}
-        />
-        <button type="submit" onClick={e => this.editFriend(e)}>
-          Comfirm Edit
-        </button>
-        <button onClick={e => this.deleteFriend(e)}> Delete</button>
-      </div>
-    ) : (
-      <div className={styles.container}>
-        <h3> {name}</h3>
-        <h4> {location} </h4>
-        {weather && (
-          <div style={{ paddingBottom: "10px" }}>
-            {weather.main.temp}, {weather.weather[0].main},
-            {weather.weather[0].description} {isActive}
-            {date}
-            <button onClick={() => changeActive(Id)}> Edit </button>
+    //returns a div which is eith populated with the freind data or the edit friend data.
+    //these need to be refactored into their own components for simplicity however.
+    return (
+      <div>
+        {isActive === Id ? (
+          <div ref={this.ref} className={`target${Id}`}>
+            <input
+              className={styles.input}
+              defaultValue={this.state.name}
+              onChange={e => this.setState({ name: e.target.value })}
+            />
+            <div className={styles.zIndex}>
+              <LocationTypeAhead
+                className={styles.typeAhead}
+                changeHandler={e => this.changeHandler(e)}
+                submitHandler={val => this.submitHandler(val)}
+                value={location}
+                items={this.state.results}
+              />
+            </div>
+            <button
+              className={"btn btn--small"}
+              type="submit"
+              onClick={e => this.editFriend(e)}
+            >
+              Comfirm Edit
+            </button>
+            <button
+              className={"btn btn--small"}
+              onClick={e => this.deleteFriend(e)}
+            >
+              Delete
+            </button>
             <MapComponent
               mapKey={Id}
               position={{ latitude, longitude }}
@@ -122,6 +135,34 @@ class FriendComponent extends React.Component {
               weather={weather.weather[0].main}
             />
           </div>
+        ) : (
+          <div>
+            <h3 className={styles.name}> {name}</h3>
+            <h4 className={styles.location}> {location} </h4>
+            {weather && (
+              <div className={styles.weather}>
+                <h4>
+                  {" "}
+                  {weather.main.temp} &deg;C, {weather.weather[0].main},
+                  {weather.weather[0].description} {isActive}
+                  {date}
+                </h4>
+                <button
+                  className={"btn btn--small"}
+                  onClick={() => changeActive(Id)}
+                >
+                  Edit
+                </button>
+                <MapComponent
+                  mapKey={Id}
+                  position={{ latitude, longitude }}
+                  style={styles.map}
+                  zoom={9}
+                  weather={weather.weather[0].main}
+                />
+              </div>
+            )}
+          </div>
         )}
       </div>
     );
@@ -129,7 +170,7 @@ class FriendComponent extends React.Component {
 }
 
 FriendComponent.propTypes = {
-  testString: PropTypes.string.isRequired
+  //testString: PropTypes.string.isRequired
 };
 
 export default FriendComponent;

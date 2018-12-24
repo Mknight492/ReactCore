@@ -17,7 +17,7 @@ import { IdentityPage } from "../pages/Identity/identity";
 import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 
 //import global style
-import styles from "./app.css";
+import styles from "./app.scss";
 
 //fontAwesome
 import { library } from "@fortawesome/fontawesome-svg-core";

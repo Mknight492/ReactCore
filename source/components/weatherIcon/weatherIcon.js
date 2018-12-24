@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./weatherIcon.css";
+import styles from "./weatherIcon.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const WeatherIcon = ({ weather, weatherDescription }) => {
   return weatherSelector(weather);

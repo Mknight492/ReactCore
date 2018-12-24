@@ -1,0 +1,132 @@
+.btn {
+  background-color: $color-primary-0;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  display: inline-block;
+  text-decoration: none;
+  border: 3px solid $color-primary-3;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+  transition: transform 0.1s ease-in-out;
+  @include atSmall {
+    font-size: 1.6rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 0.6rem;
+  }
+  @include atMedium {
+    font-size: 1.7rem;
+    padding: 1rem 1.6rem;
+    border-radius: 0.9rem;
+  }
+  @include atLarge {
+    font-size: 1.6rem;
+    border-radius: 1.1rem;
+  }
+
+  &:hover {
+    background-color: $color-primary-2;
+    //color: $color-secondary-1-0;
+    //font-weight: 500;
+    transform: scale(1.02);
+  }
+
+  &--small {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    @include atSmall {
+      font-size: 1.6rem;
+      padding: 0.8rem 1.6rem;
+    }
+  }
+  &--center {
+    text-align: center;
+  }
+
+  &--large {
+    padding: 1.7rem 3.2rem;
+
+    @include atSmall {
+      font-size: 1.6rem;
+    }
+    @include atMedium {
+      font-size: 1.7rem;
+    }
+    @include atLarge {
+      font-size: 1.9rem;
+    }
+  }
+
+  &--margin {
+    margin: 0.8rem 0.8rem;
+    @include atMedium {
+      margin: 1.6rem 1.6rem;
+    }
+  }
+  &--disabled {
+    background-color: #555555;
+    &:hover {
+      background-color: #555555;
+      cursor: not-allowed;
+    }
+  }
+}
+
+//base, include here temporarily
+
+//font size:
+
+html {
+  //font-size: 10px; // wouldn't allow users to overwrite base font size
+  font-size: 62.5%; //allows users to overwrite font size but translates to 10px
+}
+
+body {
+  font-family: "europa", "Roboto", sans-serif;
+  color: #555;
+  overflow-x: visible;
+  font-weight: 400;
+  //font-size: 1rem;
+  line-height: 1.65;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+button:focus {
+  outline: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+figure {
+  margin: 0;
+}
+
+.padding-10px {
+  padding: 0 10px;
+}
+.margin-10px {
+  margin: 0 10px;
+}
+
+.margin-20px {
+  margin: 0 20px;
+}
+.text140 {
+  font-size: 140%;
+}

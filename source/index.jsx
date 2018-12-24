@@ -17,6 +17,7 @@ import rootSaga from "./redux/sagas";
 //generating redux store with middleware NB routerMiddleWare must remain fist
 
 //import global styles
+import "./index.scss";
 
 let store = configureStore();
 

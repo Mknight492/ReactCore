@@ -1,0 +1,9 @@
+@import "../../scssImports/variables.scss";
+
+.container {
+  z-index: 99;
+}
+
+.autocomplete {
+  border-bottom: 2.5px dashed $color-primary-3;
+}

@@ -1,0 +1,21 @@
+@import "../../scssImports/variables.scss";
+
+/*
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  color: #1c1f22;
+  border: 0px;
+  border-bottom: 2.5px dashed rgb(143, 143, 143);
+  transition: all 0.5s ease-in-out;
+  &:focus {
+    border-color: rgb(109, 149, 221);
+    outline: none;
+    appearance: none;
+    padding-top: 10px;
+  }
+  @include atMedium {
+    background-color: rgb(245, 245, 245);
+  }
+}*/

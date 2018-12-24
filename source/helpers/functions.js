@@ -26,7 +26,5 @@ async function AFfetch(url, options) {
       }
     };
   }
-
-  console.log(options);
   return await fetch(url, options);
 }

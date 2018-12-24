@@ -1,5 +1,32 @@
-.container {
+@import "../../scssImports/variables.scss";
+
+.flexContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
+}
+
+.flexItem {
+  color: $color-primary-3;
+  text-align: center;
+
+  //box-sizing: border-box;
+  @include atSmall {
+    width: 100%;
+  }
+  @include atMedium {
+    width: 50%;
+  }
+  @include atLarge {
+    width: 33%;
+  }
+}
+
+.border {
+  margin: 1rem;
+  padding: 1rem;
+  border: 3px solid $color-primary-2;
+  border-radius: 2rem;
+  background-color: $friendBGColor;
+  height: 500px;
 }

@@ -10,6 +10,7 @@ import WeatherIcon from "../weatherIcon/weatherIcon";
 import MapComponent from "../map/map";
 import styles from "./friend.module.scss";
 import cx from "classnames";
+import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 class FriendComponent extends React.Component {
   constructor(...args) {
@@ -32,10 +33,7 @@ class FriendComponent extends React.Component {
   }
 
   componentDidUpdate() {
-    const { Id, isActive } = this.props;
-    if (Id === isActive) {
-      window.addEventListener;
-    }
+    console.log("friend updated", this.state.name);
   }
 
   //new value is passed into form
@@ -59,31 +57,17 @@ class FriendComponent extends React.Component {
     this.setState({ location: value });
   }
 
-  editFriend(event) {
-    const { loadFriends, Id } = this.props;
-    event.preventDefault();
-    const location = this.state.locations.filter(L => {
-      return L.name === this.state.location;
-    });
-    locationServices
-      .editFriend(this.state.name, location[0], Id)
-      .then(result => {
-        loadFriends();
-      });
-    this.props.changeActive(null);
-  }
-
-  deleteFriend(event) {
-    const { loadFriends, Id } = this.props;
-    event.preventDefault();
-    locationServices.deleteFriend(Id).then(result => {
-      loadFriends();
-    });
-  }
-
   render() {
-    const { weather, name, location } = this.state;
-    const { latitude, longitude, changeActive, Id, isActive } = this.props;
+    const { weather, locations } = this.state;
+    const {
+      latitude,
+      longitude,
+      changeActive,
+      Id,
+      isActive,
+      name,
+      location
+    } = this.props;
     const date = new Date().toLocaleString(undefined, {
       day: "numeric",
       month: "numeric",
@@ -92,49 +76,24 @@ class FriendComponent extends React.Component {
       minute: "2-digit"
     });
 
-    let containerClass = cx(styles.container);
-
+    const FriendFormClick = OutsideClick(FriendForm, this.props.changeActive);
     //returns a div which is eith populated with the freind data or the edit friend data.
     //these need to be refactored into their own components for simplicity however.
     return (
       <div>
         {isActive === Id ? (
-          <div ref={this.ref} className={`target${Id}`}>
-            <input
-              className={styles.input}
-              defaultValue={this.state.name}
-              onChange={e => this.setState({ name: e.target.value })}
+          <>
+            <FriendFormClick
+              name={name}
+              weather={weather}
+              location={location}
+              locations={locations}
+              edit={true}
+              latitude={latitude}
+              longitude={longitude}
+              Id={Id}
             />
-            <div className={styles.zIndex}>
-              <LocationTypeAhead
-                className={styles.typeAhead}
-                changeHandler={e => this.changeHandler(e)}
-                submitHandler={val => this.submitHandler(val)}
-                value={location}
-                items={this.state.results}
-              />
-            </div>
-            <button
-              className={"btn btn--small"}
-              type="submit"
-              onClick={e => this.editFriend(e)}
-            >
-              Comfirm Edit
-            </button>
-            <button
-              className={"btn btn--small"}
-              onClick={e => this.deleteFriend(e)}
-            >
-              Delete
-            </button>
-            <MapComponent
-              mapKey={Id}
-              position={{ latitude, longitude }}
-              style={styles.map}
-              zoom={9}
-              weather={weather.weather[0].main}
-            />
-          </div>
+          </>
         ) : (
           <div>
             <h3 className={styles.name}> {name}</h3>

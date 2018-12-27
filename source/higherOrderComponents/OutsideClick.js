@@ -41,7 +41,7 @@ function OutsideAlerter(WrappedComponent, clickHandler) {
     render() {
       return (
         <div ref={this.myRef}>
-          <WrappedComponent {...this.props} />{" "}
+          <WrappedComponent {...this.props} />
         </div>
       );
     }

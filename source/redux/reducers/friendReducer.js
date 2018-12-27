@@ -17,8 +17,10 @@ export default function friendReducer(state, action) {
     case friendConstants.LOAD_FRIEND_FAILURE:
       return state;
     case friendConstants.LOAD_FRIEND_SUCCESS:
-      //action.payload = [friend{}]
+      //action.payload = [friend{}, friend{}]
+      console.log("friends reducer");
       const friendsObj = mapKeys(action.payload, "id");
+
       return { ...state, friendsObj };
     case friendConstants.ADD_FRIEND_ATTEMPT:
       return {

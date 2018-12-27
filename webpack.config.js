@@ -55,6 +55,7 @@ module.exports = {
     hot: true,
     publicPath: "/"
   },
+  devtool: "source-map",
   module: {
     rules: [
       {

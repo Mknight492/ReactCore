@@ -12,15 +12,28 @@ import { weatherAPI } from "../../../security";
 class FriendFormComponent extends React.Component {
   constructor(...args) {
     super(...args);
-    this.state = {
-      weather: null,
-      locationTypeAhead: "",
-      name: "",
-      results: [],
-      Locations: [],
-      latitude: generateRandomNumber(-70, 70),
-      longitude: generateRandomNumber(-180, 180)
-    };
+    if (this.props.edit === true) {
+      this.state = {
+        weather: this.props.weather,
+        locationTypeAhead: this.props.location,
+        name: this.props.name,
+        results: [{ label: this.props.location }],
+        locations: this.props.locations,
+        location: this.props.location,
+        latitude: this.props.latitude,
+        longitude: this.props.longitude
+      };
+    } else {
+      this.state = {
+        weather: null,
+        locationTypeAhead: "",
+        name: "",
+        results: [],
+        locations: [],
+        latitude: generateRandomNumber(-70, 70),
+        longitude: generateRandomNumber(-180, 180)
+      };
+    }
   }
 
   componentDidMount() {
@@ -29,18 +42,16 @@ class FriendFormComponent extends React.Component {
       .getWeather(latitude, longitude, weatherAPI)
       .then(result => {
         this.setState({ weather: result });
-        console.log(result);
       });
   }
 
   changeHandler(event) {
-    console.log(styles.container);
     let searchTerm = event.target.value;
     this.setState({ locationTypeAhead: searchTerm });
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       locationServices.getCities(event.target.value).then(result => {
         result = result.slice(0, 5);
-        this.setState({ Locations: result });
+        this.setState({ locations: result });
         let names = result.map(location => ({ label: location.name }));
         this.setState({ results: names });
       });
@@ -52,7 +63,7 @@ class FriendFormComponent extends React.Component {
   submitHandler(event) {
     const { loadFriends } = this.props;
     event.preventDefault();
-    const location = this.state.Locations.filter(L => {
+    const location = this.state.locations.filter(L => {
       return L.name === this.state.locationTypeAhead;
     });
     locationServices.submitForm(this.state.name, location[0]).then(result => {
@@ -61,9 +72,33 @@ class FriendFormComponent extends React.Component {
     });
   }
 
+  editFriend(event) {
+    const { loadFriends, Id } = this.props;
+    event.preventDefault();
+    const location = this.state.locations.filter(L => {
+      return L.name === this.state.locationTypeAhead;
+    });
+    locationServices
+      .editFriend(this.state.name, location[0], Id)
+      .then(result => {
+        loadFriends();
+      });
+    this.props.changeActive(null);
+  }
+
+  deleteFriend(event) {
+    const { loadFriends, Id } = this.props;
+    event.preventDefault();
+    locationServices.deleteFriend(Id).then(result => {
+      loadFriends();
+    });
+  }
+
   //const { testString } = this.props;
   render() {
-    const { weather } = this.state;
+    const { weather, latitude, longitude } = this.state;
+    let mapWeather;
+    weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (
       <div>
         <form
@@ -124,26 +159,47 @@ class FriendFormComponent extends React.Component {
               </div>
             )}
           </div>
-          <button type="submit" className={"btn btn--small"}>
-            Add friend
-          </button>
-          <MapComponent
-            mapKey={"addNew"}
-            position={{
-              latitude: generateRandomNumber(-70, 70),
-              longitude: generateRandomNumber(-180, 180)
-            }}
-            style={styles.map}
-            zoom={3}
-            weather={"Query"}
-          />
+
+          {this.props.edit ? (
+            <>
+              <button
+                className={"btn btn--small"}
+                type="submit"
+                onClick={e => this.editFriend(e)}
+              >
+                Comfirm Edit
+              </button>
+              <button
+                className={"btn btn--small"}
+                onClick={e => this.deleteFriend(e)}
+              >
+                Delete
+              </button>
+            </>
+          ) : (
+            <button type="submit" className={"btn btn--small"}>
+              Add friend
+            </button>
+          )}
         </form>
+        <MapComponent
+          mapKey={"addNew"}
+          position={{
+            latitude,
+            longitude
+          }}
+          style={styles.map}
+          zoom={3}
+          weather={mapWeather}
+        />
       </div>
     );
   }
 }
 
-FriendFormComponent.propTypes = {};
+FriendFormComponent.propTypes = {
+  edit: PropTypes.bool
+};
 
 export default FriendFormComponent;
 

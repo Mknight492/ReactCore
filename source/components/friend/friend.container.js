@@ -27,4 +27,4 @@ const ConnectFriend = connect(
   mapDispatchToProps
 )(Friend);
 
-export default OutsideClick(ConnectFriend);
+export default ConnectFriend;

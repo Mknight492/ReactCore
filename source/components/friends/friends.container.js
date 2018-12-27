@@ -4,7 +4,8 @@ import { friendActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
   return {
-    friendsObj: state.friends.friendsObj
+    friendsObj: state.friends.friendsObj,
+    isActive: state.friends.isActive
   };
 }
 
@@ -12,6 +13,9 @@ function mapDispatchToProps(dispatch) {
   return {
     loadFriends: () => {
       dispatch(friendActions.loadFriendAttemptAG());
+    },
+    changeActive: id => {
+      dispatch(friendActions.changeFriendAG(id));
     }
   };
 }

@@ -10,6 +10,9 @@ function mapDispatchToProps(dispatch) {
   return {
     loadFriends: () => {
       dispatch(friendActions.loadFriendAttemptAG());
+    },
+    changeActive: id => {
+      dispatch(friendActions.changeFriendAG(id));
     }
   };
 }

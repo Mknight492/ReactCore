@@ -1,9 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { isEqual } from "lodash";
 
 export default class MapComponent extends React.Component {
   constructor(...args) {
     super(...args);
+  }
+  componentDidMount() {
+    const { position } = this.props;
+    if (position) {
+      this.initMap();
+    }
+  }
+  componentDidUpdate() {
+    const { position } = this.props;
+    if (position) {
+      this.initMap();
+    }
+  }
+
+  //stops unneccesary and visable rerender on the maps when filling in the form
+  //only render the map when the position or the weather is updated
+  //
+  shouldComponentUpdate(nextProps, nextState) {
+    const { mapKey, weather, position } = this.props;
+    if (
+      (isEqual(position, nextProps.position) && weather == nextProps.weather) ||
+      (mapKey == "addNew" && weather != null)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   initMap() {
@@ -19,10 +47,11 @@ export default class MapComponent extends React.Component {
       zoom: zoom || 14,
       disableDefaultUI: true
     };
-    let mapelement = document.getElementById(mapKey);
-    const map = new google.maps.Map(mapelement, mapOptions);
+    let mapElement = document.getElementById(mapKey);
+    const map = new google.maps.Map(mapElement, mapOptions);
     const textAndColor = weatherSelecter(weather);
 
+    //map much be created before adding a marker
     const markerOptions = {
       position: center,
       map: map,
@@ -39,19 +68,6 @@ export default class MapComponent extends React.Component {
     };
 
     const marker = new google.maps.Marker(markerOptions);
-  }
-
-  componentDidMount() {
-    const { mapKey, position } = this.props;
-    if (position) {
-      this.initMap();
-    }
-  }
-  componentDidUpdate() {
-    const { mapKey, position } = this.props;
-    if (position) {
-      this.initMap();
-    }
   }
 
   render() {

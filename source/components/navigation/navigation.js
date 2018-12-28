@@ -3,7 +3,6 @@ import styles from "./navigation.module.scss";
 import { Link } from "@reach/router";
 
 const NavigationComponent = () => {
-  console.log(styles.container);
   return true ? (
     <div className={styles.container}>
       <Link to={"/"}>Home</Link>

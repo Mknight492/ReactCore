@@ -18,6 +18,7 @@ function OutsideAlerter(WrappedComponent, clickHandler) {
     }
 
     componentWillUnmount() {
+      console.log("unmounting");
       document.removeEventListener("mousedown", this.handleClickOutside);
     }
 

@@ -3,7 +3,9 @@ import Friend from "./friendForm";
 import { friendActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    friendsState: state.friends
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -13,6 +15,9 @@ function mapDispatchToProps(dispatch) {
     },
     changeActive: id => {
       dispatch(friendActions.changeFriendAG(id));
+    },
+    loadLocation: (searchTerm, Id) => {
+      dispatch(friendActions.loadLocationTAAttempt(searchTerm, Id));
     }
   };
 }

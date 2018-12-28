@@ -29,6 +29,24 @@ const changeFriendAG = id => ({
   payload: id
 });
 
+const loadLocationTAAttempt = (searchTerm, Id) => ({
+  type: friendConstants.LOAD_LOCATION_TA_ATTEMPT,
+  searchTerm,
+  Id
+});
+
+const loadLocationTASuccess = (locationArray, Id) => ({
+  type: friendConstants.LOAD_LOCATION_TA_SUCCESS,
+  payload: locationArray,
+  Id
+});
+
+const loadLocationTAFailure = () => ({
+  type: friendConstants.LOAD_LOCATION_TA_FAILURE
+});
+
+const resetLocationTA = { type: friendConstants.RESET_LOCATION_TA };
+
 export const friendActions = {
   addFriendAttemptAG,
   addFriendSuccessAG,
@@ -36,5 +54,9 @@ export const friendActions = {
   loadFriendAttemptAG,
   loadFriendSuccessAG,
   loadFriendFailureAG,
-  changeFriendAG
+  changeFriendAG,
+  loadLocationTAAttempt,
+  loadLocationTASuccess,
+  loadLocationTAFailure,
+  resetLocationTA
 };

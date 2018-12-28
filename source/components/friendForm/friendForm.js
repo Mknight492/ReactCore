@@ -12,6 +12,8 @@ import { weatherAPI } from "../../../security";
 class FriendFormComponent extends React.Component {
   constructor(...args) {
     super(...args);
+    const { friendsState, Id } = this.props;
+    const TAData = friendsState[Id];
     if (this.props.edit === true) {
       this.state = {
         weather: this.props.weather,
@@ -48,6 +50,7 @@ class FriendFormComponent extends React.Component {
   changeHandler(event) {
     let searchTerm = event.target.value;
     this.setState({ locationTypeAhead: searchTerm });
+    this.props.loadLocation(searchTerm, this.props.Id);
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       locationServices.getCities(event.target.value).then(result => {
         result = result.slice(0, 5);
@@ -97,6 +100,8 @@ class FriendFormComponent extends React.Component {
   //const { testString } = this.props;
   render() {
     const { weather, latitude, longitude } = this.state;
+    const { friendsState, Id } = this.props;
+    const TAData = friendsState[Id];
     let mapWeather;
     weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (
@@ -182,6 +187,7 @@ class FriendFormComponent extends React.Component {
             </button>
           )}
         </form>
+        {TAData && TAData.map(el => <div> {el.name} </div>)}
         <MapComponent
           mapKey={"addNew"}
           position={{

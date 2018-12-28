@@ -14,13 +14,6 @@ class FriendsComponent extends React.Component {
     loadFriends();
   }
 
-  componentWillUpdate(nextstate) {
-    console.log("firends will update", this.props.friendsObj, nextstate);
-  }
-  componentDidUpdate() {
-    console.log("friends updated", this.props.friendsObj);
-  }
-
   render() {
     const { isActive, changeActive } = this.props;
     //const { friendsObj } = this.props;
@@ -30,7 +23,6 @@ class FriendsComponent extends React.Component {
       <div className={styles.flexContainer}>
         {this.props.friendsObj &&
           Object.values(this.props.friendsObj).map(el => {
-            console.log("mapping");
             return (
               <div className={styles.flexItem} key={el.id}>
                 <div className={styles.border}>
@@ -51,7 +43,7 @@ class FriendsComponent extends React.Component {
           })}
         <div className={styles.flexItem}>
           <div className={styles.border}>
-            <FriendFormComponent />
+            <FriendFormComponent Id={"AddFriend"} />
           </div>
         </div>
       </div>

@@ -32,10 +32,6 @@ class FriendComponent extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    console.log("friend updated", this.state.name);
-  }
-
   //new value is passed into form
   changeHandler(event) {
     //value is placed in variable searchTerm
@@ -103,7 +99,7 @@ class FriendComponent extends React.Component {
                 <h4>
                   {" "}
                   {weather.main.temp} &deg;C, {weather.weather[0].main},
-                  {weather.weather[0].description} {isActive}
+                  {weather.weather[0].description}
                   {date}
                 </h4>
                 <button

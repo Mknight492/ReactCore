@@ -1,15 +1,10 @@
 //helper function
 
 export const HF = {
+  AFfetch,
   isNullOrWhiteSpace,
-  AFfetch
+  formatLocation
 };
-
-function isNullOrWhiteSpace(input) {
-  if (typeof input === "undefined" || input == null) return true;
-
-  return input.replace(/\s/g, "").length < 1;
-}
 
 async function AFfetch(url, options) {
   if (options) {
@@ -27,4 +22,14 @@ async function AFfetch(url, options) {
     };
   }
   return await fetch(url, options);
+}
+
+function isNullOrWhiteSpace(input) {
+  if (typeof input === "undefined" || input == null) return true;
+
+  return input.replace(/\s/g, "").length < 1;
+}
+
+function formatLocation(locationObj) {
+  return locationObj.name + " " + locationObj.countryCode;
 }

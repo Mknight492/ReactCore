@@ -96,9 +96,14 @@ namespace ReactCore.Controllers.APIs
             {
                 return NotFound();
             }
-
-            friendToUpdate.Name = friend.Name;
-            friendToUpdate.LocationId = friend.Location.Geonameid;
+            if(friend.Name != null)
+            {
+                friendToUpdate.Name = friend.Name;
+            }
+            if(friend.Location != null)
+            {
+               friendToUpdate.LocationId = friend.Location.Geonameid;
+            }
 
             _db.Friends.Update(friendToUpdate);
             await _db.SaveChangesAsync();

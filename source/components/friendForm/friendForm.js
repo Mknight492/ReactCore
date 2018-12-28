@@ -12,15 +12,14 @@ import { weatherAPI } from "../../../security";
 class FriendFormComponent extends React.Component {
   constructor(...args) {
     super(...args);
-    const { friendsState, Id } = this.props;
-    const TAData = friendsState[Id];
+
     if (this.props.edit === true) {
       this.state = {
         weather: this.props.weather,
-        locationTypeAhead: this.props.location,
+        locationTypeAhead: HF.formatLocation(this.props.location),
         name: this.props.name,
-        results: [{ label: this.props.location }],
-        locations: this.props.locations,
+        //results: [{ label: this.props.location }],
+        //locations: this.props.locations,
         location: this.props.location,
         latitude: this.props.latitude,
         longitude: this.props.longitude
@@ -36,6 +35,9 @@ class FriendFormComponent extends React.Component {
         longitude: generateRandomNumber(-180, 180)
       };
     }
+    const { friendsState, Id } = this.props;
+    this.TAData = friendsState[Id] || [];
+    console.log(this.TAData);
   }
 
   componentDidMount() {
@@ -47,10 +49,20 @@ class FriendFormComponent extends React.Component {
       });
   }
 
+  componentDidUpdate(a, b) {
+    console.log(a, b);
+  }
+
   changeHandler(event) {
     let searchTerm = event.target.value;
     this.setState({ locationTypeAhead: searchTerm });
-    this.props.loadLocation(searchTerm, this.props.Id);
+
+    if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
+      this.props.loadLocation(searchTerm, this.props.Id); // dispatches API call
+    } else {
+      this.setState({ results: [] });
+    }
+    /*
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       locationServices.getCities(event.target.value).then(result => {
         result = result.slice(0, 5);
@@ -61,25 +73,32 @@ class FriendFormComponent extends React.Component {
     } else {
       this.setState({ results: [] });
     }
+    */
   }
 
   submitHandler(event) {
     const { loadFriends } = this.props;
+    const { friendsState, Id } = this.props;
+    const TAData = friendsState[Id] || [];
     event.preventDefault();
-    const location = this.state.locations.filter(L => {
-      return L.name === this.state.locationTypeAhead;
+    const matchingLocation = TAData.filter(l => {
+      return formatLocation(l) === this.state.locationTypeAhead;
     });
-    locationServices.submitForm(this.state.name, location[0]).then(result => {
-      loadFriends();
-      this.setState({ locationTypeAhead: "", name: "" });
-    });
+    locationServices
+      .submitForm(this.state.name, matchingLocation[0])
+      .then(result => {
+        loadFriends();
+        this.setState({ locationTypeAhead: "", name: "" });
+      });
   }
 
   editFriend(event) {
     const { loadFriends, Id } = this.props;
+    const { friendsState } = this.props;
+    const TAData = friendsState[Id] || [];
     event.preventDefault();
-    const location = this.state.locations.filter(L => {
-      return L.name === this.state.locationTypeAhead;
+    const location = TAData.filter(L => {
+      return formatLocation(L) === this.state.locationTypeAhead;
     });
     locationServices
       .editFriend(this.state.name, location[0], Id)
@@ -101,7 +120,7 @@ class FriendFormComponent extends React.Component {
   render() {
     const { weather, latitude, longitude } = this.state;
     const { friendsState, Id } = this.props;
-    const TAData = friendsState[Id];
+    const TAData = friendsState[Id] || [];
     let mapWeather;
     weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (
@@ -134,15 +153,15 @@ class FriendFormComponent extends React.Component {
               {/*Needs div for custom CSS hook */}
               <Autocomplete
                 name="location"
-                getItemValue={item => item.label}
-                items={[...this.state.results]}
+                getItemValue={item => formatLocation(item)}
+                items={TAData.slice(0, 5)}
                 renderItem={(item, isHighlighted) => (
                   <div
                     style={{
                       background: isHighlighted ? "lightgray" : "white"
                     }}
                   >
-                    {item.label}
+                    {formatLocation(item)}
                   </div>
                 )}
                 value={this.state.locationTypeAhead}
@@ -187,7 +206,6 @@ class FriendFormComponent extends React.Component {
             </button>
           )}
         </form>
-        {TAData && TAData.map(el => <div> {el.name} </div>)}
         <MapComponent
           mapKey={"addNew"}
           position={{
@@ -214,3 +232,7 @@ export default FriendFormComponent;
 function generateRandomNumber(min_value, max_value) {
   return Math.random() * (max_value - min_value) + min_value;
 }
+
+const formatLocation = locationObj => {
+  return locationObj.name + " " + locationObj.countryCode;
+};

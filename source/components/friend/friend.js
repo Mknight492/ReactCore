@@ -93,7 +93,7 @@ class FriendComponent extends React.Component {
         ) : (
           <div>
             <h3 className={styles.name}> {name}</h3>
-            <h4 className={styles.location}> {location} </h4>
+            <h4 className={styles.location}> {HF.formatLocation(location)} </h4>
             {weather && (
               <div className={styles.weather}>
                 <h4>

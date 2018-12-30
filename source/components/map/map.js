@@ -24,10 +24,7 @@ export default class MapComponent extends React.Component {
   //
   shouldComponentUpdate(nextProps, nextState) {
     const { mapKey, weather, position } = this.props;
-    if (
-      (isEqual(position, nextProps.position) && weather == nextProps.weather) ||
-      (mapKey == "addNew" && weather != null)
-    ) {
+    if (isEqual(position, nextProps.position) && weather == nextProps.weather) {
       return false;
     } else {
       return true;
@@ -53,7 +50,11 @@ export default class MapComponent extends React.Component {
 
     //map much be created before adding a marker
     const markerOptions = {
-      position: center,
+      position: {
+        lat: center.lat + zoom * 0.008, //puts the marker above the center
+        lng: center.lng
+      },
+
       map: map,
       label: {
         fontFamily: "'Font Awesome 5 Free'",

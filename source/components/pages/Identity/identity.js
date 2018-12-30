@@ -48,6 +48,7 @@ class IdentityPage extends React.Component {
     const { user, submitted } = this.state;
     return (
       <div className="col-md-6 col-md-offset-3">
+        <h2>spacer</h2>
         <h2>Register</h2>
         <form name="form" onSubmit={this.handleSubmit}>
           <div

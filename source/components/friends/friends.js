@@ -34,7 +34,7 @@ class FriendsComponent extends React.Component {
                     location={el.location}
                     locations={[el.location]}
                     Id={el.id}
-                    isActive={isActive}
+                    isActive={isActive === el.id}
                     changeActive={changeActive}
                   />
                 </div>

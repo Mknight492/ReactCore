@@ -19,6 +19,10 @@ using Microsoft.IdentityModel.Tokens;
 using ReactCore.Helpers;
 using ReactCore.Models;
 using ReactCore.Services;
+using Microsoft.AspNetCore.Mvc;
+using NLog;
+using System.IO;
+using ReactCore.Extensions;
 
 namespace ReactCore
 {
@@ -29,6 +33,7 @@ namespace ReactCore
 
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
             connectionString = Configuration["CONNECTION_STRING"];
         }
@@ -43,42 +48,25 @@ namespace ReactCore
             
             services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(connectionString));
+
             //services.AddSpaStaticFiles();
             services.AddSignalR();
+
+            services.ConfigureCors();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-    
+
+            services.ConfigureLoggerService();
+
             //add Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>(
-                    options =>
-                    {
-                        // Password settings.
-                        options.Password.RequireDigit = true;
-                        options.Password.RequireLowercase = true;
-                        options.Password.RequireNonAlphanumeric = false;
-                        options.Password.RequireUppercase = true;
-                        options.Password.RequiredLength = 6;
-                        options.Password.RequiredUniqueChars = 1;
+            services.ConfigureIdentity();
 
-                        // Lockout settings.
-                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                        options.Lockout.MaxFailedAccessAttempts = 5;
-                        options.Lockout.AllowedForNewUsers = true;
-
-                        // User settings.
-                        options.User.AllowedUserNameCharacters =
-                            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                        options.User.RequireUniqueEmail = false;
-                    })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-            
-
-            // configure DI for application services
+           
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddMvc();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
         }
 
@@ -93,19 +81,20 @@ namespace ReactCore
                 });
                 app.UseDatabaseErrorPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
 
             app.UseStaticFiles();
             //app.UseSpaStaticFiles();
             app.UseHttpsRedirection(); //this maybe
             app.UseSignalR(routes => { routes.MapHub<OnlineHub>("/onlineHub"); });
-           
+
 
             // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+            app.UseCors("CorsPolicy");
+ 
 
             app.UseCookiePolicy();
 

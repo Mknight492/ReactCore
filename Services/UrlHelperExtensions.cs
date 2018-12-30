@@ -12,7 +12,7 @@ namespace ReactCore.Services
         public static string EmailConfirmationLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountController.ConfirmEmail),
+                action: nameof(AccountController2.ConfirmEmail),
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);
@@ -21,7 +21,7 @@ namespace ReactCore.Services
         public static string ResetPasswordCallbackLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountController.ResetPassword),
+                action: nameof(AccountController2.ResetPassword),
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);

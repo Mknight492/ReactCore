@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 //import styles from "./friend.css";
-import FriendForm from "../friendForm/friendForm.container";
+import FriendForm from "../friendForm/friendForm.Outside";
 import { weatherAPI } from "../../../security";
 import LocationTypeAhead from "../locationTypeAhead/locationTypeAhead";
 import { locationServices } from "../../redux/services";
@@ -23,6 +23,7 @@ class FriendComponent extends React.Component {
       locations: this.props.locations || [], //array of location objects
       results: [] //array of {label: locationname } objects for the typeahead
     };
+    this.ClickFriendForm = OutsideClick(FriendForm, this.props.changeActive);
   }
 
   componentDidMount() {
@@ -71,15 +72,16 @@ class FriendComponent extends React.Component {
       hour: "2-digit",
       minute: "2-digit"
     });
+    const ClickFriendForm = this.ClickFriendForm;
+    //const FriendFormClick = OutsideClick(FriendForm, this.props.changeActive);
 
-    const FriendFormClick = OutsideClick(FriendForm, this.props.changeActive);
     //returns a div which is eith populated with the freind data or the edit friend data.
     //these need to be refactored into their own components for simplicity however.
     return (
       <div>
-        {isActive === Id ? (
+        {isActive ? (
           <>
-            <FriendFormClick
+            <ClickFriendForm
               name={name}
               weather={weather}
               location={location}
@@ -88,6 +90,7 @@ class FriendComponent extends React.Component {
               latitude={latitude}
               longitude={longitude}
               Id={Id}
+              isActive={isActive}
             />
           </>
         ) : (

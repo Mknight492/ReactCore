@@ -7,11 +7,7 @@ const initalState = {
   locations: []
 };
 
-export default function friendReducer(state, action) {
-  if (state === undefined) {
-    return initalState;
-  }
-
+export default function friendReducer(state = initalState, action) {
   switch (action.type) {
     case friendConstants.LOAD_FRIEND_ATTEMPT:
       return state;

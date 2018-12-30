@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,8 +15,7 @@ using ReactCore.Models;
 using ReactCore.Models.AccountViewModels;
 using ReactCore.Services;
 
-
-namespace ReactCore.Controllers
+namespace AutheticationTPO.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -27,20 +25,17 @@ namespace ReactCore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-        private IMapper _mapper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger,
-            IMapper mapper)
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
-            _mapper = mapper;
         }
 
         [TempData]
@@ -57,22 +52,10 @@ namespace ReactCore.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Validate()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userDto = _mapper.Map<ApplicationUserDto>(user);
-            if (user != null)
-            {
-                return new JsonResult(user);
-            }
-            else return new JsonResult(user);
-        }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel model, string returnUrl = null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -232,12 +215,13 @@ namespace ReactCore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model, string returnUrl = null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -360,12 +344,7 @@ namespace ReactCore.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-
-            }
-            return View(result.Succeeded ? "Index" : "Error");
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         [HttpGet]

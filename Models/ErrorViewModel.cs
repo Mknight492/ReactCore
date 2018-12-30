@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace ReactCore.Models.AccountViewModels
+namespace ReactCore.Models
 {
     public class ErrorViewModel
     {

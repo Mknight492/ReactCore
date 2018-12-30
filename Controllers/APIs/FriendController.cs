@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
+using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +31,9 @@ namespace ReactCore.Controllers.APIs
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private IMapper _mapper;
+        private ILoggerManager _logger;
 
-        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper, ILoggerManager loggerManager)
         {
             _db = db;
             _userManager = userManager;

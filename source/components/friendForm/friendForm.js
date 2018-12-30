@@ -8,6 +8,7 @@ import { HF } from "../../helpers";
 import MapComponent from "../map/map";
 import { cx } from "classnames";
 import { weatherAPI } from "../../../security";
+import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 class FriendFormComponent extends React.Component {
   constructor(...args) {
@@ -22,7 +23,8 @@ class FriendFormComponent extends React.Component {
         //locations: this.props.locations,
         location: this.props.location,
         latitude: this.props.latitude,
-        longitude: this.props.longitude
+        longitude: this.props.longitude,
+        selectedLocation: this.props.location
       };
     } else {
       this.state = {
@@ -32,12 +34,10 @@ class FriendFormComponent extends React.Component {
         results: [],
         locations: [],
         latitude: generateRandomNumber(-70, 70),
-        longitude: generateRandomNumber(-180, 180)
+        longitude: generateRandomNumber(-180, 180),
+        selectedLocation: {}
       };
     }
-    const { friendsState, Id } = this.props;
-    this.TAData = friendsState[Id] || [];
-    console.log(this.TAData);
   }
 
   componentDidMount() {
@@ -49,8 +49,9 @@ class FriendFormComponent extends React.Component {
       });
   }
 
-  componentDidUpdate(a, b) {
-    console.log(a, b);
+  getTALocations() {
+    const { friendsState, Id } = this.props;
+    return friendsState[Id] || [];
   }
 
   changeHandler(event) {
@@ -58,6 +59,7 @@ class FriendFormComponent extends React.Component {
     this.setState({ locationTypeAhead: searchTerm });
 
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
+      //ensures atleast 3 letters before sending TA API call
       this.props.loadLocation(searchTerm, this.props.Id); // dispatches API call
     } else {
       this.setState({ results: [] });
@@ -76,50 +78,52 @@ class FriendFormComponent extends React.Component {
     */
   }
 
-  submitHandler(event) {
+  async selectHandler(TAvalue) {
+    //this.setState({ locationTypeAhead: TAvalue });
+    const TAData = this.getTALocations();
+    const matchingLocation = TAData.find(l => HF.formatLocation(l) === TAvalue);
+    this.setState({
+      locationTypeAhead: TAvalue,
+      selectedLocation: matchingLocation,
+      latitude: matchingLocation.latitude,
+      longitude: matchingLocation.longitude
+    });
+    const weather = await locationServices.getWeather(
+      matchingLocation.latitude,
+      matchingLocation.longitude
+    );
+    this.setState({ weather });
+  }
+
+  async submitHandler(event) {
+    event.preventDefault(); // stop form being submitted
     const { loadFriends } = this.props;
-    const { friendsState, Id } = this.props;
-    const TAData = friendsState[Id] || [];
-    event.preventDefault();
-    const matchingLocation = TAData.filter(l => {
-      return formatLocation(l) === this.state.locationTypeAhead;
-    });
-    locationServices
-      .submitForm(this.state.name, matchingLocation[0])
-      .then(result => {
-        loadFriends();
-        this.setState({ locationTypeAhead: "", name: "" });
-      });
+    const { name, selectedLocation } = this.state;
+    await locationServices.submitForm(name, selectedLocation);
+    loadFriends();
+    this.setState({ locationTypeAhead: "", name: "" });
   }
 
-  editFriend(event) {
-    const { loadFriends, Id } = this.props;
-    const { friendsState } = this.props;
-    const TAData = friendsState[Id] || [];
+  async editFriend(event) {
     event.preventDefault();
-    const location = TAData.filter(L => {
-      return formatLocation(L) === this.state.locationTypeAhead;
-    });
-    locationServices
-      .editFriend(this.state.name, location[0], Id)
-      .then(result => {
-        loadFriends();
-      });
-    this.props.changeActive(null);
+    const { loadFriends, Id, changeActive } = this.props;
+    const { name, selectedLocation } = this.state;
+    await locationServices.editFriend(name, selectedLocation, Id);
+    await loadFriends();
+    changeActive();
   }
 
-  deleteFriend(event) {
+  async deleteFriend(event) {
     const { loadFriends, Id } = this.props;
     event.preventDefault();
-    locationServices.deleteFriend(Id).then(result => {
-      loadFriends();
-    });
+    await locationServices.deleteFriend(Id);
+    loadFriends();
   }
 
   //const { testString } = this.props;
   render() {
     const { weather, latitude, longitude } = this.state;
-    const { friendsState, Id } = this.props;
+    const { friendsState, Id, isActive } = this.props;
     const TAData = friendsState[Id] || [];
     let mapWeather;
     weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
@@ -132,7 +136,7 @@ class FriendFormComponent extends React.Component {
         >
           <div>
             <label className={styles.name} htmlFor="name" type="text" id="name">
-              Name:
+              Name: {isActive}
             </label>
             <input
               className={styles.input}
@@ -153,20 +157,21 @@ class FriendFormComponent extends React.Component {
               {/*Needs div for custom CSS hook */}
               <Autocomplete
                 name="location"
-                getItemValue={item => formatLocation(item)}
+                getItemValue={item => HF.formatLocation(item)}
                 items={TAData.slice(0, 5)}
                 renderItem={(item, isHighlighted) => (
                   <div
                     style={{
                       background: isHighlighted ? "lightgray" : "white"
                     }}
+                    className="typeAheadComponent"
                   >
-                    {formatLocation(item)}
+                    {HF.formatLocation(item)}
                   </div>
                 )}
                 value={this.state.locationTypeAhead}
                 onChange={e => this.changeHandler(e)}
-                onSelect={val => this.setState({ locationTypeAhead: val })}
+                onSelect={val => this.selectHandler(val)}
                 key={1}
                 placeholder="damn"
               />
@@ -213,7 +218,7 @@ class FriendFormComponent extends React.Component {
             longitude
           }}
           style={styles.map}
-          zoom={3}
+          zoom={9}
           weather={mapWeather}
         />
       </div>
@@ -226,13 +231,13 @@ FriendFormComponent.propTypes = {
 };
 
 export default FriendFormComponent;
-
+/*
+export default OutsideClick(FriendFormComponent, function() {
+  console.log("outside click");
+});
+*/
 //async function kept her instead of in redux as it only effects local state - not global app state.
 
 function generateRandomNumber(min_value, max_value) {
   return Math.random() * (max_value - min_value) + min_value;
 }
-
-const formatLocation = locationObj => {
-  return locationObj.name + " " + locationObj.countryCode;
-};

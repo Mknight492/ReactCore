@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { connect } from "react-redux";
+import { friendActions } from "../redux/actions";
+import { curry } from "lodash";
 /**
  * Component that alerts if you click outside of it
  */
 
-function OutsideAlerter(WrappedComponent, clickHandler) {
-  return class OutsideAlerter extends React.Component {
+const OutsideAlerterCurried = curry(function OutsideAlerter(
+  WrappedComponent,
+  clickHandler
+) {
+  class OutsideAlert extends React.Component {
     constructor(props) {
       super(props);
       this.myRef = React.createRef();
@@ -14,14 +19,16 @@ function OutsideAlerter(WrappedComponent, clickHandler) {
     }
 
     componentDidMount() {
-      document.addEventListener("mousedown", this.handleClickOutside);
+      document.addEventListener("click", this.handleClickOutside);
     }
 
     componentWillUnmount() {
-      console.log("unmounting");
-      document.removeEventListener("mousedown", this.handleClickOutside);
+      document.removeEventListener("click", this.handleClickOutside);
     }
 
+    componentDidUpdate() {
+      //console.log(this.myRef.current);
+    }
     /**
      * Set the wrapper ref
      */
@@ -33,8 +40,13 @@ function OutsideAlerter(WrappedComponent, clickHandler) {
      * Alert if clicked on outside of element
      */
     handleClickOutside(event) {
-      //console.log(event.closest(this.myRef.current));
-      if (this.myRef && !this.myRef.current.contains(event.target)) {
+      if (
+        this.myRef &&
+        !this.myRef.current.contains(event.target) &&
+        event.target.className != "typeAheadComponent"
+      ) {
+        console.log(event.target);
+        //console.log(this.myRef.current);
         clickHandler();
       }
     }
@@ -46,7 +58,19 @@ function OutsideAlerter(WrappedComponent, clickHandler) {
         </div>
       );
     }
-  };
-}
+  }
+  function mapStateToProps(state) {
+    return {};
+  }
 
-export default OutsideAlerter;
+  function mapDispatchToProps(dispatch) {
+    return {};
+  }
+
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(OutsideAlert);
+});
+
+export default OutsideAlerterCurried;

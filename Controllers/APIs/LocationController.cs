@@ -27,16 +27,24 @@ namespace ReactCore.Controllers.APIs
         [HttpGet]
         public IActionResult Get(string type, string query = null)
         {
-            if (type.Equals("location") && query != null)
+            try
             {
-                var customerQuery = _db.Locations.AsNoTracking()
-                    .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
-                    .Take(10)
-                    .ToList();
-                return Ok(customerQuery);
+                if (type.Equals("location") && query != null)
+                {
+                    var customerQuery = _db.Locations.AsNoTracking()
+                        .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                        .Take(10)
+                        .ToList();
+                    return Ok(customerQuery);
+                }
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
             }
 
-            return Ok();
         }
 
         // GET api/<controller>/5

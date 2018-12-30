@@ -39,9 +39,7 @@ class RegisterPage extends React.Component {
     this.setState({ submitted: true });
     const { user } = this.state;
     const { dispatch } = this.props;
-    console.log(user);
     if (user.firstName && user.lastName && user.username && user.password) {
-      console.log("ading user");
       dispatch(userActions.register(user));
     }
   }

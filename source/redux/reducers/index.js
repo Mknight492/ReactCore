@@ -6,6 +6,7 @@ import { registration } from "./registrationReducer";
 import { authentication } from "./authenticationReducer";
 import { users } from "./usersReducer";
 import { alert } from "./alertReducer";
+import errorHandler from "./errorHandlerReducer";
 //NB connectRouter must be first
 export default () => {
   return combineReducers({
@@ -14,6 +15,7 @@ export default () => {
     authentication,
     alert,
     registration,
-    users
+    users,
+    errorHandler
   });
 };

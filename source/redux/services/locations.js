@@ -1,5 +1,5 @@
 import { HF } from "../../helpers";
-
+import { weatherAPI } from "../../../security";
 export const locationServices = {
   getCities,
   submitForm,
@@ -57,10 +57,10 @@ async function deleteFriend(Id) {
   return result;
 }
 
-async function getWeather(latitude, longitude, APIkey) {
+async function getWeather(latitude, longitude) {
   try {
     const APIdata = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
     );
     const APIdataParsed = await APIdata.json();
     return APIdataParsed;

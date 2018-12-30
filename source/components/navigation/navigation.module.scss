@@ -1,10 +1,10 @@
 .container {
   overflow: hidden;
-  position: fixed;
+  position: sticky;
   top: 0;
   color: blue;
   width: 100%;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   background-color: grey;
   z-index: 5;
 

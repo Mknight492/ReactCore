@@ -9,6 +9,7 @@ const NavigationComponent = () => {
       <Link to={"/weather"}> Weather</Link>
       <Link to={"/identity"}> Register </Link>
       <Link to={"/identityLogin"}> Login </Link>
+      <a href="/Account/Login"> Login .Net</a>
     </div>
   ) : (
     <div className={styles.container}>

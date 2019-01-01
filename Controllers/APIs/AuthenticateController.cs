@@ -29,13 +29,19 @@ namespace ReactCore.Controllers.APIs
         private readonly UserManager<ApplicationUser> _userManager;
         private IMapper _mapper;
         private ILoggerManager _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthenticateController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper, ILoggerManager loggerManager)
+        public AuthenticateController(
+            ApplicationDbContext db, 
+            UserManager<ApplicationUser> userManager,
+            IMapper mapper, ILoggerManager loggerManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _db = db;
             _userManager = userManager;
             _mapper = mapper;
             _logger = loggerManager;
+            _signInManager = signInManager;
         }
 
 
@@ -54,6 +60,16 @@ namespace ReactCore.Controllers.APIs
                 return new JsonResult(userDto);
             }
             return Ok(new { notLoggedIn = true } );
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInfo("User logged out.");
+            return Ok();
         }
 
 

@@ -1,4 +1,4 @@
-import { authHeader, config } from "../../helpers";
+import { authHeader, config, HF } from "../../helpers";
 
 export const userService = {
   login,
@@ -30,9 +30,10 @@ function login(username, password) {
     });
 }
 
-function logout() {
+async function logout() {
   // remove user from local storage to log user out
-  localStorage.removeItem("user");
+  const result = await HF.Appfetch("api/authenticate/Logout");
+  return result;
 }
 
 function getAll() {

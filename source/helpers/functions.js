@@ -51,6 +51,7 @@ async function Appfetch(url, options) {
   }
   try {
     const result = await fetch(url, options);
+    console.log(result);
     if (result.status < 200 || result.status >= 300) {
       let obj = handleHTTPError(result);
       store.dispatch(obj);

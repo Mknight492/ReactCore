@@ -1,6 +1,4 @@
 import FriendFrom from "./friendForm.container";
 import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
-export default OutsideClick(FriendFrom, function() {
-  console.log("boo");
-});
+export default OutsideClick(FriendFrom, function() {});

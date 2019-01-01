@@ -24,7 +24,7 @@ export const handleHTTPError = (error, props) => {
     return execute401Handler(props);
   } else if (error.status === 404) {
     return execute404Handler(props);
-  } else if (error.response.status === 500) {
+  } else if (error.status === 500) {
     return execute500Handler(props);
   } else {
     return executeOtherErrorHandler(error);

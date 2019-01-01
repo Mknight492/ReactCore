@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./navigation.module.scss";
 import { Link } from "@reach/router";
 import { HF } from "../../helpers";
+import { userService } from "../../redux/services";
+
 const NavigationComponent = ({ user, LoggedIn, getUser }) => {
   getUser();
 
@@ -10,7 +12,7 @@ const NavigationComponent = ({ user, LoggedIn, getUser }) => {
       <Link to={"/"}>Home</Link>
       <Link to={"/weather"}> Weather</Link>
       <Link to={"/identity"}> Register </Link>
-      <Link to={"/identityLogin"}> Login </Link>
+      <Link to={"/Account/Login"}> Login </Link>
       <a href="/Account/Login"> Login .Net</a>
     </div>
   ) : (
@@ -37,13 +39,15 @@ class NavigationComponentClass extends React.Component {
     this.props.getUser();
   }
   render() {
-    console.log(this.props.user);
     return this.props.LoggedIn ? (
       <div className={styles.container}>
         <Link to={"/"}>Home</Link>
         <Link to={"/weather"}> Weather</Link>
         <Link to={"/identity"}> Register </Link>
-        <Link to={"/identityLogin"}> Logout </Link>
+        <Link to={"/identityLogin"} onClick={userService.logout}>
+          {" "}
+          Logout{" "}
+        </Link>
         <a href="/Manage/index">{this.props.user.firstName}</a>
       </div>
     ) : (

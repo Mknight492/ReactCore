@@ -66,9 +66,9 @@ namespace ReactCore.Controllers
             var userDto = _mapper.Map<ApplicationUserDto>(user);
             if (user != null)
             {
-                return new JsonResult(user);
+                return new JsonResult(userDto);
             }
-            else return new JsonResult(user);
+            else return NotFound();
         }
         [HttpPost]
         [AllowAnonymous]

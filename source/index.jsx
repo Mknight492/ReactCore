@@ -8,20 +8,10 @@ import App from "./components/app/app.container";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import { configureStore, sagas } from "./redux/store/configure-store";
-
-//saga import
-
-import rootSaga from "./redux/sagas";
-
-//generating redux store with middleware NB routerMiddleWare must remain fist
+import { store } from "./redux/store/configure-store";
 
 //import global styles
 import "./index.scss";
-
-let store = configureStore();
-
-sagas.run(rootSaga);
 
 const renderApp = () => {
   render(

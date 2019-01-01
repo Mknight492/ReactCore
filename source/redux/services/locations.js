@@ -22,7 +22,7 @@ async function getCities(name) {
 
 async function submitForm(Name, Location) {
   const data = JSON.stringify({ Name, Location });
-  const result = await HF.AFfetch("/api/friend", {
+  const result = await HF.Appfetch("/api/friend", {
     method: "POST",
     headers: {
       Accept: "application/json",

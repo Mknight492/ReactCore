@@ -38,6 +38,7 @@ namespace ReactCore.Controllers.APIs
             _db = db;
             _userManager = userManager;
             _mapper = mapper;
+            _logger = loggerManager;
         }
 
 
@@ -56,9 +57,9 @@ namespace ReactCore.Controllers.APIs
         }
 
 
-        [HttpGet("{id}")] 
+        [HttpGet("{id}", Name ="GetFriend")] 
         //GET: api/friend/5
-        public async Task<IActionResult> GetById(long id)
+        public async Task<IActionResult> GetById(int id)
         {
 
             var friend = await _db.Friends.FindAsync(id);
@@ -87,7 +88,7 @@ namespace ReactCore.Controllers.APIs
 
             _db.Friends.Add(newFriend);
             _db.SaveChanges();
-            return CreatedAtRoute("friend", new {id = newFriend.Id}, newFriend);
+            return CreatedAtRoute("GetFriend", new {id = newFriend.Id}, newFriend);
         }
 
         [HttpPut]

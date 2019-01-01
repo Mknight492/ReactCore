@@ -7,7 +7,7 @@ import { locationServices } from "../services";
 
 function* loadFriendsData() {
   try {
-    const friendArray = yield HF.AFfetch("api/friend");
+    const friendArray = yield HF.Appfetch("api/friend");
     const friendArrayParsed = yield friendArray.json();
     yield put(friendActions.loadFriendSuccessAG(friendArrayParsed));
   } catch (e) {
@@ -20,9 +20,8 @@ function* getLocationTypeAhead(action) {
   try {
     const results = yield locationServices.getCities(searchTerm);
     yield put(friendActions.loadLocationTASuccess(results, Id));
-  } catch (e) {
-    console.log(e);
-    yield put(handleHTTPError(e, undefined));
+  } catch (error) {
+    yield put(handleHTTPError(error, undefined));
   }
 }
 

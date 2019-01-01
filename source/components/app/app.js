@@ -16,23 +16,10 @@ import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 import ServerErrorPage from "../errorPages/internalServer/internalServer";
 //import global style
 import styles from "./app.scss";
+import "./FA";
 
-//fontAwesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCloudSunRain,
-  faCloudRain,
-  faCloudSun,
-  faCloud
-} from "@fortawesome/free-solid-svg-icons";
-//import {faSun} from "@fortawesome/free-brands-svg-icons"
-import { faSun } from "@fortawesome/free-regular-svg-icons";
-
-library.add([faCloudRain, faCloudSun, faCloudSunRain, faCloud]);
-
-const App = () => {
-  return true ? (
+const App = ({ user, LoggedIn }) => {
+  return LoggedIn ? (
     <div>
       <Navigation />
       <Router history={history}>
@@ -56,6 +43,17 @@ const App = () => {
     </div>
   );
 };
+
+class App2 extends React.Component {
+  constructor(...args) {
+    super(...args);
+    this.stat;
+  }
+
+  render() {
+    return <div />;
+  }
+}
 
 export default App;
 //

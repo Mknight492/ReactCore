@@ -28,15 +28,6 @@ export default function WeatherPage({
 
   return (
     <div>
-      <h2 onClick={getWeather}> Weather Page</h2>
-      <button
-        onClick={() => {
-          clickHandler();
-        }}
-      >
-        get location
-      </button>
-
       {position && (
         <div>
           {position.latitude} {position.longitude}
@@ -50,21 +41,6 @@ export default function WeatherPage({
           <i className="fas fa-cloud-rain" />
         </h2>
       )}
-      <button
-        onClick={() => {
-          validateHandler();
-        }}
-      >
-        Validate
-      </button>
-
-      <button
-        onClick={() => {
-          logOut();
-        }}
-      >
-        Logout
-      </button>
       {position && false && google && (
         <div>
           <MapComponent
@@ -84,28 +60,3 @@ WeatherPage.propTypes = {
   dispatchUpdatedPosition: PropTypes.func.isRequired,
   locationWeather: PropTypes.object
 };
-
-async function Validate() {
-  const loggedIn = await fetch("/Account/validate", {
-    method: "GET",
-    headers: {
-      RequestVerificationToken: document.getElementsByName(
-        "__RequestVerificationToken"
-      )[0].value
-    }
-  });
-  const loggedInParsed = await loggedIn.json();
-}
-
-async function logOut() {
-  const result = await fetch("/Account/Logout", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      RequestVerificationToken: document.getElementsByName(
-        "__RequestVerificationToken"
-      )[0].value
-    }
-  });
-}

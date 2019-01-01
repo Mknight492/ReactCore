@@ -84,7 +84,7 @@ MapComponent.propTypes = {
 };
 
 function weatherSelecter(weather) {
-  if (weather == "Rain")
+  if (weather == "Rain" || weather == "Drizzle")
     return {
       text: "\uf73d",
       color: "rgb(49, 89, 119)"

@@ -124,7 +124,7 @@ class FriendFormComponent extends React.Component {
   render() {
     const { weather, latitude, longitude } = this.state;
     const { friendsState, Id, isActive } = this.props;
-    const TAData = friendsState[Id] || [];
+    const TAData = this.getTALocations();
     let mapWeather;
     weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (

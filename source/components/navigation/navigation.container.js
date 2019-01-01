@@ -1,13 +1,18 @@
 import { connect } from "react-redux";
 import NavigationComponent from "./navigation";
+import { userActions } from "../../redux/actions";
 
 function mapStateToProps(state) {
-  //const { user } = state.authentication;
-  return {};
+  return {
+    user: state.users.user,
+    LoggedIn: state.users.LoggedIn
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    getUser: () => dispatch(userActions.getUserRequest())
+  };
 }
 
 export default connect(

@@ -23,6 +23,8 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System.IO;
 using ReactCore.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net;
 
 namespace ReactCore
 {
@@ -54,6 +56,8 @@ namespace ReactCore
 
             services.ConfigureCors();
 
+
+
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -63,11 +67,14 @@ namespace ReactCore
             //add Identity
             services.ConfigureIdentity();
 
-           
+        
+
+
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

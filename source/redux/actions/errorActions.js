@@ -1,5 +1,9 @@
 import { errorConstants } from "../constants";
 
+function execute401Handler(props) {
+  return { type: errorConstants.HTTP_401_ERROR, props };
+}
+
 function execute404Handler(props) {
   return { type: errorConstants.HTTP_404_ERROR, props };
 }
@@ -16,7 +20,9 @@ function executeOtherErrorHandler(error) {
 }
 
 export const handleHTTPError = (error, props) => {
-  if (error.response.status === 404) {
+  if (error.status === 401) {
+    return execute401Handler(props);
+  } else if (error.status === 404) {
     return execute404Handler(props);
   } else if (error.response.status === 500) {
     return execute500Handler(props);

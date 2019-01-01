@@ -8,15 +8,15 @@ import { createLogger } from "redux-logger";
 //Saga Imports
 import createSagaMiddleware from "redux-saga";
 import thunkMiddleware from "redux-thunk";
+import rootSaga from "../sagas";
 
 //generating initial state
 const initialState = {};
 
-//generating redux store with middleware NB routerMiddleWare must remain fist
-
 //generate middleware
 const sagas = createSagaMiddleware();
 
+//generating redux store with middleware NB routerMiddleWare must remain fist
 const middleWare = applyMiddleware(createLogger(), sagas, thunkMiddleware);
 
 const configureStore = () => {
@@ -34,6 +34,9 @@ const configureStore = () => {
   return store;
 };
 
-export { configureStore, sagas };
+let store = configureStore();
+sagas.run(rootSaga);
+
+export { store, configureStore, sagas };
 
 //f

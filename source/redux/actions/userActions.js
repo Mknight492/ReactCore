@@ -8,8 +8,28 @@ export const userActions = {
   logout,
   register,
   getAll,
-  delete: _delete
+  delete: _delete,
+  getUserRequest,
+  getUserFailure,
+  getUserSuccess
 };
+
+function getUserRequest() {
+  return {
+    type: userConstants.GET_USER_REQUEST
+  };
+}
+function getUserFailure() {
+  return {
+    type: userConstants.GET_USER_FAILURE
+  };
+}
+function getUserSuccess(user) {
+  return {
+    type: userConstants.GET_USER_SUCCESS,
+    payload: user
+  };
+}
 
 function login(username, password) {
   return dispatch => {

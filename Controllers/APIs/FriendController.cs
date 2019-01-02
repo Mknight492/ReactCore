@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using ReactCore.Data;
+using Entities;
 using ReactCore.Models;
 using ReactCore.Models.FriendViewModels;
 

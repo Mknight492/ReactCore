@@ -25,6 +25,7 @@ using System.IO;
 using ReactCore.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ReactCore
 {
@@ -48,8 +49,7 @@ namespace ReactCore
         {
             services.AddAutoMapper();
             
-            services.AddDbContext<ApplicationDbContext>(options
-                => options.UseSqlServer(connectionString));
+
 
             //services.AddSpaStaticFiles();
             services.AddSignalR();
@@ -68,9 +68,12 @@ namespace ReactCore
             services.ConfigureIdentity();
 
         
-
+ 
 
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.ConfigureMyDbContext(Configuration);
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -92,6 +95,12 @@ namespace ReactCore
             {
                 app.UseExceptionHandler("/error");
             }
+
+            //for linux deploymeny
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
 
             app.UseStaticFiles();
             //app.UseSpaStaticFiles();

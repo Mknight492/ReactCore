@@ -12,13 +12,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using ReactCore.Data;
 using ReactCore.Models;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Entities;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ReactCore.Extensions
 {
     public static class ServiceExtensions
     {
+
+        public static void ConfigureMyDbContext(this IServiceCollection services, IConfiguration config)
+        {
+            var connectionString = config["CONNECTION_STRING"];
+            services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connectionString));
+        }
+
+
         public static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>

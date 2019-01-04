@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ReactCore.Models;
-using ReactCore.Models.ManageViewModels;
+using Entities.Models;
+using Entities.Models.ManageViewModels;
 using ReactCore.Services;
 
 namespace ReactCore.Controllers

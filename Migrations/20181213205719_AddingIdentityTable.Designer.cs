@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReactCore.Data;
+using Entities;
 
 namespace ReactCore.Migrations
 {
@@ -131,7 +131,7 @@ namespace ReactCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Entities.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -186,7 +186,7 @@ namespace ReactCore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.Friend", b =>
+            modelBuilder.Entity("Entities.Models.Friend", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,7 +208,7 @@ namespace ReactCore.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.Locations", b =>
+            modelBuilder.Entity("Entities.Models.Locations", b =>
                 {
                     b.Property<int>("Geonameid")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace ReactCore.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.User", b =>
+            modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace ReactCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ReactCore.Models.ApplicationUser")
+                    b.HasOne("Entities.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -294,7 +294,7 @@ namespace ReactCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ReactCore.Models.ApplicationUser")
+                    b.HasOne("Entities.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -307,7 +307,7 @@ namespace ReactCore.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactCore.Models.ApplicationUser")
+                    b.HasOne("Entities.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -315,20 +315,20 @@ namespace ReactCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ReactCore.Models.ApplicationUser")
+                    b.HasOne("Entities.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ReactCore.Models.Friend", b =>
+            modelBuilder.Entity("Entities.Models.Friend", b =>
                 {
-                    b.HasOne("ReactCore.Models.Locations", "Location")
+                    b.HasOne("Entities.Models.Locations", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReactCore.Models.User", "User")
+                    b.HasOne("Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

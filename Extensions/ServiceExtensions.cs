@@ -1,20 +1,21 @@
 ﻿using System;
+using Contracts;
+using LoggerService;
+using Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Contracts;
-using LoggerService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using ReactCore.Data;
-using ReactCore.Models;
+using Entities.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Entities;
+using AutoMapper;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ReactCore.Extensions
@@ -22,10 +23,30 @@ namespace ReactCore.Extensions
     public static class ServiceExtensions
     {
 
+
+        public static void ConfigureAutoMapperContext(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, ApplicationUserDto>();
+                cfg.CreateMap<ApplicationUserDto, ApplicationUser>();
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+        }
+
+
+
+
         public static void ConfigureMyDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config["CONNECTION_STRING"];
             services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connectionString));
+        }
+    
+        public static void ConfigureRepositoryWrapper(this IServiceCollection services)
+        {
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         }
 
 

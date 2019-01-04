@@ -5,6 +5,7 @@ import styles from "./weather-page.module.scss";
 import MapComponent from "../../map/map";
 import Friends from "../../friends/friends.container";
 import FriendForm from "../../friendForm/friendForm.container";
+import { HF } from "../../../helpers";
 
 export default function WeatherPage({
   position,
@@ -50,6 +51,9 @@ export default function WeatherPage({
           />
         </div>
       )}
+      <button onClick={() => HF.Appfetch("api/Authenticate/Throw500")}>
+        throw500
+      </button>
       <Friends />
     </div>
   );

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using ReactCore.Models;
+using Entities.Models;
 
 namespace ReactCore.Helpers
 {
     public class AutoMapperProfile : Profile
     {
+
         public AutoMapperProfile()
         {
             CreateMap<ApplicationUser, ApplicationUserDto>();
             CreateMap<ApplicationUserDto, ApplicationUser>();
         }
-       
+
     }
 }

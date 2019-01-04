@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ReactCore.Data;
+using Entities;
 using ReactCore.Hubs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ReactCore.Helpers;
-using ReactCore.Models;
+using Entities.Models;
 using ReactCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -26,6 +26,7 @@ using ReactCore.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Reflection;
 
 namespace ReactCore
 {
@@ -47,7 +48,7 @@ namespace ReactCore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper();
+            
             
 
 
@@ -73,11 +74,17 @@ namespace ReactCore
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.ConfigureMyDbContext(Configuration);
+            services.ConfigureRepositoryWrapper();
+            //
+
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            
+
+            services.ConfigureAutoMapperContext();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

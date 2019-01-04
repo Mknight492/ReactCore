@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Entities;
-using ReactCore.Models;
-using ReactCore.Models.FriendViewModels;
+using Entities.Models;
+using Entities.Models.FriendViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -87,7 +87,7 @@ namespace ReactCore.Controllers.APIs
             
 
             _db.Friends.Add(newFriend);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return CreatedAtRoute("GetFriend", new {id = newFriend.Id}, newFriend);
         }
 

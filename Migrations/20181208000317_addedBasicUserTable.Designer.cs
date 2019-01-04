@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReactCore.Data;
+using Entities;
 
 namespace ReactCore.Migrations
 {
@@ -21,7 +21,7 @@ namespace ReactCore.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ReactCore.Models.Test", b =>
+            modelBuilder.Entity("Entities.Models.Test", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -34,7 +34,7 @@ namespace ReactCore.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.Test2", b =>
+            modelBuilder.Entity("Entities.Models.Test2", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace ReactCore.Migrations
                     b.ToTable("Test2s");
                 });
 
-            modelBuilder.Entity("ReactCore.Models.User", b =>
+            modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

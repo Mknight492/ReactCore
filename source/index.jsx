@@ -1,5 +1,6 @@
 ﻿//envornmnet setup imports
 import "babel-regenerator-runtime";
+import "promise-polyfill/src/polyfill";
 
 //React imports
 import React from "react";

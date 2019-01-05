@@ -2,7 +2,7 @@ import { HF } from "../../helpers";
 import { weatherAPI } from "../../../security";
 export const locationServices = {
   getCities,
-  submitForm,
+  addFriend,
   editFriend,
   deleteFriend,
   getWeather
@@ -20,8 +20,8 @@ async function getCities(name) {
   return parsedResult;
 }
 
-async function submitForm(Name, Location) {
-  const data = JSON.stringify({ Name, Location });
+async function addFriend(Name, LocationId) {
+  const data = JSON.stringify({ Name, LocationId });
   const result = await HF.Appfetch("/api/friend", {
     method: "POST",
     headers: {
@@ -60,7 +60,7 @@ async function deleteFriend(Id) {
 async function getWeather(latitude, longitude) {
   try {
     const APIdata = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=imperial`
     );
     const APIdataParsed = await APIdata.json();
     return APIdataParsed;

@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Entities;
 using Entities.Models;
 using Entities.Models.FriendViewModels;
+using Entities.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -69,7 +70,7 @@ namespace ReactCore.Controllers.APIs
             {
                 return NotFound();
             }
-            return new JsonResult(friend);
+            return Ok(friend);
         }
 
         
@@ -77,47 +78,71 @@ namespace ReactCore.Controllers.APIs
         // POST: api/friend
         public async Task<IActionResult> Create([FromBody]AddFriendModel friend)
         {
-            var userId =  _userManager.GetUserId(User);
-            var newFriend = new Friend
+            try
             {
-                Name = friend.Name,
-                LocationId = friend.Location.Geonameid,
-                UserId = userId,
-                Latitude = friend.Location.Latitude,
-                Longitude = friend.Location.Longitude
-            };
+                var userId = _userManager.GetUserId(User);
+                if (userId == null)
+                {
+                    _logger.LogError($"Error inside FriendController Create action: UserId not found");
+                    return Unauthorized("You must be logged in to add a friend");
+                }
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError($"Error inside FriendController Create action: AddFriendModel not valid");
+                    return BadRequest("Invalid model object");
+                }
 
-            _repoWrapper.Friends.Create(newFriend);
-            _repoWrapper.UnitOfWorkComplete();
-            //_db.Friends.Add(newFriend);
-           // await _db.SaveChangesAsync();
-            return CreatedAtRoute("GetFriend", new {id = newFriend.Id}, newFriend);
+                var newFriend = _mapper.Map<Friend>(friend);
+                newFriend.UserId = userId; //userId isn't added from the client side model
+                
+                _repoWrapper.Friends.Create(newFriend);
+                _repoWrapper.UnitOfWorkComplete();
+
+                return CreatedAtRoute("GetFriend", new { id = newFriend.Id }, newFriend);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error inside FriendController Create action: {ex.Message}");
+                return StatusCode(500, "Internal Sever Error");
+            }
+
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] EditFriendModel friend)
-        { 
-            var friendToUpdate = _db.Friends.Find(friend.Id);
-            if (friendToUpdate == null)
+        {
+            try
             {
-                return NotFound();
+                var friendToUpdate = _repoWrapper.Friends.GetById(friend.Id);
+                if (friendToUpdate == null)
+                {
+                    _logger.LogError("Error inside FriendController Update action: unable to find friend with matching Id");
+                    return NotFound("No friend with this Id exists");
+                }
+                if (!String.IsNullOrWhiteSpace(friend.Name))
+                {
+                    friendToUpdate.Name = friend.Name;
+                }
+                if (friend.Location != null)
+                {
+                    friendToUpdate.LocationId = friend.Location.Geonameid;
+                }
+
+                _repoWrapper.Friends.Update(friendToUpdate);
+                _repoWrapper.UnitOfWorkComplete();
+                return Ok(new
+                {
+                    success = true,
+                    returncode = "200"
+                });
             }
-            if(friend.Name != null)
+            catch(Exception ex)
             {
-                friendToUpdate.Name = friend.Name;
-            }
-            if(friend.Location != null)
-            {
-               friendToUpdate.LocationId = friend.Location.Geonameid;
+                _logger.LogError($"Error inside FriendController Update action: {ex.Message}");
+                return StatusCode(500, "Internal Sever Error");
             }
 
-            _db.Friends.Update(friendToUpdate);
-            await _db.SaveChangesAsync();
-            return Ok(new
-            {
-                success = true,
-                returncode = "200"
-            });
         }
 
         [HttpDelete("{id}")]
@@ -131,6 +156,8 @@ namespace ReactCore.Controllers.APIs
 
             _db.Friends.Remove(testToDelete);
            await _db.SaveChangesAsync();
+
+
 
             return Ok(new
             {

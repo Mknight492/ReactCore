@@ -22,6 +22,7 @@
     "jest": true
   },
   "globals": {
-    "React": true
+    "React": true,
+    "google": true
   }
 }

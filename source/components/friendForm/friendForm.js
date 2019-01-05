@@ -99,7 +99,8 @@ class FriendFormComponent extends React.Component {
     event.preventDefault(); // stop form being submitted
     const { loadFriends } = this.props;
     const { name, selectedLocation } = this.state;
-    await locationServices.submitForm(name, selectedLocation);
+    const LocationId = selectedLocation.geonameid;
+    await locationServices.addFriend(name, LocationId);
     loadFriends();
     this.setState({ locationTypeAhead: "", name: "" });
   }

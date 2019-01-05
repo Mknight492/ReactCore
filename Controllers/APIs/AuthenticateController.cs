@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Entities;
 using Entities.Models;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -77,7 +78,7 @@ namespace ReactCore.Controllers.APIs
         [AllowAnonymous]
         public IActionResult Throw500()
         {
-            throw new Exception();
+            return StatusCode(500, "Internal Server Error");
         }
 
         [HttpGet(Name = "Throw404")]
@@ -85,6 +86,17 @@ namespace ReactCore.Controllers.APIs
         public IActionResult Throw404()
         {
             return NotFound();
+        }
+
+        [HttpGet(Name ="Throw400")]
+        [AllowAnonymous]
+        public IActionResult Throw400()
+        {
+            string msg = "dope";
+            object msg2 = new { id = "d" };
+            string json = JsonConvert.SerializeObject(msg2);
+            //return StatusCode(500, json);
+            return BadRequest(json);
         }
 
 

@@ -28,9 +28,11 @@ class FriendComponent extends React.Component {
 
   componentDidMount() {
     const { latitude, longitude } = this.props;
-    getWeather(latitude, longitude, weatherAPI).then(result => {
-      this.setState({ weather: result });
-    });
+    locationServices
+      .getWeather(latitude, longitude, weatherAPI)
+      .then(result => {
+        this.setState({ weather: result });
+      });
   }
 
   //new value is passed into form
@@ -132,15 +134,3 @@ FriendComponent.propTypes = {
 };
 
 export default FriendComponent;
-
-async function getWeather(latitude, longitude, APIkey) {
-  try {
-    const APIdata = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`
-    );
-    const APIdataParsed = await APIdata.json();
-    return APIdataParsed;
-  } catch (e) {
-    return e;
-  }
-}

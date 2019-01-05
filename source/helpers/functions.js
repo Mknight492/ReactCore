@@ -27,6 +27,7 @@ async function AFfetch(url, options) {
   }
   try {
     const result = await fetch(url, options);
+    return result;
     if (result.status < 200 || result.status >= 300) throw result;
     return result;
   } catch (e) {

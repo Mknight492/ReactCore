@@ -35,11 +35,6 @@ namespace ReactCore.Controllers.APIs
             {
                 if (type.Equals("location") && query != null)
                 {
-                    //var customerQuery = _db.Locations.AsNoTracking()
-                    //    .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
-                    //    .Take(10)
-                    //    .ToList();
-                    //return Ok(customerQuery);
                     var results = _repoWrapper.Locations.GetLocationsBySearchTerm(query, 10).ToList();
                     return Ok(results);
                 }

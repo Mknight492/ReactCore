@@ -107,17 +107,14 @@ function handleResponse(response) {
       var contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         response.json().then(json => {
-          console.log(json);
           resolve(json);
         });
       } else {
         resolve();
-        console.log(json);
       }
     } else {
       // return error message from response body
       response.text().then(text => reject(text));
-      console.log(json);
     }
   });
 }

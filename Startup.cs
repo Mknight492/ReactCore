@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace ReactCore
 {
@@ -78,7 +79,14 @@ namespace ReactCore
             //
 
 
-            services.AddMvc()
+            services.AddMvc(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+
+                config.InputFormatters.Add(new XmlSerializerInputFormatter());
+                config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+            })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 

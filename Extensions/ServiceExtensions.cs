@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Entities;
 using AutoMapper;
+using Entities.Models.FriendViewModels;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ReactCore.Extensions
@@ -30,6 +31,7 @@ namespace ReactCore.Extensions
             {
                 cfg.CreateMap<ApplicationUser, ApplicationUserDto>();
                 cfg.CreateMap<ApplicationUserDto, ApplicationUser>();
+                cfg.CreateMap<AddFriendModel, Friend>();
             });
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
@@ -41,7 +43,11 @@ namespace ReactCore.Extensions
         public static void ConfigureMyDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config["CONNECTION_STRING"];
-            services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<ApplicationDbContext>(o =>
+                o.UseSqlServer(connectionString,
+                    builder => builder.MigrationsAssembly("ReactCore")
+                    )
+             );
         }
     
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Entities.Models;
 using Entities;
+using Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +19,13 @@ namespace ReactCore.Controllers.APIs
     public class LocationController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IRepositoryWrapper _repoWrapper;
 
 
-        public LocationController(ApplicationDbContext db)
+        public LocationController(ApplicationDbContext db, IRepositoryWrapper repositoryWrapper)
         {
             _db = db;
+            _repoWrapper = repositoryWrapper;
         }
         // GET: api/<controller>
         [HttpGet]
@@ -31,11 +35,13 @@ namespace ReactCore.Controllers.APIs
             {
                 if (type.Equals("location") && query != null)
                 {
-                    var customerQuery = _db.Locations.AsNoTracking()
-                        .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
-                        .Take(10)
-                        .ToList();
-                    return Ok(customerQuery);
+                    //var customerQuery = _db.Locations.AsNoTracking()
+                    //    .Where(L => L.Name.ToLower().Contains(query.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                    //    .Take(10)
+                    //    .ToList();
+                    //return Ok(customerQuery);
+                    var results = _repoWrapper.Locations.GetLocationsBySearchTerm(query, 10).ToList();
+                    return Ok(results);
                 }
 
                 return Ok();

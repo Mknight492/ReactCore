@@ -32,13 +32,15 @@ namespace ReactCore.Controllers.APIs
         private readonly UserManager<ApplicationUser> _userManager;
         private IMapper _mapper;
         private ILoggerManager _logger;
+        private readonly IRepositoryWrapper _repoWrapper;
 
-        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper, ILoggerManager loggerManager)
+        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper, ILoggerManager loggerManager, IRepositoryWrapper repositoryWrapper)
         {
             _db = db;
             _userManager = userManager;
             _mapper = mapper;
             _logger = loggerManager;
+            _repoWrapper = repositoryWrapper;
         }
 
 
@@ -84,10 +86,11 @@ namespace ReactCore.Controllers.APIs
                 Latitude = friend.Location.Latitude,
                 Longitude = friend.Location.Longitude
             };
-            
 
-            _db.Friends.Add(newFriend);
-            await _db.SaveChangesAsync();
+            _repoWrapper.Friends.Create(newFriend);
+            _repoWrapper.UnitOfWorkComplete();
+            //_db.Friends.Add(newFriend);
+           // await _db.SaveChangesAsync();
             return CreatedAtRoute("GetFriend", new {id = newFriend.Id}, newFriend);
         }
 

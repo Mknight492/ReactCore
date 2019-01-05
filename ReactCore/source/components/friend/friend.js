@@ -1,17 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-//import styles from "./friend.css";
+
 import FriendForm from "../friendForm/friendForm.Outside";
-import { weatherAPI } from "../../../security";
-import LocationTypeAhead from "../locationTypeAhead/locationTypeAhead";
 import { locationServices } from "../../redux/services";
 import { HF } from "../../helpers";
-import WeatherIcon from "../weatherIcon/weatherIcon";
 import MapComponent from "../map/map";
-import styles from "./friend.module.scss";
-import cx from "classnames";
+
 import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
+import styles from "./friend.module.scss";
+import "./friend.scss";
 class FriendComponent extends React.Component {
   constructor(...args) {
     super(...args);
@@ -28,11 +26,9 @@ class FriendComponent extends React.Component {
 
   componentDidMount() {
     const { latitude, longitude } = this.props;
-    locationServices
-      .getWeather(latitude, longitude, weatherAPI)
-      .then(result => {
-        this.setState({ weather: result });
-      });
+    locationServices.getWeather(latitude, longitude).then(result => {
+      this.setState({ weather: result });
+    });
   }
 
   //new value is passed into form

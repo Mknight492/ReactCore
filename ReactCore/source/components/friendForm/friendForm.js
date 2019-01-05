@@ -6,9 +6,6 @@ import Autocomplete from "react-autocomplete";
 import { locationServices } from "../../redux/services";
 import { HF } from "../../helpers";
 import MapComponent from "../map/map";
-import { cx } from "classnames";
-import { weatherAPI } from "../../../security";
-import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 class FriendFormComponent extends React.Component {
   constructor(...args) {
@@ -42,11 +39,9 @@ class FriendFormComponent extends React.Component {
 
   componentDidMount() {
     const { latitude, longitude } = this.state;
-    locationServices
-      .getWeather(latitude, longitude, weatherAPI)
-      .then(result => {
-        this.setState({ weather: result });
-      });
+    locationServices.getWeather(latitude, longitude).then(result => {
+      this.setState({ weather: result });
+    });
   }
 
   getTALocations() {

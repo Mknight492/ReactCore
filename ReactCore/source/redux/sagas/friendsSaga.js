@@ -1,7 +1,6 @@
 import { put, call, takeLatest, all } from "redux-saga/effects"; //select allows you to access values from state
 import { friendConstants } from "../constants";
 import { friendActions, handleHTTPError } from "../actions";
-import { weatherAPI } from "../../../security";
 import { HF } from "../../helpers";
 import { locationServices } from "../services";
 

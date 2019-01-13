@@ -1,0 +1,15 @@
+@import "../../scssImports/variables.scss";
+
+.weather {
+  //display: inline-block;
+  font-size: $friendWeatherFont;
+  font-weight: 400;
+}
+.weatherLabel {
+  font-size: $friendWeatherFont;
+  display: inline-block;
+  padding-right: 1rem;
+}
+.weatherData {
+  display: inline-block;
+}

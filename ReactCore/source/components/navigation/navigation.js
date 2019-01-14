@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./navigation.module.scss";
 import { Link } from "@reach/router";
 import { HF } from "../../helpers";
-import { userService } from "../../redux/services";
+import { userService } from "../../redux/services/index.ts";
 
 const NavigationComponent = ({ user, LoggedIn, getUser }) => {
   getUser();

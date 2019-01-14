@@ -8,7 +8,8 @@ export const HF = {
   Appfetch,
   isNullOrWhiteSpace,
   formatLocation,
-  Utf8ArrayToStr
+  Utf8ArrayToStr,
+  generateRandomNumber
 };
 
 async function AFfetch(url, options) {
@@ -51,7 +52,6 @@ async function Appfetch(url, options) {
     };
   }
   try {
-    console.log(options);
     const result = await fetch(url, options);
     if (result.status < 200 || result.status >= 300) {
       await result.body
@@ -122,4 +122,8 @@ function Utf8ArrayToStr(array) {
   }
 
   return out;
+}
+
+function generateRandomNumber(min_value, max_value) {
+  return Math.random() * (max_value - min_value) + min_value;
 }

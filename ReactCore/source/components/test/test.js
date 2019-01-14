@@ -1,9 +1,9 @@
-import React from "react";
+import * as React from "react";
 
 //style imports
 import { Form, Well, FormGroup, Col } from "react-bootstrap";
 import { returnInputConfiguration, formUtilityActions } from "../../helpers";
-import styles from "../friendForm/friendForm.module.scss";
+import * as styles from "../friendForm/friendForm.module.scss";
 import classNames from "classnames";
 
 //component imports
@@ -20,8 +20,8 @@ import Input from "../UI/inputs/weatherInputs";
 import { HF, locationHelpers } from "../../helpers";
 
 class TestComponent extends React.Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
     const defualtState = {
       LocationArray: this.props.LocationArray,
       weather: null,

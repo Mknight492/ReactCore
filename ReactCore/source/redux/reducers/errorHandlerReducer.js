@@ -35,7 +35,6 @@ const executeOtherError = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case errorConstants.HTTP_401_ERROR:
-      console.log("redux");
       return execute401(state);
     case errorConstants.HTTP_404_ERROR:
       return execute404(state, action);

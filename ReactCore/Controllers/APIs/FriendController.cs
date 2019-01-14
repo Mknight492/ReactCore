@@ -157,7 +157,8 @@ namespace ReactCore.Controllers.APIs
             Friend testToDelete = _db.Friends.Find(id);
             if (testToDelete == null)
             {
-                return NotFound();
+                _logger.LogError("Error inside FriendController Delete action: unable to find friend with matching Id");
+                return StatusCode(500, "Unable to find Friend to delete");
             }
 
             _db.Friends.Remove(testToDelete);

@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-ReactCore-4a45b677-93c3-4d75-8a92-23530d28a535</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,6 +46,7 @@
 
   <ItemGroup>
     <Folder Include="Hubs\" />
+    <Folder Include="source\models\" />
     <Folder Include="source\redux\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Manage\" />

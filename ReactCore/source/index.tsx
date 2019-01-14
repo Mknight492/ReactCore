@@ -3,7 +3,7 @@ import "babel-regenerator-runtime";
 import "promise-polyfill/src/polyfill";
 
 //React imports
-import React from "react";
+import * as React from "react";
 import { render } from "react-dom";
 import App from "./components/app/app.container";
 

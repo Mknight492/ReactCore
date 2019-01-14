@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 //import components
 import FriendForm from "../friendForm/friendForm.Outside";
 import { Weather } from "../weather/weather";
-import Test from "../test/testhook";
+import Test from "../test/testhook.tsx";
 import MapComponent from "../map/maphook";
 import OutsideClick from "../../higherOrderComponents/OutsideClick";
 

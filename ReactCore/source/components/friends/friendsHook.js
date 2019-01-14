@@ -4,7 +4,7 @@ import Friend from "../friend/friendHook";
 import styles from "./friends.module.scss";
 import FriendFormComponent from "../friendForm/friendForm.container";
 import { throws } from "assert";
-import Test from "../../components/test/testhook";
+import Test from "../../components/test/testhook.tsx";
 
 const FriendsComponent = ({
   loadFriends,

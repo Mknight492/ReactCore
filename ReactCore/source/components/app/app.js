@@ -8,7 +8,7 @@ import { Private } from "../privateRoute/private";
 
 //import pages
 import Navigation from "../../components/navigation/navigation.container";
-import IndexPage from "../pages/index/index-page.container";
+import { IndexPage } from "../pages/index/index-page.tsx";
 import NotFound from "../errorPages/notFound/notFound";
 import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 import ServerErrorPage from "../errorPages/internalServer/internalServer";
@@ -21,11 +21,9 @@ import "./FA";
 import MyLoadable from "../../higherOrderComponents/MyLoadable";
 
 const WeatherpageLoadable = MyLoadable({
-  loader: () => import("../pages/weather/weather-page.container"),
-  modules: ["../pages/weather/weather-page.container"],
-  webpack: () => [
-    require.resolveWeak("../pages/weather/weather-page.container")
-  ]
+  loader: () => import("../pages/weather/weather-page.tsx"),
+  modules: ["../pages/weather/weather-page.tsx"],
+  webpack: () => [require.resolveWeak("../pages/weather/weather-page.tsx")]
 });
 
 const IdentitypageLoadable = MyLoadable({

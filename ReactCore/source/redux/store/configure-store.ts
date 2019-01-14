@@ -38,5 +38,3 @@ let store = configureStore();
 sagas.run(rootSaga);
 
 export { store, configureStore, sagas };
-
-//f

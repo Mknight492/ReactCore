@@ -1,7 +1,7 @@
 import { authHeader, config, HF } from "../../helpers";
 
 export const userService = {
-  login,
+  //login,
   logout,
   register,
   getAll,
@@ -10,7 +10,7 @@ export const userService = {
   delete: _delete
 };
 
-function login(username, password) {
+/*function login(username, password) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -28,7 +28,7 @@ function login(username, password) {
 
       return user;
     });
-}
+}*/
 
 async function logout() {
   // remove user from local storage to log user out
@@ -61,7 +61,6 @@ function getById(id) {
 }
 
 function register(user) {
-  console.log("here");
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },

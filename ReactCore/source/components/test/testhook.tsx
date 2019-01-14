@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 
 //style imports
 import { Form, Well, FormGroup, Col } from "react-bootstrap";
 import { returnInputConfiguration, formUtilityActions } from "../../helpers";
-import styles from "../friendForm/friendForm.module.scss";
+import * as styles from "../friendForm/friendForm.module.scss";
 import classNames from "classnames";
 
 //component imports
@@ -19,14 +19,20 @@ import { locationServices } from "../../redux/services";
 import Input from "../UI/inputs/weatherInputs";
 import { HF, locationHelpers } from "../../helpers";
 
-function useWeather(initialWeather, initialLatitude, initialLongitude) {
+const { useState, useEffect } = React;
+
+function useWeather(
+  initialWeather,
+  initialLatitude: number,
+  initialLongitude: number
+) {
   const [weather, setWeather] = useState(initialWeather);
   //LOCATION
   const [latitude, setlatitude] = useState(
-    initialLatitude || generateRandomNumber(-70, 70)
+    initialLatitude || HF.generateRandomNumber(-70, 70)
   );
   const [longitude, setlongitude] = useState(
-    initialLongitude || generateRandomNumber(-180, 180)
+    initialLongitude || HF.generateRandomNumber(-180, 180)
   );
   useEffect(
     () => {
@@ -42,7 +48,6 @@ function useWeather(initialWeather, initialLatitude, initialLongitude) {
 
 const TestComponent = ({
   Id,
-
   initialWeather = null,
   initialName = "",
   initialLatitude,
@@ -73,7 +78,7 @@ const TestComponent = ({
     setlatitude,
     setlongitude,
     setWeather
-  ] = useWeather(initialWeather);
+  ] = useWeather(initialWeather, 0, 0);
 
   //SELECTED LOCATION
   const [selectedLocationId, setselectedLocationId] = useState(
@@ -172,14 +177,12 @@ const TestComponent = ({
   }
 
   async function addFriend() {
-    console.log("jook");
     await locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
     await loadFriends();
     //setownerForm(returnInputConfiguration([]));
   }
 
   async function editFriend() {
-    console.log("jook");
     await locationServices.editFriend(
       ownerForm.Name.value,
       selectedLocationId,
@@ -197,16 +200,9 @@ const TestComponent = ({
   let mapWeather;
   weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
 
-  console.log(LocationArray);
-  console.log(location);
   return (
     <Well>
-      <Form
-        horizontal
-        onSubmit={e => {
-          SubmitForm(e);
-        }}
-      >
+      <Form horizontal>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
         thus allowing the UI/from to refelct the current state */}
         {formUtilityActions
@@ -302,7 +298,3 @@ const connectedTestComponent = connect(
 )(TestComponent);
 
 export default connectedTestComponent;
-
-function generateRandomNumber(min_value, max_value) {
-  return Math.random() * (max_value - min_value) + min_value;
-}

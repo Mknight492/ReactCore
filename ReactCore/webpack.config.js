@@ -7,14 +7,16 @@ const presetConfig = require("./build-utils/loadPresets");
 const postcssModulesValues = require("postcss-modules-values");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 var autoprefixer = require("autoprefixer");
+//const { CheckerPlugin } = require("awesome-typescript-loader");
 
 const CSSModuleLoader = {
-  loader: "css-loader",
+  loader: "typings-for-css-modules-loader",
   options: {
     modules: true,
     sourceMap: true,
     localIdentName: "[local]__[hash:base64:5]",
-    minimize: true
+    minimize: true,
+    namedExport: true
   }
 };
 
@@ -43,7 +45,7 @@ const postCSSLoader = {
 module.exports = {
   mode: "development",
   entry: {
-    main: "./source/index.jsx"
+    main: "./source/index.tsx"
   },
   output: {
     path: path.resolve(__dirname, "wwwroot/dist"),
@@ -68,6 +70,12 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.tsx?$/,
+        include: /source/,
+        exclude: /node_modules/,
+        loaders: ["babel-loader", "ts-loader"]
       },
       {
         test: /\.css$/,
@@ -122,5 +130,6 @@ module.exports = {
         to: ""
       }
     ])
+    // new CheckerPlugin()
   ]
 };

@@ -1,13 +1,19 @@
 import React from "react";
-import styles from "./internalServer.container.scss";
+import * as styles from "./internalServer.module.scss";
 import { connect } from "react-redux";
+import { Link } from "@reach/router";
 
 const internalServer = props => {
   return (
-    <p className={styles.internalServer}>
-      {"500 SERVER ERROR, CONTACT ADMINISTRATOR!!!!"}
-      {props.errorMessage}
-    </p>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>
+        {"500 SERVER ERROR, CONTACT ADMINISTRATOR!"}
+      </h2>
+      <h3 className={styles.errorMessage}>{props.errorMessage}</h3>
+      <Link to={"/"} className={styles.link}>
+        {"Return Home..."}
+      </Link>
+    </div>
   );
 };
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"test2.js","sourceRoot":"","sources":["../../../source/components/test/test2.tsx"],"names":[],"mappings":";;AAAA,6BAA+B;AAE/B,SAAS,KAAK;IACZ,yDAAyD;IACnD,IAAA,sBAAqC,EAApC,aAAK,EAAE,gBAA6B,CAAC;IAE5C,OAAO,CACL;QACE;;YAAgB,KAAK;qBAAW;QAChC,gCAAQ,OAAO,EAAE,cAAM,OAAA,QAAQ,CAAC,KAAK,GAAG,CAAC,CAAC,EAAnB,CAAmB,eAAmB,CACzD,CACP,CAAC;AACJ,CAAC;AACQ,sBAAK"}

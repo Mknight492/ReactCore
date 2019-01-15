@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Link } from "@reach/router";
 import { connect } from "react-redux";
-// @ts-ignore
-import { Test2 } from "../../test/test2.tsx";
-// @ts-ignore
-import { Hello } from "../../test/test3.tsx";
+import { Test2 } from "../../test/test2";
+import { Hello } from "../../test/test3";
 import { userActions } from "../../../redux/actions";
 
-const IndexPage: React.SFC = props => {
+interface IProps {
+  path: string;
+}
+
+const IndexPage: React.SFC<IProps> = props => {
   return (
     <>
       <h2> you shouldn't be here</h2>
@@ -19,4 +21,4 @@ const IndexPage: React.SFC = props => {
   );
 };
 
-export { IndexPage };
+export default IndexPage;

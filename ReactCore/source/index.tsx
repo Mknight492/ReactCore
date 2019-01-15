@@ -5,7 +5,7 @@ import "promise-polyfill/src/polyfill";
 //React imports
 import * as React from "react";
 import { render } from "react-dom";
-import App from "./components/app/app.container";
+import App from "./components/app/app";
 
 //Redux Imports
 import { Provider } from "react-redux";

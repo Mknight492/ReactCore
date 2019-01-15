@@ -9,7 +9,8 @@ import MapComponent from "../map/map";
 import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 //import helper functions
-import { locationServices } from "../../redux/services";
+// @ts-ignore
+import { locationServices } from "../../redux/services/index.ts";
 import { HF } from "../../helpers";
 
 //import styles

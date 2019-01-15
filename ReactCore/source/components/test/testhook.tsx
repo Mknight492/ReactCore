@@ -19,41 +19,31 @@ import { locationServices } from "../../redux/services";
 import Input from "../UI/inputs/weatherInputs";
 import { HF, locationHelpers } from "../../helpers";
 
+//models
+import { Friend, WeatherObject, Locations } from "../../models";
+
 const { useState, useEffect } = React;
 
-function useWeather(
-  initialWeather,
-  initialLatitude: number,
-  initialLongitude: number
-) {
-  const [weather, setWeather] = useState(initialWeather);
-  //LOCATION
-  const [latitude, setlatitude] = useState(
-    initialLatitude || HF.generateRandomNumber(-70, 70)
-  );
-  const [longitude, setlongitude] = useState(
-    initialLongitude || HF.generateRandomNumber(-180, 180)
-  );
-  useEffect(
-    () => {
-      locationServices.getWeather(latitude, longitude).then(result => {
-        setWeather(result);
-      });
-    },
-    [latitude, longitude]
-  );
-
-  return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
+interface OwnProps {
+  Friend?: Friend;
+  isActive?: boolean;
+  initialWeather?: WeatherObject;
+  edit: boolean;
+  Id?: any;
 }
+interface StateProps {}
+interface DispatchProps {
+  changeActive: (Id?: any) => void;
+  loadFriends: () => void;
+  loadLocation: (searchTerm: string, Id: number) => void;
+}
+interface State {}
 
-const TestComponent = ({
-  Id,
-  initialWeather = null,
-  initialName = "",
-  initialLatitude,
-  initialLongitude,
-  location = [],
-  LocationArray = [location],
+type Props = StateProps & DispatchProps & OwnProps & State;
+
+const TestComponent: React.FunctionComponent<Props> = ({
+  Friend,
+  initialWeather,
   edit,
   loadFriends,
   loadLocation,
@@ -62,7 +52,10 @@ const TestComponent = ({
   ///FORM
 
   const initalForm = edit
-    ? returnInputConfiguration([initialName, HF.formatLocation(location)])
+    ? returnInputConfiguration([
+        Friend.Name,
+        HF.formatLocation(Friend.Location)
+      ])
     : returnInputConfiguration();
 
   const [ownerForm, setownerForm] = useState(initalForm);
@@ -82,8 +75,11 @@ const TestComponent = ({
 
   //SELECTED LOCATION
   const [selectedLocationId, setselectedLocationId] = useState(
-    location.geonameid
+    Friend.Location.Geonameid
   );
+
+  //Typeahead Location Array
+  const [LocationArray, setlocationArray] = useState([Friend.Location]);
 
   //on loading get the current weather and then display in wweather section and map
   //function which undate the form
@@ -145,7 +141,7 @@ const TestComponent = ({
 
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       //ensures atleast 3 letters before sending TA API call
-      loadLocation(searchTerm, Id); // dispatches API call
+      loadLocation(searchTerm, Friend.Id); // dispatches API call
     }
   }
 
@@ -163,15 +159,15 @@ const TestComponent = ({
       return oldForm;
     });
 
-    setlatitude(matchingLocation.latitude);
-    setlongitude(matchingLocation.longitude);
-    setselectedLocationId(matchingLocation.geonameid);
+    setlatitude(matchingLocation.Latitude);
+    setlongitude(matchingLocation.Longitude);
+    setselectedLocationId(matchingLocation.Geonameid);
     //update the state to include the selectedId (for API calls )
 
     // get the weather for the new location and display it on the map
     const weather = await locationServices.getWeather(
-      matchingLocation.latitude,
-      matchingLocation.longitude
+      matchingLocation.Latitude,
+      matchingLocation.Longitude
     );
     setWeather(weather);
   }
@@ -186,14 +182,14 @@ const TestComponent = ({
     await locationServices.editFriend(
       ownerForm.Name.value,
       selectedLocationId,
-      Id
+      Friend.Id
     );
     await loadFriends();
-    changeActive(null);
+    changeActive();
   }
 
   async function deleteFriend() {
-    await locationServices.deleteFriend(Id);
+    await locationServices.deleteFriend(Friend.Id);
     loadFriends();
   }
 
@@ -229,7 +225,7 @@ const TestComponent = ({
             );
           })}
         <br />
-        <Weather weather={weather} />
+        <Weather weather={weather} showLabel={false} />
         {edit ? (
           <>
             <button
@@ -292,9 +288,36 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const connectedTestComponent = connect(
+const connectedTestComponent = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(TestComponent);
 
 export default connectedTestComponent;
+
+////customHook
+
+function useWeather(
+  initialWeather,
+  initialLatitude: number,
+  initialLongitude: number
+) {
+  const [weather, setWeather] = useState(initialWeather);
+  //LOCATION
+  const [latitude, setlatitude] = useState(
+    initialLatitude || HF.generateRandomNumber(-70, 70)
+  );
+  const [longitude, setlongitude] = useState(
+    initialLongitude || HF.generateRandomNumber(-180, 180)
+  );
+  useEffect(
+    () => {
+      locationServices.getWeather(latitude, longitude).then(result => {
+        setWeather(result);
+      });
+    },
+    [latitude, longitude]
+  );
+
+  return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
+}

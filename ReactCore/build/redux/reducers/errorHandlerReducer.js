@@ -21,7 +21,7 @@ function execute500(state, action) {
     return Object.assign({}, state, { errorMessage: action.errorMessage });
 }
 const executeOtherError = (state, action) => {
-    return Object.assign({}, state, { showErrorModal: true, errorMessage: action.error.response.data });
+    return Object.assign({}, state, { showErrorModal: true, errorMessage: action.error.statusText });
 };
 const reducer = (state = initialState, action) => {
     switch (action.type) {

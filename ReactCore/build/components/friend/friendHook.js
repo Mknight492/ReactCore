@@ -38,7 +38,7 @@ const FriendComponent = ({ Friend, changeActive, isActive }) => {
         React.createElement(ClickTest, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
         React.createElement("h3", { className: styles.name },
             " ",
-            name),
+            Friend.Name),
         React.createElement("h4", { className: styles.location }, index_2.HF.formatLocation(Friend.Location)),
         weather && (React.createElement("div", null,
             React.createElement(weather_1.Weather, { weather: weather, showLabel: false }),

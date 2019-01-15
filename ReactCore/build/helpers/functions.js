@@ -69,7 +69,7 @@ function isNullOrWhiteSpace(input) {
     return input.replace(/\s/g, "").length < 1;
 }
 function formatLocation(locationObj) {
-    if (locationObj.Name && locationObj.CountryCode) {
+    if (locationObj && locationObj.Name && locationObj.CountryCode) {
         return locationObj.Name + " " + locationObj.CountryCode;
     }
     else {

@@ -13,10 +13,10 @@ const input = props => {
     switch (props.elementType) {
         case "input":
             inputField = (React.createElement(React.Fragment, null,
-                React.createElement("div", null,
+                React.createElement("div", { style: { display: "block" } },
                     React.createElement("label", { className: styles.name, htmlFor: "name", id: "name" }, "Name:"),
-                    React.createElement("input", { className: styles.input, key: props.id, type: props.type, value: props.value, onChange: props.changed, onBlur: props.blur })),
-                React.createElement("em", { className: styles.errorMessage }, errorMessage)));
+                    React.createElement("input", { className: styles.input, key: props.id, type: props.type, value: props.value, onChange: props.changed, onBlur: props.blur }),
+                    React.createElement("em", { className: styles.errorMessage }, errorMessage))));
             break;
         case "typeAhead":
             inputField = (React.createElement("div", null,

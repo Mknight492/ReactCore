@@ -1,6 +1,14 @@
 import { friendConstants } from "../constants";
 import { mapKeys, isEqual } from "lodash";
 
+import { FriendsObj, Locations } from "../../models";
+
+interface IinitialState {
+  friendsObj: FriendsObj;
+  isActive: boolean;
+  locations: Locations[];
+}
+
 const initalState = {
   friendsObj: {},
   isActive: undefined,
@@ -16,7 +24,7 @@ export default function friendReducer(state = initalState, action) {
     case friendConstants.LOAD_FRIEND_SUCCESS:
       //action.payload = [friend{}, friend{}]
       // eslint-disable-next-line no-case-declarations
-      const friendsObj = mapKeys(action.payload, "id");
+      const friendsObj = mapKeys(action.payload, "Id");
       //only update the state if the friendObj is differn't = stops rerenders
       if (isEqual(state.friendsObj, friendsObj)) {
         return state;

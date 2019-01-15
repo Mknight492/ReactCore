@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Friends from "../../friends/friends.container";
+import Friends from "../../friends/friendsHook";
 
 //helper functions
 import { HF } from "../../../helpers";

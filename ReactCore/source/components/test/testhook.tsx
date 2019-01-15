@@ -25,13 +25,15 @@ import { Friend, WeatherObject, Locations } from "../../models";
 const { useState, useEffect } = React;
 
 interface OwnProps {
-  Friend?: Friend;
+  Friend: Friend | undefined;
   isActive?: boolean;
   initialWeather?: WeatherObject;
   edit: boolean;
   Id?: any;
 }
-interface StateProps {}
+interface StateProps {
+  LocationArrayProps: Locations[];
+}
 interface DispatchProps {
   changeActive: (Id?: any) => void;
   loadFriends: () => void;
@@ -41,16 +43,29 @@ interface State {}
 
 type Props = StateProps & DispatchProps & OwnProps & State;
 
-const TestComponent: React.FunctionComponent<Props> = ({
+const TestComponent: React.SFC<Props> = ({
   Friend,
   initialWeather,
   edit,
   loadFriends,
   loadLocation,
-  changeActive
+  changeActive,
+  LocationArrayProps
 }) => {
-  ///FORM
+  //if edit = true then the form initial has not Location or Friend
+  let initalLocationId, initialLocation, Id;
 
+  if (edit) {
+    Id = Friend.Id;
+    initialLocation = [Friend.Location];
+    initalLocationId = Friend.Location.Geonameid;
+  } else {
+    Id = -1;
+    initialLocation = [];
+    initalLocationId = null;
+  }
+
+  ///FORM
   const initalForm = edit
     ? returnInputConfiguration([
         Friend.Name,
@@ -72,14 +87,27 @@ const TestComponent: React.FunctionComponent<Props> = ({
     setlongitude,
     setWeather
   ] = useWeather(initialWeather, 0, 0);
+  let mapWeather = weather ? weather.weather[0].main : null;
 
   //SELECTED LOCATION
   const [selectedLocationId, setselectedLocationId] = useState(
-    Friend.Location.Geonameid
+    initalLocationId
   );
 
   //Typeahead Location Array
-  const [LocationArray, setlocationArray] = useState([Friend.Location]);
+
+  // const [LocationArray, setlocationArray] = useState(
+  //   LocationArrayProps || initialLocation
+  // );
+  const [LocationArray, setlocationArray] = useState(
+    LocationArrayProps || initialLocation
+  );
+  useEffect(
+    () => {
+      setlocationArray(LocationArrayProps || initialLocation || []);
+    },
+    [LocationArrayProps, initialLocation]
+  );
 
   //on loading get the current weather and then display in wweather section and map
   //function which undate the form
@@ -141,7 +169,7 @@ const TestComponent: React.FunctionComponent<Props> = ({
 
     if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
       //ensures atleast 3 letters before sending TA API call
-      loadLocation(searchTerm, Friend.Id); // dispatches API call
+      loadLocation(searchTerm, Id); // dispatches API call
     }
   }
 
@@ -192,9 +220,6 @@ const TestComponent: React.FunctionComponent<Props> = ({
     await locationServices.deleteFriend(Friend.Id);
     loadFriends();
   }
-
-  let mapWeather;
-  weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
 
   return (
     <Well>
@@ -270,7 +295,7 @@ function mapStateToProps(state) {
   let id = state.friends.isActive;
 
   return {
-    LocationArray: state.friends[id] || state.friends["AddFriend"] || undefined
+    LocationArrayProps: state.friends[id] || state.friends[-1] || undefined
   };
 }
 
@@ -320,4 +345,18 @@ function useWeather(
   );
 
   return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
+}
+
+function useLocation(LocationArrayProps, initialLocation) {
+  const [LocationArray, setlocationArray] = useState(
+    LocationArrayProps || initialLocation
+  );
+  useEffect(
+    () => {
+      setlocationArray(LocationArrayProps || initialLocation || []);
+    },
+    [LocationArrayProps, initialLocation]
+  );
+
+  return [LocationArray];
 }

@@ -28,7 +28,7 @@ const executeOtherError = (state, action) => {
   return {
     ...state,
     showErrorModal: true,
-    errorMessage: action.error.response.data
+    errorMessage: action.error.statusText
   };
 };
 

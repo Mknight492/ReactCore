@@ -48,18 +48,13 @@ async function Appfetch(url: string, options?: any) {
     options.headers.RequestVerificationToken = (<HTMLInputElement>(
       document.getElementsByName("__RequestVerificationToken")[0]
     )).value;
-    options.headers["Content-Type"] = "application/json";
-    options.headers.profile = "https://en.wikipedia.org/wiki/PascalCase";
   } else {
     options = {
       method: "GET",
       headers: {
         RequestVerificationToken: (<HTMLInputElement>(
           document.getElementsByName("__RequestVerificationToken")[0]
-        )).value,
-        profile: '"https://en.wikipedia.org/wiki/PascalCase"',
-        ["Content-Type"]:
-          'application/json;profile="https://en.wikipedia.org/wiki/PascalCase"'
+        )).value
       }
     };
   }
@@ -88,7 +83,7 @@ function isNullOrWhiteSpace(input) {
 }
 
 function formatLocation(locationObj: Locations) {
-  if (locationObj.Name && locationObj.CountryCode) {
+  if (locationObj && locationObj.Name && locationObj.CountryCode) {
     return locationObj.Name + " " + locationObj.CountryCode;
   } else {
     return "";

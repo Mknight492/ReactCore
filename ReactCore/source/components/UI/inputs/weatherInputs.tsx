@@ -22,7 +22,7 @@ const input = props => {
     case "input":
       inputField = (
         <>
-          <div>
+          <div style={{ display: "block" }}>
             <label className={styles.name} htmlFor="name" id="name">
               Name:
             </label>
@@ -34,8 +34,8 @@ const input = props => {
               onChange={props.changed}
               onBlur={props.blur}
             />
+            <em className={styles.errorMessage}>{errorMessage}</em>
           </div>
-          <em className={styles.errorMessage}>{errorMessage}</em>
         </>
       );
       break;

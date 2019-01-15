@@ -34,7 +34,7 @@ async function addFriend(Name, LocationId) {
 }
 
 async function editFriend(Name, LocationId, Id) {
-  console.log(Name, Location, Id);
+  console.log(Name, LocationId, Id);
   const data = JSON.stringify({ Name, LocationId, Id });
   const result = await HF.Appfetch("/api/friend", {
     method: "PUT",

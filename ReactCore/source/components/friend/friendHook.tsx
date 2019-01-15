@@ -76,7 +76,7 @@ const FriendComponent: React.FunctionComponent<Props> = ({
         </>
       ) : (
         <div>
-          <h3 className={styles.name}> {name}</h3>
+          <h3 className={styles.name}> {Friend.Name}</h3>
           <h4 className={styles.location}>
             {HF.formatLocation(Friend.Location)}
           </h4>

@@ -36,16 +36,12 @@ async function AFfetch(url, options) {
 async function Appfetch(url, options) {
     if (options) {
         options.headers.RequestVerificationToken = (document.getElementsByName("__RequestVerificationToken")[0]).value;
-        options.headers["Content-Type"] = "application/json";
-        options.headers.profile = "https://en.wikipedia.org/wiki/PascalCase";
     }
     else {
         options = {
             method: "GET",
             headers: {
-                RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value,
-                profile: '"https://en.wikipedia.org/wiki/PascalCase"',
-                ["Content-Type"]: 'application/json;profile="https://en.wikipedia.org/wiki/PascalCase"'
+                RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
             }
         };
     }

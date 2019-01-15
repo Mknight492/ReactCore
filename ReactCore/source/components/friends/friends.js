@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Friend from "../friend/friend";
+import Friend from "../friend/friendHook";
 import styles from "./friends.module.scss";
 import FriendFormComponent from "../friendForm/friendForm.container";
 import { throws } from "assert";
+import Test from "../../components/test/test";
 class FriendsComponent extends React.Component {
   constructor(...args) {
     super(...args);
@@ -43,7 +44,7 @@ class FriendsComponent extends React.Component {
           })}
         <div className={styles.flexItem}>
           <div className={styles.border}>
-            <FriendFormComponent Id={"AddFriend"} />
+            <Test Id={"AddFriend"} />
           </div>
         </div>
       </div>

@@ -7,14 +7,17 @@ const presetConfig = require("./build-utils/loadPresets");
 const postcssModulesValues = require("postcss-modules-values");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 var autoprefixer = require("autoprefixer");
+var ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+//const { CheckerPlugin } = require("awesome-typescript-loader");
 
 const CSSModuleLoader = {
-  loader: "css-loader",
+  loader: "typings-for-css-modules-loader",
   options: {
     modules: true,
     sourceMap: true,
     localIdentName: "[local]__[hash:base64:5]",
-    minimize: true
+    minimize: true,
+    namedExport: true
   }
 };
 
@@ -43,7 +46,7 @@ const postCSSLoader = {
 module.exports = {
   mode: "development",
   entry: {
-    main: "./source/index.jsx"
+    main: "./source/index.tsx"
   },
   output: {
     path: path.resolve(__dirname, "wwwroot/dist"),
@@ -57,6 +60,11 @@ module.exports = {
     publicPath: "/"
   },
   devtool: "source-map",
+  optimization: {
+    minimize: false
+  },
+  watch: true,
+  resolve: { extensions: [".js", ".jsx", ".ts", ".tsx"] },
   module: {
     rules: [
       {
@@ -64,6 +72,29 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
+        }
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            babelrc: false,
+            presets: [
+              [
+                "@babel/preset-env",
+                { targets: { browsers: "last 2 versions" } } // or whatever your project requires
+              ],
+              "@babel/preset-typescript",
+              "@babel/preset-react"
+            ],
+            plugins: [
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              "react-hot-loader/babel"
+            ]
+          }
         }
       },
       {
@@ -118,6 +149,8 @@ module.exports = {
         from: path.resolve(__dirname, "./source/assets"),
         to: ""
       }
-    ])
+    ]),
+    new ForkTsCheckerWebpackPlugin()
+    // new CheckerPlugin()
   ]
 };

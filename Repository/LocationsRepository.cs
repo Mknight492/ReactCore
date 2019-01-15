@@ -18,15 +18,16 @@ namespace Repository
         {
             _db = applicationDbContext;
         }
-            public IEnumerable<Locations> GetLocationsBySearchTerm(string searchTerm, int LocationsToReturn = 10)
-            {
-                return _db.Locations.AsNoTracking()
-                          .Where(L => L.Name.ToLower()
-                          .Contains(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
-                          .Take(LocationsToReturn)
-                          .ToList();
-            }
-        
+        public IEnumerable<Locations> GetLocationsBySearchTerm(string searchTerm, int LocationsToReturn = 10)
+        {
+            return _db.Locations
+                      .AsNoTracking()
+                      .Where(L => L.Name.ToLower()
+                      .Contains(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                      .Take(LocationsToReturn)
+                      .ToList();
+        }
+
 
 
 

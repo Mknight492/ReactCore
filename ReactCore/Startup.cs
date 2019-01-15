@@ -28,6 +28,7 @@ using System.Net;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json.Serialization;
 
 namespace ReactCore
 {
@@ -86,8 +87,10 @@ namespace ReactCore
 
                 config.InputFormatters.Add(new XmlSerializerInputFormatter());
                 config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                config.OutputFormatters.Add(new PascalCaseJsonProfileFormatter());
             })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
             services.ConfigureAutoMapperContext();
@@ -105,11 +108,11 @@ namespace ReactCore
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true,
                 });
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/error");
+                //app.UseExceptionHandler("/error");
             }
 
             //for linux deploymeny

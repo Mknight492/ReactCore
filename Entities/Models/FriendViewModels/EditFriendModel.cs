@@ -12,7 +12,11 @@ namespace Entities.Models.FriendViewModels
         [Required]
         public string Name { get; set; }
         [Required]
+<<<<<<< HEAD
         public Locations Location { get; set; }
+=======
+        public int? LocationId { get; set; }
+>>>>>>> friend
         [Required]
         public int Id { get; set; }
     }

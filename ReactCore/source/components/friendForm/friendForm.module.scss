@@ -22,6 +22,7 @@
   border-bottom: 2.5px dashed $color-primary-3;
   background-color: $friendBGColor;
   background-color: $transparent; //opacity 0 i.e. inherit BG color
+  text-align: center;
 }
 
 .weather {
@@ -83,4 +84,10 @@
   margin: 0 auto;
   border-radius: 50%;
   z-index: 0;
+}
+
+.errorMessage {
+  display: block;
+  font-size: 1.6rem;
+  color: red !important;
 }

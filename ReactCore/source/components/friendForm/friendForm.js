@@ -1,11 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+//import styles
 import styles from "./friendForm.module.scss";
 import "./friendForm.scss";
+
+//import components
+import { Weather } from "../weather/weather";
 import Autocomplete from "react-autocomplete";
+import MapComponent from "../map/map";
+import Test from "../test/test";
+
+//import helper function
 import { locationServices } from "../../redux/services";
 import { HF } from "../../helpers";
+<<<<<<< HEAD:ReactCore/source/components/friendForm/friendForm.js
 import MapComponent from "../map/map";
+=======
+>>>>>>> friend:ReactCore/source/components/friendForm/friendForm.js
 
 class FriendFormComponent extends React.Component {
   constructor(...args) {
@@ -59,18 +71,6 @@ class FriendFormComponent extends React.Component {
     } else {
       this.setState({ results: [] });
     }
-    /*
-    if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
-      locationServices.getCities(event.target.value).then(result => {
-        result = result.slice(0, 5);
-        this.setState({ locations: result });
-        let names = result.map(location => ({ label: location.name }));
-        this.setState({ results: names });
-      });
-    } else {
-      this.setState({ results: [] });
-    }
-    */
   }
 
   async selectHandler(TAvalue) {
@@ -119,104 +119,23 @@ class FriendFormComponent extends React.Component {
   //const { testString } = this.props;
   render() {
     const { weather, latitude, longitude } = this.state;
-    const { isActive } = this.props;
+    const { isActive, edit, Id, name } = this.props;
     const TAData = this.getTALocations();
     let mapWeather;
     weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (
       <div>
-        <form
-          onSubmit={e => {
-            this.submitHandler(e);
-          }}
-        >
-          <div>
-            <label className={styles.name} htmlFor="name" type="text" id="name">
-              Name: {isActive}
-            </label>
-            <input
-              className={styles.input}
-              name="name"
-              onChange={e => this.setState({ name: e.target.value })}
-              value={this.state.name}
-            />
-          </div>
-          <div>
-            <label
-              style={{ textAlign: "left" }}
-              className={styles.location}
-              htmlFor={"location"}
-            >
-              Location:
-            </label>
-            <div className={styles.typeAhead}>
-              {/*Needs div for custom CSS hook */}
-              <Autocomplete
-                name="location"
-                getItemValue={item => HF.formatLocation(item)}
-                items={TAData.slice(0, 5)}
-                renderItem={(item, isHighlighted) => (
-                  <div
-                    style={{
-                      background: isHighlighted ? "lightgray" : "white"
-                    }}
-                    className="typeAheadComponent"
-                  >
-                    {HF.formatLocation(item)}
-                  </div>
-                )}
-                value={this.state.locationTypeAhead}
-                onChange={e => this.changeHandler(e)}
-                onSelect={val => this.selectHandler(val)}
-                key={1}
-                placeholder="damn"
-              />
-            </div>
-
-            {weather && (
-              <div className={styles.weather}>
-                <h4 className={styles.weatherLabel}> Weather: </h4>
-                <h4 className={styles.weatherData}>
-                  {weather.name}
-                  {weather.main.temp} &deg;C, {weather.weather[0].main},
-                  {weather.weather[0].description}
-                </h4>{" "}
-              </div>
-            )}
-          </div>
-
-          {this.props.edit ? (
-            <>
-              <button
-                className={"btn btn--small"}
-                type="submit"
-                onClick={e => this.editFriend(e)}
-              >
-                Comfirm Edit
-              </button>
-              <button
-                className={"btn btn--small"}
-                onClick={e => this.deleteFriend(e)}
-              >
-                Delete
-              </button>
-            </>
-          ) : (
-            <button type="submit" className={"btn btn--small"}>
-              Add friend
-            </button>
-          )}
-        </form>
-        <MapComponent
-          mapKey={"addNew"}
-          position={{
-            latitude,
-            longitude
-          }}
-          style={styles.map}
-          zoom={9}
-          weather={mapWeather}
-        />
+        <>
+          <Test
+            edit={edit}
+            Id={Id}
+            name={name}
+            weather={weather}
+            selectHandler={val => this.selectHandler(val)}
+          >
+            <Weather weather={weather} />
+          </Test>
+        </>
       </div>
     );
   }
@@ -237,3 +156,85 @@ export default OutsideClick(FriendFormComponent, function() {
 function generateRandomNumber(min_value, max_value) {
   return Math.random() * (max_value - min_value) + min_value;
 }
+
+/*
+<form
+  onSubmit={e => {
+    this.submitHandler(e);
+  }}
+>
+  <div>
+    <label className={styles.name} htmlFor="name" type="text" id="name">
+      Name: {isActive}
+    </label>
+    <input
+      className={styles.input}
+      name="name"
+      onChange={e => this.setState({ name: e.target.value })}
+      value={this.state.name}
+    />
+  </div>
+  <div>
+    <label
+      style={{ textAlign: "left" }}
+      className={styles.location}
+      htmlFor={"location"}
+    >
+      Location:
+    </label>
+    <div className={styles.typeAhead}>
+      <Autocomplete
+        name="location"
+        getItemValue={item => HF.formatLocation(item)}
+        items={TAData.slice(0, 5)}
+        renderItem={(item, isHighlighted) => (
+          <div
+            key={HF.formatLocation(item)}
+            style={{
+              background: isHighlighted ? "lightgray" : "white"
+            }}
+            className="typeAheadComponent"
+          >
+            {HF.formatLocation(item)}
+          </div>
+        )}
+        value={this.state.locationTypeAhead}
+        onChange={e => this.changeHandler(e)}
+        onSelect={val => this.selectHandler(val)}
+        placeholder="damn"
+      />
+    </div>
+
+    {weather && (
+      <div className={styles.weather}>
+        <h4 className={styles.weatherLabel}> Weather: </h4>
+        <h4 className={styles.weatherData}>
+          {weather.name}
+          {weather.main.temp} &deg;C, {weather.weather[0].main},
+          {weather.weather[0].description}
+        </h4>{" "}
+      </div>
+    )}
+  </div>
+
+  {this.props.edit ? (
+    <>
+      <button
+        className={"btn btn--small"}
+        type="submit"
+        onClick={e => this.editFriend(e)}
+      >
+        Comfirm Edit
+      </button>
+      <button className={"btn btn--small"} onClick={e => this.deleteFriend(e)}>
+        Delete
+      </button>
+    </>
+  ) : (
+    <button type="submit" className={"btn btn--small"}>
+      Add friend
+    </button>
+  )}
+</form>;
+
+*/

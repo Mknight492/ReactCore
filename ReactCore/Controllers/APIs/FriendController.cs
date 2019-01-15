@@ -118,15 +118,21 @@ namespace ReactCore.Controllers.APIs
                 if (friendToUpdate == null)
                 {
                     _logger.LogError("Error inside FriendController Update action: unable to find friend with matching Id");
-                    return NotFound("No friend with this Id exists");
+                    return StatusCode(500, "Internal Sever Error");
                 }
                 if (!String.IsNullOrWhiteSpace(friend.Name))
                 {
                     friendToUpdate.Name = friend.Name;
                 }
-                if (friend.Location != null)
+                if (friend.LocationId != null)
                 {
-                    friendToUpdate.LocationId = friend.Location.Geonameid;
+                    var location = _repoWrapper.Locations.GetById((int)friend.LocationId);
+                    if(location == null)
+                    {
+                        _logger.LogError("Error inside FriendController Update action: unable to find location with matching Id");
+                        return StatusCode(500, "Internal Sever Error");
+                    }
+                    friendToUpdate.LocationId = (int)friend.LocationId;
                 }
 
                 _repoWrapper.Friends.Update(friendToUpdate);
@@ -151,7 +157,8 @@ namespace ReactCore.Controllers.APIs
             Friend testToDelete = _db.Friends.Find(id);
             if (testToDelete == null)
             {
-                return NotFound();
+                _logger.LogError("Error inside FriendController Delete action: unable to find friend with matching Id");
+                return StatusCode(500, "Unable to find Friend to delete");
             }
 
             _db.Friends.Remove(testToDelete);

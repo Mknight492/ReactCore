@@ -33,7 +33,7 @@ namespace ReactCore.Controllers.APIs
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthenticateController(
-            ApplicationDbContext db, 
+            ApplicationDbContext db,
             UserManager<ApplicationUser> userManager,
             IMapper mapper, ILoggerManager loggerManager,
             SignInManager<ApplicationUser> signInManager)
@@ -60,7 +60,7 @@ namespace ReactCore.Controllers.APIs
                 var userDto = _mapper.Map<ApplicationUserDto>(user);
                 return new JsonResult(userDto);
             }
-            return Ok(new { notLoggedIn = true } );
+            return Ok(new { notLoggedIn = true });
         }
 
 
@@ -78,7 +78,9 @@ namespace ReactCore.Controllers.APIs
         [AllowAnonymous]
         public IActionResult Throw500()
         {
-            return StatusCode(500, "Internal Server Error");
+            object msg2 = new { id = "d" };
+            string json = JsonConvert.SerializeObject(msg2);
+            return StatusCode(500, "Internal Server Er");
         }
 
         [HttpGet(Name = "Throw404")]
@@ -88,15 +90,11 @@ namespace ReactCore.Controllers.APIs
             return NotFound();
         }
 
-        [HttpGet(Name ="Throw400")]
+        [HttpGet(Name = "Throw400")]
         [AllowAnonymous]
         public IActionResult Throw400()
         {
-            string msg = "dope";
-            object msg2 = new { id = "d" };
-            string json = JsonConvert.SerializeObject(msg2);
-            //return StatusCode(500, json);
-            return BadRequest(json);
+            return StatusCode(400, "damn");
         }
 
 

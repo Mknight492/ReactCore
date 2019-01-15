@@ -16,7 +16,7 @@ function friendReducer(state = initalState, action) {
         case constants_1.friendConstants.LOAD_FRIEND_SUCCESS:
             //action.payload = [friend{}, friend{}]
             // eslint-disable-next-line no-case-declarations
-            const friendsObj = lodash_1.mapKeys(action.payload, "id");
+            const friendsObj = lodash_1.mapKeys(action.payload, "Id");
             //only update the state if the friendObj is differn't = stops rerenders
             if (lodash_1.isEqual(state.friendsObj, friendsObj)) {
                 return state;

@@ -48,7 +48,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
         })}
       <div className={styles.flexItem}>
         <div className={styles.border}>
-          <Test Id={"AddFriend"} edit={false} />
+          <Test edit={false} />
         </div>
       </div>
     </div>

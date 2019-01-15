@@ -16,7 +16,19 @@ const services_1 = require("../../redux/services");
 const weatherInputs_1 = require("../UI/inputs/weatherInputs");
 const helpers_2 = require("../../helpers");
 const { useState, useEffect } = React;
-const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive }) => {
+const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive, LocationArrayProps }) => {
+    //if edit = true then the form initial has not Location or Friend
+    let initalLocationId, initialLocation, Id;
+    if (edit) {
+        Id = Friend.Id;
+        initialLocation = [Friend.Location];
+        initalLocationId = Friend.Location.Geonameid;
+    }
+    else {
+        Id = -1;
+        initialLocation = [];
+        initalLocationId = null;
+    }
     ///FORM
     const initalForm = edit
         ? helpers_1.returnInputConfiguration([
@@ -28,10 +40,17 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     const [isFormValid, setIsFormValid] = useState(false);
     //WEATHER
     const [weather, latitude, longitude, setlatitude, setlongitude, setWeather] = useWeather(initialWeather, 0, 0);
+    let mapWeather = weather ? weather.weather[0].main : null;
     //SELECTED LOCATION
-    const [selectedLocationId, setselectedLocationId] = useState(Friend.Location.Geonameid);
+    const [selectedLocationId, setselectedLocationId] = useState(initalLocationId);
     //Typeahead Location Array
-    const [LocationArray, setlocationArray] = useState([Friend.Location]);
+    // const [LocationArray, setlocationArray] = useState(
+    //   LocationArrayProps || initialLocation
+    // );
+    const [LocationArray, setlocationArray] = useState(LocationArrayProps || initialLocation);
+    useEffect(() => {
+        setlocationArray(LocationArrayProps || initialLocation || []);
+    }, [LocationArrayProps, initialLocation]);
     //on loading get the current weather and then display in wweather section and map
     //function which undate the form
     function handleChangeEvent(event, id) {
@@ -72,7 +91,7 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
         let searchTerm = event.target.value;
         if (!helpers_2.HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
             //ensures atleast 3 letters before sending TA API call
-            loadLocation(searchTerm, Friend.Id); // dispatches API call
+            loadLocation(searchTerm, Id); // dispatches API call
         }
     }
     async function selectTAHandler(TAvalue, id) {
@@ -106,8 +125,6 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
         await services_1.locationServices.deleteFriend(Friend.Id);
         loadFriends();
     }
-    let mapWeather;
-    weather ? (mapWeather = weather.weather[0].main) : (mapWeather = null);
     return (React.createElement(react_bootstrap_1.Well, null,
         React.createElement(react_bootstrap_1.Form, { horizontal: true },
             helpers_1.formUtilityActions
@@ -130,7 +147,7 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
 function mapStateToProps(state) {
     let id = state.friends.isActive;
     return {
-        LocationArray: state.friends[id] || state.friends["AddFriend"] || undefined
+        LocationArrayProps: state.friends[id] || state.friends[-1] || undefined
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -160,5 +177,12 @@ function useWeather(initialWeather, initialLatitude, initialLongitude) {
         });
     }, [latitude, longitude]);
     return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
+}
+function useLocation(LocationArrayProps, initialLocation) {
+    const [LocationArray, setlocationArray] = useState(LocationArrayProps || initialLocation);
+    useEffect(() => {
+        setlocationArray(LocationArrayProps || initialLocation || []);
+    }, [LocationArrayProps, initialLocation]);
+    return [LocationArray];
 }
 //# sourceMappingURL=testhook.js.map

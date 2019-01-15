@@ -21,7 +21,7 @@ const FriendsComponent = ({ loadFriends, currentlyActive, changeActive, friendsO
             }),
         React.createElement("div", { className: styles.flexItem },
             React.createElement("div", { className: styles.border },
-                React.createElement(testhook_1.default, { Id: "AddFriend", edit: false })))));
+                React.createElement(testhook_1.default, { edit: false })))));
 };
 function mapStateToProps(state) {
     return {

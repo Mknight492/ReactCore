@@ -25,11 +25,10 @@ import { Friend, WeatherObject, Locations } from "../../models";
 const { useState, useEffect } = React;
 
 interface OwnProps {
-  Friend: Friend | undefined;
+  Friend?: Friend;
   isActive?: boolean;
   initialWeather?: WeatherObject;
   edit: boolean;
-  Id?: any;
 }
 interface StateProps {
   LocationArrayProps: Locations[];

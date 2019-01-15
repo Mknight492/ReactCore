@@ -86,6 +86,7 @@ namespace ReactCore
 
                 config.InputFormatters.Add(new XmlSerializerInputFormatter());
                 config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                config.OutputFormatters.Add(new PascalCaseJsonProfileFormatter());
             })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

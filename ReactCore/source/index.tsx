@@ -9,7 +9,7 @@ import App from "./components/app/app";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import { store } from "./redux/store/configure-store";
+import store from "./redux/store/configure-store";
 
 //import global styles
 import "./index.scss";
@@ -24,8 +24,11 @@ const renderApp = () => {
 };
 renderApp();
 
+declare const module: any;
+
+///may need to be app.js
 if (module.hot) {
-  module.hot.accept("./components/app/app.container.js", () => {
+  module.hot.accept("./components/app/app", () => {
     renderApp();
   });
 }

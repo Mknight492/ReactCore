@@ -15,14 +15,21 @@ import {
 //styles
 import * as styles from "./weather-page.module.scss";
 
-interface WeatherPageProps {
+interface OwnProps {
+  path: string;
+}
+interface StateProps {
   position: object;
   locationWeather: object;
-  testArray: object;
+}
+interface DispatchProps {
   dispatchUpdatedPosition: Function;
 }
+interface State {}
 
-const WeatherPage: React.SFC<WeatherPageProps> = () => {
+type Props = StateProps & DispatchProps & OwnProps & State;
+
+const WeatherPage: React.SFC<Props> = () => {
   return (
     <div>
       <button onClick={() => HF.Appfetch("api/Authenticate/Throw500")}>
@@ -38,8 +45,7 @@ const WeatherPage: React.SFC<WeatherPageProps> = () => {
 
 const mapStateToProps = state => ({
   position: state.weather.currentPosition,
-  locationWeather: state.weather.locationWeather,
-  testArray: state.friends.friendsObj
+  locationWeather: state.weather.locationWeather
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -49,7 +55,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(WeatherPage);

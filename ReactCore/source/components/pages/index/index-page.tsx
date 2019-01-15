@@ -14,9 +14,8 @@ const IndexPage: React.SFC<IProps> = props => {
     <>
       <h2> you shouldn't be here</h2>
       <h2> you shouldn't be here</h2>
-      <h2> you shouldn't be here</h2>
       <Test2 />
-      <Hello compiler="typescript" framework={"React"} />
+      <Hello compiler="typescript" />
     </>
   );
 };

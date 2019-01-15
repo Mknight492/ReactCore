@@ -37,4 +37,4 @@ const configureStore = () => {
 let store = configureStore();
 sagas.run(rootSaga);
 
-export { store, configureStore, sagas };
+export default store;

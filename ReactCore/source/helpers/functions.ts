@@ -1,5 +1,5 @@
 import { handleHTTPError } from "../redux/actions";
-import { store } from "../redux/store/configure-store";
+import store from "../redux/store/configure-store";
 import { Locations } from "../models";
 
 //helper functions
@@ -13,7 +13,10 @@ export const HF = {
   generateRandomNumber
 };
 
-async function AFfetch(url, options) {
+async function AFfetch(url: string, options: any): Promise<any>;
+async function AFfetch(url: string): Promise<any>;
+
+async function AFfetch(url: string, options?: any) {
   if (options) {
     options.headers.RequestVerificationToken = (<HTMLInputElement>(
       document.getElementsByName("__RequestVerificationToken")[0]
@@ -37,18 +40,26 @@ async function AFfetch(url, options) {
   }
 }
 
-async function Appfetch(url, options) {
+async function Appfetch(url: string, options: any): Promise<any>;
+async function Appfetch(url: string): Promise<any>;
+
+async function Appfetch(url: string, options?: any) {
   if (options) {
     options.headers.RequestVerificationToken = (<HTMLInputElement>(
       document.getElementsByName("__RequestVerificationToken")[0]
     )).value;
+    options.headers["Content-Type"] = "application/json";
+    options.headers.profile = "https://en.wikipedia.org/wiki/PascalCase";
   } else {
     options = {
       method: "GET",
       headers: {
         RequestVerificationToken: (<HTMLInputElement>(
           document.getElementsByName("__RequestVerificationToken")[0]
-        )).value
+        )).value,
+        profile: '"https://en.wikipedia.org/wiki/PascalCase"',
+        ["Content-Type"]:
+          'application/json;profile="https://en.wikipedia.org/wiki/PascalCase"'
       }
     };
   }

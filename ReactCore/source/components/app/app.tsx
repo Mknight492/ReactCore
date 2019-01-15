@@ -7,7 +7,7 @@ import { PrivateRoute } from "../privateRoute/privateRoute";
 import { Private } from "../privateRoute/private";
 
 //import pages
-import Navigation from "../../components/navigation/navigation.container";
+import Navigation from "../../components/navigation/navigation";
 import IndexPage from "../pages/index/index-page";
 import NotFound from "../errorPages/notFound/notFound";
 import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
@@ -25,27 +25,26 @@ import { connect } from "react-redux";
 import { userActions } from "../../redux/actions/index";
 import { ApplicationUserDto } from "../../models/index";
 
+//componet imports
+
+import WeatherPage from "./../pages/weather/weather-page";
+
+/*
 const WeatherpageLoadable = MyLoadable({
   loader: () => import("../pages/weather/weather-page"),
   modules: ["../pages/weather/weather-page"],
   webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
+*/
 
-const IdentitypageLoadable = MyLoadable({
-  loader: () => import("../pages/Identity/identity"),
-  modules: ["../pages/Identity/identity"],
-  webpack: () => [require.resolveWeak("../pages/Identity/identity")]
-});
-
-const App: React.SFC = () => {
+const App = () => {
   return (
     <div>
       <Navigation />
       <div className={styles.wrapper}>
         <Router>
           <IndexPage path="/" />
-          <WeatherpageLoadable path="/weather" />
-          <IdentitypageLoadable path="/identity" />
+          <WeatherPage path="/weather" />
           <IdentityLoginPage path="/identityLogin" />
           <ServerErrorPage path="/500" />
           <NotFound path="*" />
@@ -54,6 +53,18 @@ const App: React.SFC = () => {
     </div>
   );
 };
+
+// const App = () => {
+//   return (
+//     <div>
+//       <h2>Hello TS</h2>
+//       <Navigation />
+//       <IndexPage path="p" />
+//       <ServerErrorPage path="/500" />
+//       <NotFound path="*" />
+//     </div>
+//   );
+// };
 
 export default App;
 

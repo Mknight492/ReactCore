@@ -12,20 +12,30 @@ import { ApplicationUserDto } from "../../models";
 
 const { useEffect } = React;
 
-interface NavBarProps {
-  getUser: Function;
-  user: ApplicationUserDto;
-  LoggedIn: boolean;
+interface OwnProps {}
+interface StateProps {
+  user?: ApplicationUserDto;
+  LoggedIn?: boolean;
 }
+interface DispatchProps {
+  getUser?: Function;
+}
+interface State {}
 
-const NavigationComponent: React.SFC<NavBarProps> = ({
+type Props = OwnProps & StateProps & DispatchProps & State;
+
+const NavigationComponent: React.FunctionComponent<Props> = ({
   user,
   LoggedIn,
   getUser
 }) => {
-  useEffect(() => {
-    getUser();
-  }, []);
+  let loaded;
+  useEffect(
+    () => {
+      getUser();
+    },
+    [loaded]
+  );
 
   return LoggedIn ? (
     <div className={styles.container}>
@@ -60,7 +70,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(NavigationComponent);

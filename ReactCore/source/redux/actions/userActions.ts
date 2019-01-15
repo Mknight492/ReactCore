@@ -2,6 +2,7 @@ import { userConstants } from "../constants/index";
 import { userService } from "../services/index";
 import { alertActions } from "./index";
 import { history } from "../../helpers/index";
+import { ApplicationUserDto } from "../../models";
 
 export const userActions = {
   //login,
@@ -24,7 +25,8 @@ function getUserFailure() {
     type: userConstants.GET_USER_FAILURE
   };
 }
-function getUserSuccess(user) {
+function getUserSuccess(user: ApplicationUserDto) {
+  console.log(user);
   return {
     type: userConstants.GET_USER_SUCCESS,
     payload: user
@@ -48,16 +50,15 @@ function login(username, password) {
     );
   };*/
 
-  function request(user) {
-    return { type: userConstants.LOGIN_REQUEST, user };
-  }
-  function success(user) {
-    return { type: userConstants.LOGIN_SUCCESS, user };
-  }
-  function failure(error) {
-    return { type: userConstants.LOGIN_FAILURE, error };
-  }
-
+function request(user) {
+  return { type: userConstants.LOGIN_REQUEST, user };
+}
+function success(user) {
+  return { type: userConstants.LOGIN_SUCCESS, user };
+}
+function failure(error) {
+  return { type: userConstants.LOGIN_FAILURE, error };
+}
 
 function logout() {
   userService.logout();
@@ -70,7 +71,7 @@ function register(user) {
 
     userService.register(user).then(
       user => {
-        dispatch(success());
+        dispatch(success(user));
         history.push("/login");
         dispatch(alertActions.success("Registration successful"));
       },

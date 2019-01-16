@@ -154,3 +154,18 @@ module.exports = {
     // new CheckerPlugin()
   ]
 };
+
+// Alternative TS lint config
+// {
+//   "extends": [
+//     "tslint:recommended",
+//     "tslint-react",
+//     "tslint-config-prettier"
+//   ],
+//   "rules": {
+//     "ordered-imports": false,
+//     "object-literal-sort-keys": false,
+//     "interface-name": false,
+//     "member-ordering": false
+//   }
+// }

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 //import components
 const weather_1 = require("../weather/weather");
-const testhook_1 = require("../test/testhook");
+const friendFormHook_1 = require("../friendForm/friendFormHook");
 const maphook_1 = require("../map/maphook");
 const OutsideClick_1 = require("../../higherOrderComponents/OutsideClick");
 //import helper functions
@@ -16,14 +16,14 @@ const react_redux_1 = require("react-redux");
 const index_3 = require("../../redux/actions/index");
 const { useState, useEffect } = React;
 const FriendComponent = ({ Friend, changeActive, isActive }) => {
-    const [weather, setWeather] = useState(null);
+    const [weather, setWeather] = useState(undefined);
     useEffect(() => {
         index_1.locationServices
             .getWeather(Friend.Location.Latitude, Friend.Location.Longitude)
             .then(result => {
             setWeather(result);
         });
-    }, []);
+    }, [Friend.Location.Latitude, Friend.Location.Longitude]);
     /*
     const date = new Date().toLocaleString(undefined, {
       day: "numeric",
@@ -33,9 +33,9 @@ const FriendComponent = ({ Friend, changeActive, isActive }) => {
       minute: "2-digit"
     });
     */
-    const ClickTest = OutsideClick_1.default(testhook_1.default, changeActive);
+    const ClickFriendForm = OutsideClick_1.default(friendFormHook_1.default, changeActive);
     return (React.createElement("div", null, isActive ? (React.createElement(React.Fragment, null,
-        React.createElement(ClickTest, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
+        React.createElement(ClickFriendForm, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
         React.createElement("h3", { className: styles.name },
             " ",
             Friend.Name),

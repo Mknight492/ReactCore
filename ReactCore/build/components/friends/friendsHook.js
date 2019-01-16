@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const friendHook_1 = require("../friend/friendHook");
 const styles = require("./friends.module.scss");
-const testhook_1 = require("../../components/test/testhook");
+const friendFormHook_1 = require("../../components/friendForm/friendFormHook");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("../../redux/actions");
 const { useEffect } = React;
@@ -21,7 +21,7 @@ const FriendsComponent = ({ loadFriends, currentlyActive, changeActive, friendsO
             }),
         React.createElement("div", { className: styles.flexItem },
             React.createElement("div", { className: styles.border },
-                React.createElement(testhook_1.default, { edit: false })))));
+                React.createElement(friendFormHook_1.default, { edit: false })))));
 };
 function mapStateToProps(state) {
     return {

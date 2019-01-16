@@ -2,7 +2,7 @@
 
 //routing Imports
 import { Router } from "@reach/router";
-import { history } from "../../helpers/index";
+//import { history } from "../../helpers/index";
 import { PrivateRoute } from "../privateRoute/privateRoute";
 import { Private } from "../privateRoute/private";
 
@@ -10,7 +10,7 @@ import { Private } from "../privateRoute/private";
 import Navigation from "../../components/navigation/navigation";
 import IndexPage from "../pages/index/index-page";
 import NotFound from "../errorPages/notFound/notFound";
-import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
+//import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 import ServerErrorPage from "../errorPages/internalServer/internalServer";
 
 //import global style
@@ -24,6 +24,9 @@ import MyLoadable from "../../higherOrderComponents/MyLoadable";
 import { connect } from "react-redux";
 import { userActions } from "../../redux/actions/index";
 import { ApplicationUserDto } from "../../models/index";
+//Redux Imports
+import { Provider } from "react-redux";
+import store from "../../redux/store/configure-store";
 
 //componet imports
 
@@ -39,18 +42,21 @@ const WeatherpageLoadable = MyLoadable({
 
 const App = () => {
   return (
-    <div>
-      <Navigation />
-      <div className={styles.wrapper}>
-        <Router>
-          <IndexPage path="/" />
-          <WeatherPage path="/weather" />
-          <IdentityLoginPage path="/identityLogin" />
-          <ServerErrorPage path="/500" />
-          <NotFound path="*" />
-        </Router>
-      </div>
-    </div>
+    <Provider store={store}>
+      <>
+        <Navigation />
+        <h2>test me</h2>
+        <div className={styles.wrapper}>
+          <Router>
+            <IndexPage path="/" />
+            <WeatherPage path="/weather" />
+            {/* <IdentityLoginPage path="/identityLogin" /> */}
+            <ServerErrorPage path="/500" />
+            <NotFound path="*" />
+          </Router>
+        </div>
+      </>
+    </Provider>
   );
 };
 

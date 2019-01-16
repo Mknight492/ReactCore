@@ -3,7 +3,7 @@ import * as React from "react";
 import FriendComponent from "../friend/friendHook";
 import * as styles from "./friends.module.scss";
 
-import Test from "../../components/test/testhook";
+import Test from "../../components/friendForm/friendFormHook";
 
 import { connect } from "react-redux";
 import { friendActions } from "../../redux/actions";

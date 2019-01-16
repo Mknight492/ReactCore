@@ -5,7 +5,7 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./authHeader"));
 __export(require("./config"));
-__export(require("./history"));
+//export * from "./history";
 __export(require("./functions"));
 __export(require("./formUtility"));
 __export(require("./inputConfiguration"));

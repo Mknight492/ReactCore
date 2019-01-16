@@ -1,6 +1,31 @@
 import * as moment from "moment";
+import input from "../components/UI/inputs/weatherInputs";
 
-export const returnInputConfiguration = (config = []) => ({
+export interface inputConfig {
+  [key: string]: {
+    element: string;
+    type: string;
+    value: string;
+    validation: ValidationObject;
+    valid: boolean;
+    touched: boolean;
+    errorMessage: string;
+    label: string;
+  };
+}
+
+export interface ValidationObject {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  location?: boolean;
+}
+
+//const returnInputConfiguration( string[]): input
+
+export const returnInputConfiguration = (
+  config: string[] = []
+): inputConfig => ({
   Name: {
     element: "input",
     type: "text",

@@ -1,7 +1,7 @@
 import { userConstants } from "../constants/index";
 import { userService } from "../services/index";
 import { alertActions } from "./index";
-import { history } from "../../helpers/index";
+//import { history } from "../../helpers/index";
 import { ApplicationUserDto } from "../../models";
 
 export const userActions = {
@@ -72,7 +72,7 @@ function register(user) {
     userService.register(user).then(
       user => {
         dispatch(success(user));
-        history.push("/login");
+        //history.push("/login");
         dispatch(alertActions.success("Registration successful"));
       },
       error => {

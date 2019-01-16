@@ -10,4 +10,5 @@ import {
 //import {faSun} from "@fortawesome/free-brands-svg-icons"
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 
+//@ts-ignore
 library.add([faCloudRain, faCloudSun, faCloudSunRain, faCloud, faSun]);

@@ -13,7 +13,7 @@ const NavigationComponent = ({ user, LoggedIn, getUser }) => {
     useEffect(() => {
         getUser();
     }, [loaded]);
-    return LoggedIn ? (React.createElement("div", { className: styles.container },
+    return user ? (React.createElement("div", { className: styles.container },
         React.createElement(router_1.Link, { to: "/" }, "Home"),
         React.createElement(router_1.Link, { to: "/weather" }, " Weather"),
         React.createElement(router_1.Link, { to: "/identity" }, " Register "),

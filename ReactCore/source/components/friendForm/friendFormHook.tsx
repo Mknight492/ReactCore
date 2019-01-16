@@ -3,7 +3,7 @@ import * as React from "react";
 //style imports
 import { Form, Well, FormGroup, Col } from "react-bootstrap";
 import { returnInputConfiguration, formUtilityActions } from "../../helpers";
-import * as styles from "../friendForm/friendForm.module.scss";
+import * as styles from "./friendForm.module.scss";
 import classNames from "classnames";
 
 //component imports
@@ -21,6 +21,9 @@ import { HF, locationHelpers } from "../../helpers";
 
 //models
 import { Friend, WeatherObject, Locations } from "../../models";
+
+//Custom Hooks
+import { HookHelpers } from "../../customHooks";
 
 const { useState, useEffect } = React;
 
@@ -54,7 +57,7 @@ const TestComponent: React.SFC<Props> = ({
   //if edit = true then the form initial has not Location or Friend
   let initalLocationId, initialLocation, Id;
 
-  if (edit) {
+  if (Friend) {
     Id = Friend.Id;
     initialLocation = [Friend.Location];
     initalLocationId = Friend.Location.Geonameid;
@@ -65,7 +68,7 @@ const TestComponent: React.SFC<Props> = ({
   }
 
   ///FORM
-  const initalForm = edit
+  const initalForm = Friend
     ? returnInputConfiguration([
         Friend.Name,
         HF.formatLocation(Friend.Location)
@@ -85,7 +88,7 @@ const TestComponent: React.SFC<Props> = ({
     setlatitude,
     setlongitude,
     setWeather
-  ] = useWeather(initialWeather, 0, 0);
+  ] = useWeather(initialWeather);
   let mapWeather = weather ? weather.weather[0].main : null;
 
   //SELECTED LOCATION
@@ -95,18 +98,14 @@ const TestComponent: React.SFC<Props> = ({
 
   //Typeahead Location Array
 
-  // const [LocationArray, setlocationArray] = useState(
-  //   LocationArrayProps || initialLocation
-  // );
-  const [LocationArray, setlocationArray] = useState(
-    LocationArrayProps || initialLocation
-  );
-  useEffect(
-    () => {
-      setlocationArray(LocationArrayProps || initialLocation || []);
-    },
-    [LocationArrayProps, initialLocation]
-  );
+  const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
+
+  //Outside Click
+
+  const componentRef = React.useRef(null as any);
+  if (edit) {
+    HookHelpers.useOutSideClick(componentRef, changeActive);
+  }
 
   //on loading get the current weather and then display in wweather section and map
   //function which undate the form
@@ -172,7 +171,7 @@ const TestComponent: React.SFC<Props> = ({
     }
   }
 
-  async function selectTAHandler(TAvalue, id) {
+  async function selectTAHandler(TAvalue: string, id: string) {
     //find the location object that matches  the  TypeAhead value
 
     const matchingLocation = LocationArray.find(
@@ -202,26 +201,30 @@ const TestComponent: React.SFC<Props> = ({
   async function addFriend() {
     await locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
     await loadFriends();
-    //setownerForm(returnInputConfiguration([]));
+    setownerForm(returnInputConfiguration([]));
   }
 
   async function editFriend() {
-    await locationServices.editFriend(
-      ownerForm.Name.value,
-      selectedLocationId,
-      Friend.Id
-    );
-    await loadFriends();
-    changeActive();
+    if (Friend) {
+      await locationServices.editFriend(
+        ownerForm.Name.value,
+        selectedLocationId,
+        Friend.Id
+      );
+      await loadFriends();
+      changeActive();
+    }
   }
 
   async function deleteFriend() {
-    await locationServices.deleteFriend(Friend.Id);
-    loadFriends();
+    if (Friend) {
+      await locationServices.deleteFriend(Friend.Id);
+      loadFriends();
+    }
   }
 
   return (
-    <Well>
+    <div ref={componentRef}>
       <Form horizontal>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
         thus allowing the UI/from to refelct the current state */}
@@ -286,7 +289,7 @@ const TestComponent: React.SFC<Props> = ({
         zoom={9}
         weather={mapWeather}
       />
-    </Well>
+    </div>
   );
 };
 
@@ -319,21 +322,24 @@ const connectedTestComponent = connect<StateProps, DispatchProps, OwnProps>(
 
 export default connectedTestComponent;
 
-////customHook
+////customHooks
 
-function useWeather(
-  initialWeather,
-  initialLatitude: number,
-  initialLongitude: number
-) {
+function useWeather(initialWeather?: WeatherObject) {
+  //either take the inital location from the
+  //weather object or generate a random number
+  let initialLatitude = initialWeather
+    ? initialWeather.coord.lat
+    : HF.generateRandomNumber(-70, 70);
+  let initialLongitude = initialWeather
+    ? initialWeather.coord.lon
+    : HF.generateRandomNumber(-180, 180);
+
+  //generate the stae variables
   const [weather, setWeather] = useState(initialWeather);
-  //LOCATION
-  const [latitude, setlatitude] = useState(
-    initialLatitude || HF.generateRandomNumber(-70, 70)
-  );
-  const [longitude, setlongitude] = useState(
-    initialLongitude || HF.generateRandomNumber(-180, 180)
-  );
+  const [latitude, setlatitude] = useState(initialLatitude);
+  const [longitude, setlongitude] = useState(initialLongitude);
+
+  //every time the latitude or longitude  changes - fetch a new weather object
   useEffect(
     () => {
       locationServices.getWeather(latitude, longitude).then(result => {
@@ -354,7 +360,7 @@ function useLocation(LocationArrayProps, initialLocation) {
     () => {
       setlocationArray(LocationArrayProps || initialLocation || []);
     },
-    [LocationArrayProps, initialLocation]
+    [LocationArrayProps]
   );
 
   return [LocationArray];

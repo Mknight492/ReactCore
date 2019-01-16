@@ -16,9 +16,8 @@ import "./index.scss";
 
 const renderApp = () => {
   render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
+    <App />,
+
     document.getElementById("app")
   );
 };

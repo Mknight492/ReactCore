@@ -4,9 +4,8 @@ import * as React from "react";
 
 import { Weather } from "../weather/weather";
 
-import Test from "../test/testhook";
+import FriendForm from "../friendForm/friendFormHook";
 import MapComponent from "../map/maphook";
-import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 //import helper functions
 import { locationServices } from "../../redux/services/index";
@@ -20,7 +19,7 @@ import { connect } from "react-redux";
 import { friendActions } from "../../redux/actions/index";
 
 //models
-import { Friend } from "../../models";
+import { Friend, WeatherObject } from "../../models";
 
 const { useState, useEffect } = React;
 
@@ -42,15 +41,20 @@ const FriendComponent: React.FunctionComponent<Props> = ({
   changeActive,
   isActive
 }) => {
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState(undefined as
+    | WeatherObject
+    | undefined);
 
-  useEffect(() => {
-    locationServices
-      .getWeather(Friend.Location.Latitude, Friend.Location.Longitude)
-      .then(result => {
-        setWeather(result);
-      });
-  }, []);
+  useEffect(
+    () => {
+      locationServices
+        .getWeather(Friend.Location.Latitude, Friend.Location.Longitude)
+        .then(result => {
+          setWeather(result);
+        });
+    },
+    [Friend.Location.Latitude, Friend.Location.Longitude]
+  );
 
   /*
   const date = new Date().toLocaleString(undefined, {
@@ -61,13 +65,12 @@ const FriendComponent: React.FunctionComponent<Props> = ({
     minute: "2-digit"
   });
   */
-  const ClickTest = OutsideClick(Test, changeActive);
 
   return (
     <div>
       {isActive ? (
         <>
-          <ClickTest
+          <FriendForm
             Friend={Friend}
             initialWeather={weather}
             isActive={isActive}

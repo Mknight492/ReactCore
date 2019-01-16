@@ -12,8 +12,8 @@ import { FormGroup, Col, FormControl, ControlLabel } from "react-bootstrap";
 import { HF } from "../../../helpers";
 
 const input = props => {
-  let inputField = null;
-  let errorMessage = null;
+    let inputField;
+    let errorMessage;
 
   if (props.invalid && props.shouldValidate && props.touched) {
     errorMessage = <em>{props.errorMessage}</em>;

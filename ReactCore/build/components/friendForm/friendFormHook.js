@@ -4,7 +4,7 @@ const React = require("react");
 //style imports
 const react_bootstrap_1 = require("react-bootstrap");
 const helpers_1 = require("../../helpers");
-const styles = require("../friendForm/friendForm.module.scss");
+const styles = require("./friendForm.module.scss");
 //component imports
 const weather_1 = require("../weather/weather");
 const maphook_1 = require("../map/maphook");
@@ -193,4 +193,4 @@ function useLocation(LocationArrayProps, initialLocation) {
     }, [LocationArrayProps, initialLocation]);
     return [LocationArray];
 }
-//# sourceMappingURL=testhook.js.map
+//# sourceMappingURL=friendFormHook.js.map

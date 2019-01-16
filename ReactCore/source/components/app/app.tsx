@@ -7,7 +7,7 @@ import { PrivateRoute } from "../privateRoute/privateRoute";
 import { Private } from "../privateRoute/private";
 
 //import pages
-import Navigation from "../../components/navigation/navigation";
+import Navigation from "components/navigation/navigation";
 import IndexPage from "../pages/index/index-page";
 import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
@@ -32,13 +32,11 @@ import store from "../../redux/store/configure-store";
 
 import WeatherPage from "./../pages/weather/weather-page";
 
-/*
-const WeatherpageLoadable = MyLoadable({
+const WeatherPageLoadable = MyLoadable({
   loader: () => import("../pages/weather/weather-page"),
   modules: ["../pages/weather/weather-page"],
   webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
-*/
 
 const App = () => {
   return (
@@ -49,7 +47,7 @@ const App = () => {
         <div className={styles.wrapper}>
           <Router>
             <IndexPage path="/" />
-            <WeatherPage path="/weather" />
+            <WeatherPageLoadable path="/weather" />
             {/* <IdentityLoginPage path="/identityLogin" /> */}
             <ServerErrorPage path="/500" />
             <NotFound path="*" />

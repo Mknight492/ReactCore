@@ -7,14 +7,10 @@ require("promise-polyfill/src/polyfill");
 const React = require("react");
 const react_dom_1 = require("react-dom");
 const app_1 = require("./components/app/app");
-//Redux Imports
-const react_redux_1 = require("react-redux");
-const configure_store_1 = require("./redux/store/configure-store");
 //import global styles
 require("./index.scss");
 const renderApp = () => {
-    react_dom_1.render(React.createElement(react_redux_1.Provider, { store: configure_store_1.default },
-        React.createElement(app_1.default, null)), document.getElementById("app"));
+    react_dom_1.render(React.createElement(app_1.default, null), document.getElementById("app"));
 };
 renderApp();
 ///may need to be app.js

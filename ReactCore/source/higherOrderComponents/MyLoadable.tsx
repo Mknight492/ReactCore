@@ -1,5 +1,5 @@
-import Loadable from "react-loadable";
-import React from "react";
+import * as Loadable from "react-loadable";
+import * as React from "react";
 
 const LoadingComponent = props => {
   if (props.error) {

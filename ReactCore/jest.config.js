@@ -6,5 +6,9 @@ module.exports = {
   moduleNameMapper: {
     "\\module.scss$": "identity-obj-proxy"
   },
-  setupTestFrameworkScriptFile: "<rootDir>/source/test/testconfig.js"
+  setupTestFrameworkScriptFile: "<rootDir>/source/test/testconfig.ts",
+  globals: {
+    NODE_PATH: "source/"
+  },
+  moduleDirectories: ["node_modules", "source/"]
 };

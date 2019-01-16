@@ -7,7 +7,7 @@ const router_1 = require("@reach/router");
 const navigation_1 = require("../../components/navigation/navigation");
 const index_page_1 = require("../pages/index/index-page");
 const notFound_1 = require("../errorPages/notFound/notFound");
-const identityLogin_1 = require("../pages/IdentityLogin/identityLogin");
+//import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 const internalServer_1 = require("../errorPages/internalServer/internalServer");
 //import global style
 const styles = require("./app.module.scss");
@@ -28,7 +28,6 @@ const App = () => {
             React.createElement(router_1.Router, null,
                 React.createElement(index_page_1.default, { path: "/" }),
                 React.createElement(weather_page_1.default, { path: "/weather" }),
-                React.createElement(identityLogin_1.IdentityLoginPage, { path: "/identityLogin" }),
                 React.createElement(internalServer_1.default, { path: "/500" }),
                 React.createElement(notFound_1.default, { path: "*" })))));
 };

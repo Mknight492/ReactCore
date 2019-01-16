@@ -1,13 +1,16 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "lintOptions": {
+    "typeCheck": true,
+    "project": true
+  },
+  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
   "rules": {
-    "ordered-imports": false,
-    "object-literal-sort-keys": false,
-    "interface-name": false,
-    "member-ordering": false
+    "no-empty-interface": false,
+    "no-unnecessary-type-assertion": true,
+    "adjacent-overload-signatures": true,
+    "no-duplicate-variable": true,
+    "triple-equals": true,
+    "prefer-template": true,
+    "strictNullChecks": true
   }
 }

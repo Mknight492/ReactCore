@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//const returnInputConfiguration( string[]): input
 exports.returnInputConfiguration = (config = []) => ({
     Name: {
         element: "input",

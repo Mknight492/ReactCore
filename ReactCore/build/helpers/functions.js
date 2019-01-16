@@ -48,14 +48,16 @@ async function Appfetch(url, options) {
     try {
         const result = await fetch(url, options);
         if (result.status < 200 || result.status >= 300) {
-            await result.body
-                .getReader()
-                .read()
-                .then(r => {
-                let errorMessage = Utf8ArrayToStr(r.value);
-                let obj = actions_1.handleHTTPError(result, errorMessage);
-                configure_store_1.default.dispatch(obj);
-            });
+            if (result.body) {
+                await result.body
+                    .getReader()
+                    .read()
+                    .then(r => {
+                    let errorMessage = Utf8ArrayToStr(r.value);
+                    let obj = actions_1.handleHTTPError(result, errorMessage);
+                    configure_store_1.default.dispatch(obj);
+                });
+            }
         }
         return result;
     }

@@ -1,4 +1,7 @@
 import { locationHelpers } from "./locationHelpers";
+import { Locations } from "../models";
+
+import { inputConfig } from "./inputConfiguration";
 
 export const formUtilityActions = {
   convertStateToArrayOfFormObjects,
@@ -8,7 +11,7 @@ export const formUtilityActions = {
 };
 
 function convertStateToArrayOfFormObjects(formObject) {
-  return Object.keys(formObject).map(el => ({
+  return Object.keys(formObject as inputConfig).map(el => ({
     id: el,
     ...formObject[el]
   }));
@@ -63,7 +66,7 @@ function countInvalidElements(ownerForm) {
   return true;
 }
 
-function checkValidity(value, validation, LocationArray) {
+function checkValidity(value, validation, LocationArray: Locations[]) {
   let validationObject = {
     isValid: true,
     errorMessage: ""

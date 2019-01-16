@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../constants/index");
 const index_2 = require("../services/index");
 const index_3 = require("./index");
-const index_4 = require("../../helpers/index");
 exports.userActions = {
     //login,
     logout,
@@ -65,7 +64,7 @@ function register(user) {
         dispatch(request(user));
         index_2.userService.register(user).then(user => {
             dispatch(success(user));
-            index_4.history.push("/login");
+            //history.push("/login");
             dispatch(index_3.alertActions.success("Registration successful"));
         }, error => {
             dispatch(failure(error));

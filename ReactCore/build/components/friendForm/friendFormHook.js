@@ -4,7 +4,7 @@ const React = require("react");
 //style imports
 const react_bootstrap_1 = require("react-bootstrap");
 const helpers_1 = require("../../helpers");
-const styles = require("../friendForm/friendForm.module.scss");
+const styles = require("./friendForm.module.scss");
 //component imports
 const weather_1 = require("../weather/weather");
 const maphook_1 = require("../map/maphook");
@@ -19,11 +19,7 @@ const { useState, useEffect } = React;
 const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive, LocationArrayProps }) => {
     //if edit = true then the form initial has not Location or Friend
     let initalLocationId, initialLocation, Id;
-<<<<<<< HEAD
-    if (edit) {
-=======
     if (Friend) {
->>>>>>> ts
         Id = Friend.Id;
         initialLocation = [Friend.Location];
         initalLocationId = Friend.Location.Geonameid;
@@ -43,26 +39,12 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     const [ownerForm, setownerForm] = useState(initalForm);
     const [isFormValid, setIsFormValid] = useState(false);
     //WEATHER
-<<<<<<< HEAD
-    const [weather, latitude, longitude, setlatitude, setlongitude, setWeather] = useWeather(initialWeather, 0, 0);
-=======
     const [weather, latitude, longitude, setlatitude, setlongitude, setWeather] = useWeather(initialWeather);
->>>>>>> ts
     let mapWeather = weather ? weather.weather[0].main : null;
     //SELECTED LOCATION
     const [selectedLocationId, setselectedLocationId] = useState(initalLocationId);
     //Typeahead Location Array
-<<<<<<< HEAD
-    // const [LocationArray, setlocationArray] = useState(
-    //   LocationArrayProps || initialLocation
-    // );
-    const [LocationArray, setlocationArray] = useState(LocationArrayProps || initialLocation);
-    useEffect(() => {
-        setlocationArray(LocationArrayProps || initialLocation || []);
-    }, [LocationArrayProps, initialLocation]);
-=======
     const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
->>>>>>> ts
     //on loading get the current weather and then display in wweather section and map
     //function which undate the form
     function handleChangeEvent(event, id) {
@@ -211,4 +193,4 @@ function useLocation(LocationArrayProps, initialLocation) {
     }, [LocationArrayProps, initialLocation]);
     return [LocationArray];
 }
-//# sourceMappingURL=testhook.js.map
+//# sourceMappingURL=friendFormHook.js.map

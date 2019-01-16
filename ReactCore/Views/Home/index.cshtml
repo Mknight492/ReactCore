@@ -1,45 +1,26 @@
-Html Webpack Plugin:
-<pre>
-  Error: Child compilation failed:
-  Entry module not found: SyntaxError: C:\Users\Michael Knight\source\repos\Reac  tCore\ReactCore\package.json (directory description file): SyntaxError: C:\Use  rs\Michael Knight\source\repos\ReactCore\ReactCore\package.json (directory des  cription file): SyntaxError: C:\Users\Michael Knight\source\repos\ReactCore\Re  actCore\package.json (directory description file): SyntaxError: C:\Users\Micha  el Knight\source\repos\ReactCore\ReactCore\package.json (directory description   file): SyntaxError: C:\Users\Michael Knight\source\repos\ReactCore\ReactCore\  package.json (directory description file): SyntaxError: C:\Users\Michael Knigh  t\source\repos\ReactCore\ReactCore\package.json (directory description file):   SyntaxError: Unexpected token < in JSON at position 27:
-  SyntaxError: C:\Users\Michael Knight\source\repos\ReactCore\ReactCore\package.  json (directory description file): SyntaxError: C:\Users\Michael Knight\source  \repos\ReactCore\ReactCore\package.json (directory description file): SyntaxEr  ror: C:\Users\Michael Knight\source\repos\ReactCore\ReactCore\package.json (di  rectory description file): SyntaxError: C:\Users\Michael Knight\source\repos\R  eactCore\ReactCore\package.json (directory description file): SyntaxError: C:\  Users\Michael Knight\source\repos\ReactCore\ReactCore\package.json (directory   description file): SyntaxError: C:\Users\Michael Knight\source\repos\ReactCore  \ReactCore\package.json (directory description file): SyntaxError: Unexpected   token < in JSON at position 27
-  
-  - compiler.js:79 childCompiler.runAsChild
-    [ReactCore]/[html-webpack-plugin]/lib/compiler.js:79:16
-  
-  - Compiler.js:296 compile
-    [ReactCore]/[webpack]/lib/Compiler.js:296:11
-  
-  - Compiler.js:552 hooks.afterCompile.callAsync.err
-    [ReactCore]/[webpack]/lib/Compiler.js:552:14
-  
-  
-  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
-    [ReactCore]/[tapable]/lib/Hook.js:154:20
-  
-  - Compiler.js:549 compilation.seal.err
-    [ReactCore]/[webpack]/lib/Compiler.js:549:30
-  
-  
-  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
-    [ReactCore]/[tapable]/lib/Hook.js:154:20
-  
-  - Compilation.js:1323 hooks.optimizeAssets.callAsync.err
-    [ReactCore]/[webpack]/lib/Compilation.js:1323:35
-  
-  
-  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
-    [ReactCore]/[tapable]/lib/Hook.js:154:20
-  
-  - Compilation.js:1314 hooks.optimizeChunkAssets.callAsync.err
-    [ReactCore]/[webpack]/lib/Compilation.js:1314:32
-  
-  
-  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
-    [ReactCore]/[tapable]/lib/Hook.js:154:20
-  
-  - Compilation.js:1309 hooks.additionalAssets.callAsync.err
-    [ReactCore]/[webpack]/lib/Compilation.js:1309:36
-  
-  
-</pre><script type="text/javascript" src="/dist/main.bundle.js"></script>
+@using Microsoft.AspNetCore.Antiforgery;
+<!-- - -->
+@Html.AntiForgeryToken()
+<!-- - -->
+@inject IAntiforgery Antiforgery
+<!-- - -->
+@{ 
+Layout=null; 
+} 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WTF!</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSOw1Yu3D1WzfLZItDcBP0KPpPlx23l_k"></script>
+  <script type="text/javascript" src="/dist/main.bundle.js"></script></body>
+</html>

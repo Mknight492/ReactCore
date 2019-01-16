@@ -1,17 +1,15 @@
-import { createBrowserHistory } from "history";
+//import { createBrowserHistory } from "history";
 
-export const history = createBrowserHistory();
+//export const history = createBrowserHistory();
 
-/*import {
-  createMemorySource,
-  createHistory
-} from "@reach/router"
+// import {
+//   createMemorySource,
+//   createHistory
+// } from "@reach/router"
 
-// listen to the browser history
-let history = createHistory(window)
+// // listen to the browser history
+// let history = createHistory(window)
 
-// for some types of tests you want a memory source
-let source = createMemorySource("/starting/url")
-let history = createHistory(source)
-
-*/
+// // for some types of tests you want a memory source
+// let source = createMemorySource("/starting/url")
+// let history = createHistory(source)

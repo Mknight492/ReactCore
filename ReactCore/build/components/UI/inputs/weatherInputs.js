@@ -5,8 +5,8 @@ const react_autocomplete_1 = require("react-autocomplete");
 //css imports
 const styles = require("../../friendForm/friendForm.module.scss");
 const input = props => {
-    let inputField = null;
-    let errorMessage = null;
+    let inputField;
+    let errorMessage;
     if (props.invalid && props.shouldValidate && props.touched) {
         errorMessage = React.createElement("em", null, props.errorMessage);
     }

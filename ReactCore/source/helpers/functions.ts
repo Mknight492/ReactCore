@@ -60,15 +60,18 @@ async function Appfetch(url: string, options?: any) {
   }
   try {
     const result = await fetch(url, options);
-    if (result.status < 200 || result.status >= 300) {
-      await result.body
-        .getReader()
-        .read()
-        .then(r => {
-          let errorMessage = Utf8ArrayToStr(r.value);
-          let obj = handleHTTPError(result, errorMessage);
-          store.dispatch(obj);
-        });
+      if (result.status < 200 || result.status >= 300) {
+          if (result.body) {
+              await result.body
+                  .getReader()
+                  .read()
+                  .then(r => {
+                      let errorMessage = Utf8ArrayToStr(r.value);
+                      let obj = handleHTTPError(result, errorMessage);
+                      store.dispatch(obj);
+                  });
+          }
+
     }
     return result;
   } catch (e) {

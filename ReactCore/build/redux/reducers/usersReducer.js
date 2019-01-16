@@ -3,28 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
 const initialState = {
     LoggedIn: false,
-    user: undefined
+    user: undefined,
+    noUserActive: undefined,
+    loading: false
 };
 function users(state = initialState, action) {
     switch (action.type) {
         case constants_1.userConstants.GETALL_REQUEST:
-            return {
-                loading: true
-            };
+            return Object.assign({}, state, { loading: true });
         case constants_1.userConstants.GET_USER_REQUEST:
-            return {
-                loading: true
-            };
+            return Object.assign({}, state, { loading: true });
         case constants_1.userConstants.GET_USER_FAILURE:
-            return {
-                noUserActive: true
-            };
+            return Object.assign({}, state, { noUserActive: true });
         case constants_1.userConstants.GET_USER_SUCCESS:
             //payload = user{}
-            return {
-                LoggedIn: true,
-                user: action.payload
-            };
+            return Object.assign({}, state, { LoggedIn: true, user: action.payload });
         default:
             return state;
     }

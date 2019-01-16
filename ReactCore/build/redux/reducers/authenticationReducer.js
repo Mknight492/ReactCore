@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
-let user = JSON.parse(localStorage.getItem("user"));
-const initialState = user ? { loggedIn: true, user } : {};
+let userString = localStorage.getItem("user");
+let user;
+if (userString) {
+    user = JSON.parse(userString);
+}
+const initialState = user ? { loggedIn: true, user: user } : {};
 function authentication(state = initialState, action) {
     switch (action.type) {
         case constants_1.userConstants.LOGIN_REQUEST:

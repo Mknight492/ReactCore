@@ -3,7 +3,7 @@ import * as React from "react";
 import FriendComponent from "../friend/friendHook";
 import * as styles from "./friends.module.scss";
 
-import Test from "../../components/test/testhook";
+import Test from "../../components/friendForm/friendFormHook";
 
 import { connect } from "react-redux";
 import { friendActions } from "../../redux/actions";
@@ -48,7 +48,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
         })}
       <div className={styles.flexItem}>
         <div className={styles.border}>
-          <Test Id={"AddFriend"} edit={false} />
+          <Test edit={false} />
         </div>
       </div>
     </div>

@@ -2,27 +2,33 @@ import { userConstants } from "../constants";
 
 const initialState = {
   LoggedIn: false,
-  user: undefined
+    user: undefined as object | undefined,
+    noUserActive: undefined as any,
+    loading: false
 };
 
 export function users(state = initialState, action) {
   switch (action.type) {
     case userConstants.GETALL_REQUEST:
-      return {
+          return {
+          ...state,
         loading: true
       };
 
     case userConstants.GET_USER_REQUEST:
-      return {
+          return {
+          ...state,
         loading: true
       };
     case userConstants.GET_USER_FAILURE:
-      return {
+          return {
+          ...state,
         noUserActive: true
       };
     case userConstants.GET_USER_SUCCESS:
       //payload = user{}
-      return {
+          return {
+          ...state,
         LoggedIn: true,
         user: action.payload
       };

@@ -18,7 +18,7 @@ interface StateProps {
   LoggedIn?: boolean;
 }
 interface DispatchProps {
-  getUser?: Function;
+  getUser: Function;
 }
 interface State {}
 
@@ -37,7 +37,7 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
     [loaded]
   );
 
-  return LoggedIn ? (
+  return user ? (
     <div className={styles.container}>
       <Link to={"/"}>Home</Link>
       <Link to={"/weather"}> Weather</Link>

@@ -356,7 +356,8 @@ SD
 
 ./ReactCore/Data/*
 reactcore/.gitignore
-
+./ReactCore/build
+build
 # End of https://www.gitignore.io/api/code,visualstudio
 
 

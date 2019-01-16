@@ -28,11 +28,8 @@ import { HookHelpers } from "../../customHooks";
 const { useState, useEffect } = React;
 
 interface OwnProps {
-<<<<<<< HEAD:ReactCore/source/components/test/testhook.tsx
+
   Friend?: Friend ;
-=======
-  Friend?: Friend;
->>>>>>> ts:ReactCore/source/components/friendForm/friendFormHook.tsx
   isActive?: boolean;
   initialWeather?: WeatherObject;
   edit: boolean;

@@ -15,6 +15,8 @@ const services_1 = require("../../redux/services");
 //helper functions
 const weatherInputs_1 = require("../UI/inputs/weatherInputs");
 const helpers_2 = require("../../helpers");
+//Custom Hooks
+const customHooks_1 = require("../../customHooks");
 const { useState, useEffect } = React;
 const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive, LocationArrayProps }) => {
     //if edit = true then the form initial has not Location or Friend
@@ -45,6 +47,11 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     const [selectedLocationId, setselectedLocationId] = useState(initalLocationId);
     //Typeahead Location Array
     const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
+    //Outside Click
+    const componentRef = React.useRef(null);
+    if (edit) {
+        customHooks_1.HookHelpers.useOutSideClick(componentRef, changeActive);
+    }
     //on loading get the current weather and then display in wweather section and map
     //function which undate the form
     function handleChangeEvent(event, id) {
@@ -108,7 +115,7 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     async function addFriend() {
         await services_1.locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
         await loadFriends();
-        //setownerForm(returnInputConfiguration([]));
+        setownerForm(helpers_1.returnInputConfiguration([]));
     }
     async function editFriend() {
         if (Friend) {
@@ -123,12 +130,11 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
             loadFriends();
         }
     }
-    return (React.createElement(react_bootstrap_1.Well, null,
+    return (React.createElement("div", { ref: componentRef },
         React.createElement(react_bootstrap_1.Form, { horizontal: true },
             helpers_1.formUtilityActions
                 .convertStateToArrayOfFormObjects(ownerForm)
                 .map(element => {
-                console.log(element);
                 return (React.createElement(weatherInputs_1.default, { key: element.id, elementType: element.element, id: element.id, label: element.label, type: element.type, value: element.value, changed: event => handleChangeEvent(event, element.id), errorMessage: element.errorMessage, invalid: !element.valid, shouldValidate: element.validation, touched: element.touched, blur: event => handleChangeEvent(event, element.id), 
                     //TypeAhead Specific props
                     items: helpers_2.locationHelpers.uniqueTAValues(LocationArray), selectHandler: val => selectTAHandler(val, element.id) }));
@@ -190,7 +196,7 @@ function useLocation(LocationArrayProps, initialLocation) {
     const [LocationArray, setlocationArray] = useState(LocationArrayProps || initialLocation);
     useEffect(() => {
         setlocationArray(LocationArrayProps || initialLocation || []);
-    }, [LocationArrayProps, initialLocation]);
+    }, [LocationArrayProps]);
     return [LocationArray];
 }
 //# sourceMappingURL=friendFormHook.js.map

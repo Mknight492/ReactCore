@@ -12,6 +12,9 @@ const internalServer_1 = require("../errorPages/internalServer/internalServer");
 //import global style
 const styles = require("./app.module.scss");
 require("./FA");
+//Redux Imports
+const react_redux_1 = require("react-redux");
+const configure_store_1 = require("../../redux/store/configure-store");
 //componet imports
 const weather_page_1 = require("./../pages/weather/weather-page");
 /*
@@ -22,14 +25,16 @@ const WeatherpageLoadable = MyLoadable({
 });
 */
 const App = () => {
-    return (React.createElement("div", null,
-        React.createElement(navigation_1.default, null),
-        React.createElement("div", { className: styles.wrapper },
-            React.createElement(router_1.Router, null,
-                React.createElement(index_page_1.default, { path: "/" }),
-                React.createElement(weather_page_1.default, { path: "/weather" }),
-                React.createElement(internalServer_1.default, { path: "/500" }),
-                React.createElement(notFound_1.default, { path: "*" })))));
+    return (React.createElement(react_redux_1.Provider, { store: configure_store_1.default },
+        React.createElement(React.Fragment, null,
+            React.createElement(navigation_1.default, null),
+            React.createElement("h2", null, "test me"),
+            React.createElement("div", { className: styles.wrapper },
+                React.createElement(router_1.Router, null,
+                    React.createElement(index_page_1.default, { path: "/" }),
+                    React.createElement(weather_page_1.default, { path: "/weather" }),
+                    React.createElement(internalServer_1.default, { path: "/500" }),
+                    React.createElement(notFound_1.default, { path: "*" }))))));
 };
 // const App = () => {
 //   return (

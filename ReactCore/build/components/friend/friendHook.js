@@ -5,7 +5,6 @@ const React = require("react");
 const weather_1 = require("../weather/weather");
 const friendFormHook_1 = require("../friendForm/friendFormHook");
 const maphook_1 = require("../map/maphook");
-const OutsideClick_1 = require("../../higherOrderComponents/OutsideClick");
 //import helper functions
 const index_1 = require("../../redux/services/index");
 const index_2 = require("../../helpers/index");
@@ -33,9 +32,8 @@ const FriendComponent = ({ Friend, changeActive, isActive }) => {
       minute: "2-digit"
     });
     */
-    const ClickFriendForm = OutsideClick_1.default(friendFormHook_1.default, changeActive);
     return (React.createElement("div", null, isActive ? (React.createElement(React.Fragment, null,
-        React.createElement(ClickFriendForm, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
+        React.createElement(friendFormHook_1.default, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
         React.createElement("h3", { className: styles.name },
             " ",
             Friend.Name),

@@ -353,6 +353,8 @@ security.js
 coverage
 appsettings.json
 SD
+./ReactCore/build/*
+build
 # End of https://www.gitignore.io/api/code,visualstudio
 
 

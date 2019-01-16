@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import Friend from "./friendForm";
 import { friendActions } from "../../redux/actions";
-import OutsideClick from "../../higherOrderComponents/OutsideClick";
 
 function mapStateToProps(state) {
   return {

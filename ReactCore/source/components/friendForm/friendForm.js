@@ -14,10 +14,6 @@ import Test from "../test/test";
 //import helper function
 import { locationServices } from "../../redux/services";
 import { HF } from "../../helpers";
-<<<<<<< HEAD:ReactCore/source/components/friendForm/friendForm.js
-import MapComponent from "../map/map";
-=======
->>>>>>> friend:ReactCore/source/components/friendForm/friendForm.js
 
 class FriendFormComponent extends React.Component {
   constructor(...args) {

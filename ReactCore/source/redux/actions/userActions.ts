@@ -2,7 +2,7 @@ import { userConstants } from "../constants/index";
 import { userService } from "../services/index";
 import { alertActions } from "./index";
 //import { history } from "../../helpers/index";
-import { ApplicationUserDto } from "../../models";
+import { ApplicationUserDto } from "models";
 
 export const userActions = {
   //login,

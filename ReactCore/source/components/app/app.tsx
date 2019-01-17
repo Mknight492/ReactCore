@@ -26,7 +26,7 @@ import { userActions } from "../../redux/actions/index";
 import { ApplicationUserDto } from "../../models/index";
 //Redux Imports
 import { Provider } from "react-redux";
-import store from "../../redux/store/configure-store";
+import { Root } from "../../redux/store/configure-store";
 
 //componet imports
 
@@ -40,7 +40,7 @@ const WeatherPageLoadable = MyLoadable({
 
 const App = () => {
   return (
-    <Provider store={store}>
+    <Root>
       <>
         <Navigation />
         <h2>test me</h2>
@@ -54,7 +54,7 @@ const App = () => {
           </Router>
         </div>
       </>
-    </Provider>
+    </Root>
   );
 };
 

@@ -7,7 +7,7 @@ const friendFormHook_1 = require("../../components/friendForm/friendFormHook");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("../../redux/actions");
 const { useEffect } = React;
-const FriendsComponent = ({ loadFriends, currentlyActive, changeActive, friendsObj }) => {
+const FriendsComponent = ({ loadFriends, friendsObj }) => {
     //on mounting - load friends
     useEffect(() => {
         loadFriends();
@@ -17,7 +17,7 @@ const FriendsComponent = ({ loadFriends, currentlyActive, changeActive, friendsO
             Object.values(friendsObj).map(Friend => {
                 return (React.createElement("div", { className: styles.flexItem, key: Friend.Id },
                     React.createElement("div", { className: styles.border },
-                        React.createElement(friendHook_1.default, { Friend: Friend, isActive: currentlyActive === Friend.Id, changeActive: changeActive }))));
+                        React.createElement(friendHook_1.default, { Friend: Friend }))));
             }),
         React.createElement("div", { className: styles.flexItem },
             React.createElement("div", { className: styles.border },
@@ -25,17 +25,13 @@ const FriendsComponent = ({ loadFriends, currentlyActive, changeActive, friendsO
 };
 function mapStateToProps(state) {
     return {
-        friendsObj: state.friends.friendsObj,
-        currentlyActive: state.friends.isActive
+        friendsObj: state.friends.friendsObj
     };
 }
 function mapDispatchToProps(dispatch) {
     return {
         loadFriends: () => {
             dispatch(actions_1.friendActions.loadFriendAttemptAG());
-        },
-        changeActive: id => {
-            dispatch(actions_1.friendActions.changeFriendAG(id));
         }
     };
 }

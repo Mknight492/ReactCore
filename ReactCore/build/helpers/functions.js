@@ -55,7 +55,7 @@ async function Appfetch(url, options) {
                     .then(r => {
                     let errorMessage = Utf8ArrayToStr(r.value);
                     let obj = actions_1.handleHTTPError(result, errorMessage);
-                    configure_store_1.default.dispatch(obj);
+                    configure_store_1.store.dispatch(obj);
                 });
             }
         }

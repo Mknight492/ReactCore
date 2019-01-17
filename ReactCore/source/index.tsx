@@ -9,7 +9,7 @@ import App from "./components/app/app";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import store from "./redux/store/configure-store";
+import { store } from "./redux/store/configure-store";
 
 //import global styles
 import "./index.scss";

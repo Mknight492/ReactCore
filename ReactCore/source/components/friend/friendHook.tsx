@@ -25,10 +25,11 @@ const { useState, useEffect } = React;
 
 interface OwnProps {
   Friend: Friend;
-  isActive: boolean;
-  changeActive: Function;
+  weatherTest?: WeatherObject;
 }
-interface StateProps {}
+interface StateProps {
+  isActive?: number;
+}
 interface DispatchProps {
   changeActive: Function;
 }
@@ -39,11 +40,12 @@ type Props = StateProps & DispatchProps & OwnProps & State;
 const FriendComponent: React.FunctionComponent<Props> = ({
   Friend,
   changeActive,
-  isActive
+  isActive,
+  weatherTest
 }) => {
-  const [weather, setWeather] = useState(undefined as
-    | WeatherObject
-    | undefined);
+  const [weather, setWeather] = useState(
+    weatherTest || (undefined as WeatherObject | undefined)
+  );
 
   useEffect(
     () => {
@@ -68,12 +70,12 @@ const FriendComponent: React.FunctionComponent<Props> = ({
 
   return (
     <div>
-      {isActive ? (
+      {isActive === Friend.Id ? (
         <>
           <FriendForm
             Friend={Friend}
             initialWeather={weather}
-            isActive={isActive}
+            //isActive={isActive}
             edit={true}
           />
         </>
@@ -111,7 +113,9 @@ const FriendComponent: React.FunctionComponent<Props> = ({
 };
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isActive: state.friends.isActive
+  };
 }
 
 function mapDispatchToProps(dispatch) {

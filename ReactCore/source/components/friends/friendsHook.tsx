@@ -14,15 +14,11 @@ const { useEffect } = React;
 
 interface IProps {
   loadFriends: Function;
-  currentlyActive: number;
-  changeActive: Function;
   friendsObj: FriendsObj;
 }
 
 const FriendsComponent: React.FunctionComponent<IProps> = ({
   loadFriends,
-  currentlyActive,
-  changeActive,
   friendsObj
 }) => {
   //on mounting - load friends
@@ -37,11 +33,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
           return (
             <div className={styles.flexItem} key={Friend.Id}>
               <div className={styles.border}>
-                <FriendComponent
-                  Friend={Friend}
-                  isActive={currentlyActive === Friend.Id}
-                  changeActive={changeActive}
-                />
+                <FriendComponent Friend={Friend} />
               </div>
             </div>
           );
@@ -57,8 +49,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
 
 function mapStateToProps(state) {
   return {
-    friendsObj: state.friends.friendsObj,
-    currentlyActive: state.friends.isActive
+    friendsObj: state.friends.friendsObj
   };
 }
 
@@ -66,9 +57,6 @@ function mapDispatchToProps(dispatch) {
   return {
     loadFriends: () => {
       dispatch(friendActions.loadFriendAttemptAG());
-    },
-    changeActive: id => {
-      dispatch(friendActions.changeFriendAG(id));
     }
   };
 }

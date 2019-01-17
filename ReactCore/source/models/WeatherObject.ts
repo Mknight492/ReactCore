@@ -1,12 +1,16 @@
 export interface WeatherObject {
+  base: string | "";
   coord: coord;
   sys: {
+    message?: number;
     country: string;
-    surise: number;
+    sunrise: number;
     sunset: number;
   };
   weather: [WeatherArray];
   main: {
+    grnd_level?: number;
+    sea_level?: number;
     temp: number;
     humidity: number;
     pressure: number;
@@ -17,7 +21,7 @@ export interface WeatherObject {
     speed: number;
     deg: number;
   };
-  rain: object;
+  rain?: object;
   clouds: object;
   dt: number;
   id: number;

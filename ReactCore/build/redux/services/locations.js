@@ -59,6 +59,7 @@ async function getWeather(latitude, longitude) {
     try {
         const APIdata = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${security_1.weatherAPI}&units=metric`);
         const APIdataParsed = await APIdata.json();
+        console.log(APIdataParsed);
         return APIdataParsed;
     }
     catch (e) {

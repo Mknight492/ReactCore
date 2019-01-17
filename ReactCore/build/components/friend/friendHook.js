@@ -14,8 +14,8 @@ const styles = require("./friend.module.scss");
 const react_redux_1 = require("react-redux");
 const index_3 = require("../../redux/actions/index");
 const { useState, useEffect } = React;
-const FriendComponent = ({ Friend, changeActive, isActive }) => {
-    const [weather, setWeather] = useState(undefined);
+const FriendComponent = ({ Friend, changeActive, isActive, weatherTest }) => {
+    const [weather, setWeather] = useState(weatherTest || undefined);
     useEffect(() => {
         index_1.locationServices
             .getWeather(Friend.Location.Latitude, Friend.Location.Longitude)
@@ -32,8 +32,10 @@ const FriendComponent = ({ Friend, changeActive, isActive }) => {
       minute: "2-digit"
     });
     */
-    return (React.createElement("div", null, isActive ? (React.createElement(React.Fragment, null,
-        React.createElement(friendFormHook_1.default, { Friend: Friend, initialWeather: weather, isActive: isActive, edit: true }))) : (React.createElement("div", null,
+    return (React.createElement("div", null, isActive === Friend.Id ? (React.createElement(React.Fragment, null,
+        React.createElement(friendFormHook_1.default, { Friend: Friend, initialWeather: weather, 
+            //isActive={isActive}
+            edit: true }))) : (React.createElement("div", null,
         React.createElement("h3", { className: styles.name },
             " ",
             Friend.Name),
@@ -47,7 +49,9 @@ const FriendComponent = ({ Friend, changeActive, isActive }) => {
                 }, style: styles.map, zoom: 9, weather: weather.weather[0].main })))))));
 };
 function mapStateToProps(state) {
-    return {};
+    return {
+        isActive: state.friends.isActive
+    };
 }
 function mapDispatchToProps(dispatch) {
     return {

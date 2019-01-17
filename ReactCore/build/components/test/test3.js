@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
-exports.Hello = props => {
-    return (React.createElement("h1", null,
-        "Hello from ",
-        props.compiler,
-        " and ",
-        props.framework,
-        "!"));
-};
+function Test3() {
+    // Declare a new state variable, which we'll call "count"
+    const [text, setText] = React.useState("");
+    return (React.createElement("form", { onSubmit: () => setText("") },
+        React.createElement("button", { onClick: e => {
+                e.preventDefault();
+                setText("");
+            } }, "Click me"),
+        React.createElement("textarea", { value: text, onChange: e => setText(e.target.value) })));
+}
+exports.Test3 = Test3;
 //# sourceMappingURL=test3.js.map

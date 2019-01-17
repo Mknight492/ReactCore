@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const React = require("react");
 //redux imports
 const redux_1 = require("redux");
 const index_1 = require("../reducers/index");
+const react_redux_1 = require("react-redux");
 //logger imports
 const redux_logger_1 = require("redux-logger");
 //Saga Imports
@@ -30,6 +32,10 @@ const configureStore = () => {
     return store;
 };
 let store = configureStore();
+exports.store = store;
 sagas.run(sagas_1.default);
-exports.default = store;
+const Root = props => {
+    return React.createElement(react_redux_1.Provider, { store: store }, props.children);
+};
+exports.Root = Root;
 //# sourceMappingURL=configure-store.js.map

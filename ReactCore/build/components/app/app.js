@@ -14,8 +14,6 @@ const styles = require("./app.module.scss");
 require("./FA");
 //import loadable
 const MyLoadable_1 = require("../../higherOrderComponents/MyLoadable");
-//Redux Imports
-const react_redux_1 = require("react-redux");
 const configure_store_1 = require("../../redux/store/configure-store");
 const WeatherPageLoadable = MyLoadable_1.default({
     loader: () => Promise.resolve().then(() => require("../pages/weather/weather-page")),
@@ -23,7 +21,7 @@ const WeatherPageLoadable = MyLoadable_1.default({
     webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
 const App = () => {
-    return (React.createElement(react_redux_1.Provider, { store: configure_store_1.default },
+    return (React.createElement(configure_store_1.Root, null,
         React.createElement(React.Fragment, null,
             React.createElement(navigation_1.default, null),
             React.createElement("h2", null, "test me"),

@@ -8,7 +8,7 @@ const IndexPage = props => {
         React.createElement("h2", null, " you shouldn't be here..."),
         React.createElement("h2", null, " you shouldn't be here"),
         React.createElement(test2_1.Test2, null),
-        React.createElement(test3_1.Hello, { compiler: "typescript", framework: "React" })));
+        React.createElement(test3_1.Test3, null)));
 };
 exports.default = IndexPage;
 //# sourceMappingURL=index-page.js.map

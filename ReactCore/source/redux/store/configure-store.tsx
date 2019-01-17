@@ -1,6 +1,9 @@
+import * as React from "react";
+
 //redux imports
 import { createStore, applyMiddleware } from "redux";
-import createRootReducer from "../reducers/index";
+import createRootReducer from "redux/reducers/index";
+import { Provider } from "react-redux";
 
 //logger imports
 import { createLogger } from "redux-logger";
@@ -37,4 +40,8 @@ const configureStore = () => {
 let store = configureStore();
 sagas.run(rootSaga);
 
-export default store;
+const Root = props => {
+  return <Provider store={store}>{props.children}</Provider>;
+};
+
+export { store, Root };

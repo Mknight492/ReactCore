@@ -1,13 +1,6 @@
 import { userConstants } from "../constants";
 
-import { ApplicationUserDto } from "models";
-
-export interface userState {
-  LoggedIn: boolean | false;
-  user?: ApplicationUserDto;
-  noUserActive: boolean;
-  loading: boolean | false;
-}
+import { ApplicationUserDto, userState } from "models";
 
 const initialState: userState = {
   LoggedIn: false,

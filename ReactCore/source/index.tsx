@@ -7,9 +7,10 @@ import * as React from "react";
 import { render } from "react-dom";
 import App from "./components/app/app";
 
+import Saga from "components/app/saga";
 //Redux Imports
 import { Provider } from "react-redux";
-import { store } from "./redux/store/configure-store";
+import { store, Root } from "./redux/store/configure-store";
 
 //import global styles
 import "./index.scss";

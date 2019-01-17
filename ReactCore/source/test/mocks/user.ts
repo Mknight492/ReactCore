@@ -1,6 +1,6 @@
 import { ApplicationUserDto, userState } from "models";
 
-export const ApplicationUserMock: ApplicationUserDto = {
+export const ApplicationUserMock1: ApplicationUserDto = {
   Email: "michaelknight492@gmail.com",
   FirstName: "Michael",
   Id: "811be611-e47f-4117-8f61-4e1781cd6617",

@@ -3,17 +3,31 @@ import { userService } from "../services/index";
 import { alertActions } from "./index";
 //import { history } from "../../helpers/index";
 import { ApplicationUserDto } from "models";
+import { userActions } from "./index";
 
-export const userActions = {
-  //login,
-  logout,
-  register,
-  getAll,
-  delete: _delete,
-  getUserRequest,
-  getUserFailure,
-  getUserSuccess
-};
+import { ApplicationUserMock1 } from "test/mocks";
+
+describe("getUserRequest", () => {
+  it("has the right type", () => {
+    const action = userActions.getUserRequest();
+    expect(action.type).toEqual(userConstants.GET_USER_REQUEST);
+  });
+});
+
+describe("getUserSuccess", () => {
+  let action;
+  beforeEach(() => {
+    action = userActions.getUserSuccess(ApplicationUserMock1);
+  });
+
+  it("has the right type", () => {
+    expect(action.type).toEqual(userConstants.GET_USER_SUCCESS);
+  });
+
+  it("has the right payload", () => {
+    expect(action.payload).toEqual(ApplicationUserMock1);
+  });
+});
 
 function getUserRequest() {
   return {
@@ -26,6 +40,7 @@ function getUserFailure() {
   };
 }
 function getUserSuccess(user: ApplicationUserDto) {
+  console.log(user);
   return {
     type: userConstants.GET_USER_SUCCESS,
     payload: user

@@ -99,6 +99,7 @@ async function AppAxios(options) {
 
   try {
     let res = await axios(options);
+    //console.log(res);
     return res;
   } catch (error) {
     let action = handleHTTPError(error.response, error.response.data);

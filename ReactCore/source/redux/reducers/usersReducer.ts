@@ -25,6 +25,7 @@ export default function users(state = initialState, action) {
     case userConstants.GET_USER_FAILURE:
       return {
         ...state,
+        loading: false,
         noUserActive: true
       };
     case userConstants.GET_USER_SUCCESS:

@@ -1,4 +1,5 @@
 ﻿import * as React from "react";
+import { hot } from "react-hot-loader";
 
 //routing Imports
 import { Router } from "@reach/router";
@@ -42,7 +43,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <h2>test me</h2>
+      <h2>test me...</h2>
       <div className={styles.wrapper}>
         <Router>
           <IndexPage path="/" />
@@ -67,7 +68,7 @@ const App = () => {
 //   );
 // };
 
-export default App;
+export default hot(module)(App);
 
 //
 //hmmvv <Route component={FourZeroFour} />

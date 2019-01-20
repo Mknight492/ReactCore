@@ -12,7 +12,7 @@ interface IProps {
 const IndexPage: React.SFC<IProps> = props => {
   return (
     <>
-      <h2> you shouldn't be here...</h2>
+      <h2> you shouldn't be here..</h2>
       <h2> you shouldn't be here</h2>
       <Test2 />
       <Test3 />

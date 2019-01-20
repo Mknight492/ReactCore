@@ -68,41 +68,25 @@ async function Appfetch(url, options) {
     }
 }
 async function AppAxios(options) {
-    console.log("here");
-    options.headers = {
-        "Content-Type": "application/json",
-        RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
-    };
+    //make sure not in testing env
+    if (!(navigator.userAgent.includes("jsdom") ||
+        navigator.userAgent.includes("Node.js"))) {
+        //then add the antiforgery token to the header
+        options.headers = {
+            "Content-Type": "application/json",
+            RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
+        };
+    }
     try {
         let res = await axios_1.default(options);
-        console.log(res);
+        //console.log(res);
         return res;
     }
     catch (error) {
-        console.log(error.response);
-        console.log(error.response.data);
         let action = actions_1.handleHTTPError(error.response, error.response.data);
         configure_store_1.store.dispatch(action);
-        throw error;
+        //throw error;
     }
-    console.log("here");
-    // axios(options)
-    //   .then(result => {
-    //     console.log(result);
-    //     return result;
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     console.log(error);
-    //     error.body
-    //       .getReader()
-    //       .read()
-    //       .then(r => {
-    //         let errorMessage = Utf8ArrayToStr(r.value);
-    //         let obj = handleHTTPError(error, errorMessage);
-    //         store.dispatch(obj);
-    //       });
-    //   });
 }
 function isNullOrWhiteSpace(input) {
     if (typeof input === "undefined" || input == null)

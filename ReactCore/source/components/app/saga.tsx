@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Root } from "redux/store/configure-store";
 import App from "./app";
+import { Provider } from "react-redux";
 
-export default () => {
+export default ({ store }) => {
   return (
-    //@ts-ignore
-    <Root>
+    <Provider store={store}>
       <App />
-    </Root>
+    </Provider>
   );
 };

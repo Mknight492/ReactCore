@@ -8,10 +8,7 @@ const initalState = {
     },
     locationWeather: undefined
 };
-function WeatherReducer(state, action) {
-    if (state === undefined) {
-        return initalState;
-    }
+function WeatherReducer(state = initalState, action) {
     switch (action.type) {
         case weatherActions_1.POSITION_SUCCESS:
             return Object.assign({}, state, { currentPosition: action.coords });

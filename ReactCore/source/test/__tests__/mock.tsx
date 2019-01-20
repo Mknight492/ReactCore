@@ -15,7 +15,9 @@ let mockcomponent = () => {
 
 async function loadAPI(setData) {
   let result = await HF.AppAxios({ url: "test" });
-  setData(result.data);
+  let resobj = result as any;
+  console.log(result);
+  setData(resobj.data);
 }
 
 export default mockcomponent;

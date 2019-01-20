@@ -20,4 +20,14 @@ exports.default = () => {
         errorHandler: errorHandlerReducer_1.default
     });
 };
+// export const rootReducer = combineReducers({
+//   friends,
+//   weather: WeatherReducer,
+//   authentication,
+//   alert,
+//   registration,
+//   users,
+//   errorHandler
+//   //@ts-ignore
+// })(undefined, undefined as Action<any>);
 //# sourceMappingURL=index.js.map

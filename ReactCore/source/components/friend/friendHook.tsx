@@ -68,20 +68,23 @@ const FriendComponent: React.FunctionComponent<Props> = ({
   });
   */
 
-  return (
-    <div>
-      {isActive === Friend.Id ? (
+  if (isActive === Friend.Id) {
+    return (
+      <div>
         <>
           <FriendForm
             Friend={Friend}
-            initialWeather={weather}
-            //isActive={isActive}
+            initialWeather={weatherTest || weather}
             edit={true}
           />
         </>
-      ) : (
+      </div>
+    );
+  } else {
+    return (
+      <div id={`Friend${Friend.Id}`}>
         <div>
-          <h3 className={styles.name}> {Friend.Name}</h3>
+          <h3 className={styles.name}>{Friend.Name}</h3>
           <h4 className={styles.location}>
             {HF.formatLocation(Friend.Location)}
           </h4>
@@ -107,14 +110,14 @@ const FriendComponent: React.FunctionComponent<Props> = ({
             </div>
           )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 function mapStateToProps(state) {
   return {
-    isActive: state.friends.isActive
+    isActive: state.friends.isActive || -1
   };
 }
 

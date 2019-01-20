@@ -5,6 +5,7 @@ import App from "./app";
 
 export default () => {
   return (
+    //@ts-ignore
     <Root>
       <App />
     </Root>

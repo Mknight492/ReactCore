@@ -10,7 +10,7 @@ import { ApplicationUserDto, userState } from "models";
 
 //mocks
 
-import { UserReducerInitalStateMock, ApplicationUserMock } from "test/mocks";
+import { UserReducerInitalStateMock, ApplicationUserMock1 } from "test/mocks";
 //redux
 import { Root } from "redux/store/configure-store";
 import userReducer from "redux/reducers/usersReducer";
@@ -42,15 +42,15 @@ it(`handles actions of type ${userConstants.GET_USER_SUCCESS}`, () => {
 
   const action = {
     type: userConstants.GET_USER_SUCCESS,
-    payload: ApplicationUserMock
+    payload: ApplicationUserMock1
   };
   const newState = userReducer(initialState, action);
 
   const expectedState = {
     ...initialState,
     LoggedIn: true,
-    user: ApplicationUserMock
-  };
-
+    user: ApplicationUserMock1
+    };
+    expect(ApplicationUserMock1).toBeTruthy();
   expect(newState).toEqual(expectedState);
 });

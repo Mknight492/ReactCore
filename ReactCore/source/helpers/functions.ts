@@ -1,12 +1,14 @@
 import { handleHTTPError } from "redux/actions";
 import { store } from "redux/store/configure-store";
 import { Locations } from "models";
+import axios from "axios";
 
 //helper functions
 
 export const HF = {
   AFfetch,
   Appfetch,
+  AppAxios,
   isNullOrWhiteSpace,
   formatLocation,
   Utf8ArrayToStr,
@@ -75,6 +77,33 @@ async function Appfetch(url: string, options?: any) {
     return result;
   } catch (e) {
     throw e;
+  }
+}
+
+async function AppAxios(options) {
+  //make sure not in testing env
+  if (
+    !(
+      navigator.userAgent.includes("jsdom") ||
+      navigator.userAgent.includes("Node.js")
+    )
+  ) {
+    //then add the antiforgery token to the header
+    options.headers = {
+      "Content-Type": "application/json",
+      RequestVerificationToken: (<HTMLInputElement>(
+        document.getElementsByName("__RequestVerificationToken")[0]
+      )).value
+    };
+  }
+
+  try {
+    let res = await axios(options);
+    return res;
+  } catch (error) {
+    let action = handleHTTPError(error.response, error.response.data);
+    store.dispatch(action);
+    //throw error;
   }
 }
 

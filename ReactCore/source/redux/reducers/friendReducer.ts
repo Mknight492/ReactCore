@@ -11,7 +11,7 @@ interface IinitialState {
 
 const initalState = {
   friendsObj: {},
-  isActive: undefined,
+  isActive: -1,
   locations: []
 };
 

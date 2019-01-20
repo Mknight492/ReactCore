@@ -1,7 +1,7 @@
-import { locationHelpers } from "./locationHelpers";
-import { Locations } from "../models";
+import { locationHelpers } from "helpers/locationHelpers";
+import { Locations } from "models";
 
-import { inputConfig } from "./inputConfiguration";
+import { formState, formRow } from "models";
 
 export const formUtilityActions = {
   convertStateToArrayOfFormObjects,
@@ -10,11 +10,13 @@ export const formUtilityActions = {
   executeFormValidationAndReturnForm
 };
 
-function convertStateToArrayOfFormObjects(formObject) {
-  return Object.keys(formObject as inputConfig).map(el => ({
-    id: el,
-    ...formObject[el]
-  }));
+function convertStateToArrayOfFormObjects(formObject: formState) {
+  return Object.keys(formObject).map(
+    (el): formRow => ({
+      id: el,
+      ...formObject[el]
+    })
+  );
 }
 
 function executeValidationAndReturnFormElement(

@@ -32,25 +32,28 @@ const FriendComponent = ({ Friend, changeActive, isActive, weatherTest }) => {
       minute: "2-digit"
     });
     */
-    return (React.createElement("div", null, isActive === Friend.Id ? (React.createElement(React.Fragment, null,
-        React.createElement(friendFormHook_1.default, { Friend: Friend, initialWeather: weather, 
-            //isActive={isActive}
-            edit: true }))) : (React.createElement("div", null,
-        React.createElement("h3", { className: styles.name },
-            " ",
-            Friend.Name),
-        React.createElement("h4", { className: styles.location }, index_2.HF.formatLocation(Friend.Location)),
-        weather && (React.createElement("div", null,
-            React.createElement(weather_1.Weather, { weather: weather, showLabel: false }),
-            React.createElement("button", { className: "btn btn--small", onClick: () => changeActive(Friend.Id) }, "Edit"),
-            React.createElement(maphook_1.default, { mapKey: Friend.Id, position: {
-                    latitude: Friend.Location.Latitude,
-                    longitude: Friend.Location.Longitude
-                }, style: styles.map, zoom: 9, weather: weather.weather[0].main })))))));
+    if (isActive === Friend.Id) {
+        return (React.createElement("div", null,
+            React.createElement(React.Fragment, null,
+                React.createElement(friendFormHook_1.default, { Friend: Friend, initialWeather: weatherTest || weather, edit: true }))));
+    }
+    else {
+        return (React.createElement("div", { id: `Friend${Friend.Id}` },
+            React.createElement("div", null,
+                React.createElement("h3", { className: styles.name }, Friend.Name),
+                React.createElement("h4", { className: styles.location }, index_2.HF.formatLocation(Friend.Location)),
+                weather && (React.createElement("div", null,
+                    React.createElement(weather_1.Weather, { weather: weather, showLabel: false }),
+                    React.createElement("button", { className: "btn btn--small", onClick: () => changeActive(Friend.Id) }, "Edit"),
+                    React.createElement(maphook_1.default, { mapKey: Friend.Id, position: {
+                            latitude: Friend.Location.Latitude,
+                            longitude: Friend.Location.Longitude
+                        }, style: styles.map, zoom: 9, weather: weather.weather[0].main }))))));
+    }
 };
 function mapStateToProps(state) {
     return {
-        isActive: state.friends.isActive
+        isActive: state.friends.isActive || -1
     };
 }
 function mapDispatchToProps(dispatch) {

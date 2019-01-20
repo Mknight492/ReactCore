@@ -1,11 +1,10 @@
 import * as Enzyme from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
-import { any } from "prop-types";
-import { AnyARecord } from "dns";
+import { GlobalWithFetchMock } from "jest-fetch-mock";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-export interface myGlobal extends NodeJS.Global {
+export interface myGlobal extends GlobalWithFetchMock {
   google: {
     maps: {
       Map: (a) => void;
@@ -17,7 +16,13 @@ export interface myGlobal extends NodeJS.Global {
   };
 }
 
-//declare var global: myGlobal;
+// const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
+// customGlobal.fetch = require("jest-fetch-mock");
+// customGlobal.fetchMock = customGlobal.fetch;
+
+// (global as myGlobal).fetch = require("jest-fetch-mock");
+// (global as myGlobal).fetchMock = global.fetch;
+// //declare var global: myGlobal;
 //global.window as myWindow;
 
 var localStorageMock = (function() {

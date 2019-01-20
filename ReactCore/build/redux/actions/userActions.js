@@ -24,7 +24,6 @@ function getUserFailure() {
     };
 }
 function getUserSuccess(user) {
-    console.log(user);
     return {
         type: index_1.userConstants.GET_USER_SUCCESS,
         payload: user

@@ -3,7 +3,7 @@ import * as React from "react";
 import FriendComponent from "../friend/friendHook";
 import * as styles from "./friends.module.scss";
 
-import Test from "../../components/friendForm/friendFormHook";
+import FriendForm from "../../components/friendForm/friendFormHook";
 
 import { connect } from "react-redux";
 import { friendActions } from "../../redux/actions";
@@ -15,17 +15,18 @@ const { useEffect } = React;
 interface IProps {
   loadFriends: Function;
   friendsObj: FriendsObj;
+  state: any;
 }
 
 const FriendsComponent: React.FunctionComponent<IProps> = ({
   loadFriends,
-  friendsObj
+  friendsObj,
+  state
 }) => {
   //on mounting - load friends
   useEffect(() => {
     loadFriends();
   }, []);
-
   return (
     <div className={styles.flexContainer}>
       {friendsObj &&
@@ -40,7 +41,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
         })}
       <div className={styles.flexItem}>
         <div className={styles.border}>
-          <Test edit={false} />
+          <FriendForm edit={false} />
         </div>
       </div>
     </div>
@@ -49,7 +50,8 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
 
 function mapStateToProps(state) {
   return {
-    friendsObj: state.friends.friendsObj
+    friendsObj: state.friends.friendsObj,
+    state: state
   };
 }
 

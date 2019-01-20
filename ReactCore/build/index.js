@@ -6,16 +6,16 @@ require("promise-polyfill/src/polyfill");
 //React imports
 const React = require("react");
 const react_dom_1 = require("react-dom");
-const app_1 = require("./components/app/app");
+const saga_1 = require("./components/app/saga");
 //import global styles
 require("./index.scss");
 const renderApp = () => {
-    react_dom_1.render(React.createElement(app_1.default, null), document.getElementById("app"));
+    react_dom_1.render(React.createElement(saga_1.default, null), document.getElementById("app"));
 };
 renderApp();
 ///may need to be app.js
 if (module.hot) {
-    module.hot.accept("./components/app/app", () => {
+    module.hot.accept("./components/app/saga", () => {
         renderApp();
     });
 }

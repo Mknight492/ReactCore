@@ -14,23 +14,21 @@ const styles = require("./app.module.scss");
 require("./FA");
 //import loadable
 const MyLoadable_1 = require("../../higherOrderComponents/MyLoadable");
-const configure_store_1 = require("../../redux/store/configure-store");
 const WeatherPageLoadable = MyLoadable_1.default({
     loader: () => Promise.resolve().then(() => require("../pages/weather/weather-page")),
     modules: ["../pages/weather/weather-page"],
     webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
 const App = () => {
-    return (React.createElement(configure_store_1.Root, null,
-        React.createElement(React.Fragment, null,
-            React.createElement(navigation_1.default, null),
-            React.createElement("h2", null, "test me"),
-            React.createElement("div", { className: styles.wrapper },
-                React.createElement(router_1.Router, null,
-                    React.createElement(index_page_1.default, { path: "/" }),
-                    React.createElement(WeatherPageLoadable, { path: "/weather" }),
-                    React.createElement(internalServer_1.default, { path: "/500" }),
-                    React.createElement(notFound_1.default, { path: "*" }))))));
+    return (React.createElement(React.Fragment, null,
+        React.createElement(navigation_1.default, null),
+        React.createElement("h2", null, "test me"),
+        React.createElement("div", { className: styles.wrapper },
+            React.createElement(router_1.Router, null,
+                React.createElement(index_page_1.default, { path: "/" }),
+                React.createElement(WeatherPageLoadable, { path: "/weather" }),
+                React.createElement(internalServer_1.default, { path: "/500" }),
+                React.createElement(notFound_1.default, { path: "*" })))));
 };
 // const App = () => {
 //   return (

@@ -1,31 +1,11 @@
 import * as moment from "moment";
-import input from "../components/UI/inputs/weatherInputs";
+import input from "./weatherInputs";
 
-export interface inputConfig {
-  [key: string]: {
-    element: string;
-    type: string;
-    value: string;
-    validation: ValidationObject;
-    valid: boolean;
-    touched: boolean;
-    errorMessage: string;
-    label: string;
-  };
-}
-
-export interface ValidationObject {
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  location?: boolean;
-}
+import { formState } from "models";
 
 //const returnInputConfiguration( string[]): input
 
-export const returnInputConfiguration = (
-  config: string[] = []
-): inputConfig => ({
+export const returnInitalFormState = (config: string[] = []): formState => ({
   Name: {
     element: "input",
     type: "text",

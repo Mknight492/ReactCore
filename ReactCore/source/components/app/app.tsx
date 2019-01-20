@@ -40,21 +40,18 @@ const WeatherPageLoadable = MyLoadable({
 
 const App = () => {
   return (
-    <Root>
-      <>
-        <Navigation />
-        <h2>test me</h2>
-        <div className={styles.wrapper}>
-          <Router>
-            <IndexPage path="/" />
-            <WeatherPageLoadable path="/weather" />
-            {/* <IdentityLoginPage path="/identityLogin" /> */}
-            <ServerErrorPage path="/500" />
-            <NotFound path="*" />
-          </Router>
-        </div>
-      </>
-    </Root>
+    <>
+      <Navigation />
+      <h2>test me</h2>
+      <div className={styles.wrapper}>
+        <Router>
+          <IndexPage path="/" />
+          <WeatherPageLoadable path="/weather" />
+          <ServerErrorPage path="/500" />
+          <NotFound path="*" />
+        </Router>
+      </div>
+    </>
   );
 };
 

@@ -19,5 +19,5 @@ function alert(state = {}, action) {
             return state;
     }
 }
-exports.alert = alert;
+exports.default = alert;
 //# sourceMappingURL=alertReducer.js.map

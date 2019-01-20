@@ -1,24 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
-//style imports
-const react_bootstrap_1 = require("react-bootstrap");
-const helpers_1 = require("../../helpers");
+const helpers_1 = require("helpers");
 const styles = require("./friendForm.module.scss");
 //component imports
 const weather_1 = require("../weather/weather");
 const maphook_1 = require("../map/maphook");
 //redux imports
 const react_redux_1 = require("react-redux");
-const actions_1 = require("../../redux/actions");
-const services_1 = require("../../redux/services");
+const actions_1 = require("redux/actions");
+const services_1 = require("redux/services");
 //helper functions
-const weatherInputs_1 = require("../UI/inputs/weatherInputs");
-const helpers_2 = require("../../helpers");
+const weatherInputs_1 = require("components/UI/inputs/weatherInputs");
+const helpers_2 = require("helpers");
 //Custom Hooks
-const customHooks_1 = require("../../customHooks");
+const customHooks_1 = require("customHooks");
 const { useState, useEffect } = React;
-const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive, LocationArrayProps }) => {
+const FriendFormComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation, changeActive, LocationArrayProps }) => {
     //if edit = true then the form initial has not Location or Friend
     let initalLocationId, initialLocation, Id;
     if (Friend) {
@@ -33,11 +31,8 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     }
     ///FORM
     const initalForm = Friend
-        ? helpers_1.returnInputConfiguration([
-            Friend.Name,
-            helpers_2.HF.formatLocation(Friend.Location)
-        ])
-        : helpers_1.returnInputConfiguration();
+        ? helpers_1.returnInitalFormState([Friend.Name, helpers_2.HF.formatLocation(Friend.Location)])
+        : helpers_1.returnInitalFormState();
     const [ownerForm, setownerForm] = useState(initalForm);
     const [isFormValid, setIsFormValid] = useState(false);
     //WEATHER
@@ -115,7 +110,7 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
     async function addFriend() {
         await services_1.locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
         await loadFriends();
-        setownerForm(helpers_1.returnInputConfiguration([]));
+        setownerForm(helpers_1.returnInitalFormState([]));
     }
     async function editFriend() {
         if (Friend) {
@@ -131,13 +126,17 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
         }
     }
     return (React.createElement("div", { ref: componentRef },
-        React.createElement(react_bootstrap_1.Form, { horizontal: true },
+        React.createElement("form", null,
             helpers_1.formUtilityActions
                 .convertStateToArrayOfFormObjects(ownerForm)
-                .map(element => {
-                return (React.createElement(weatherInputs_1.default, { key: element.id, elementType: element.element, id: element.id, label: element.label, type: element.type, value: element.value, changed: event => handleChangeEvent(event, element.id), errorMessage: element.errorMessage, invalid: !element.valid, shouldValidate: element.validation, touched: element.touched, blur: event => handleChangeEvent(event, element.id), 
+                .map(formRow => {
+                return (
+                //map over the form state
+                //pass the each row its props
+                // including event handlers to pass state back to friendform component
+                React.createElement(weatherInputs_1.default, { key: formRow.id, formRow: formRow, changed: event => handleChangeEvent(event, formRow.id), blur: event => handleChangeEvent(event, formRow.id), 
                     //TypeAhead Specific props
-                    items: helpers_2.locationHelpers.uniqueTAValues(LocationArray), selectHandler: val => selectTAHandler(val, element.id) }));
+                    items: helpers_2.locationHelpers.uniqueTAValues(LocationArray || []), selectHandler: val => selectTAHandler(val, formRow.id) }));
             }),
             React.createElement("br", null),
             React.createElement(weather_1.Weather, { weather: weather, showLabel: false }),
@@ -151,6 +150,7 @@ const TestComponent = ({ Friend, initialWeather, edit, loadFriends, loadLocation
 };
 function mapStateToProps(state) {
     let id = state.friends.isActive;
+    //this is unreliable and needs to be edited
     return {
         LocationArrayProps: state.friends[id] || state.friends[-1] || undefined
     };
@@ -168,10 +168,11 @@ function mapDispatchToProps(dispatch) {
         }
     };
 }
-const connectedTestComponent = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(TestComponent);
-exports.default = connectedTestComponent;
+const connectedFriendFormComponent = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(FriendFormComponent);
+exports.default = connectedFriendFormComponent;
 ////customHooks
 function useWeather(initialWeather) {
+    let shouldWeatherLoad = false;
     //either take the inital location from the
     //weather object or generate a random number
     let initialLatitude = initialWeather
@@ -185,14 +186,23 @@ function useWeather(initialWeather) {
     const [latitude, setlatitude] = useState(initialLatitude);
     const [longitude, setlongitude] = useState(initialLongitude);
     //every time the latitude or longitude  changes - fetch a new weather object
-    useEffect(() => {
-        services_1.locationServices.getWeather(latitude, longitude).then(result => {
-            setWeather(result);
-        });
-    }, [latitude, longitude]);
+    // but only do this if not inital weather was supplied or irs, not the
+    // first time this function is called
+    if (!initialWeather || shouldWeatherLoad) {
+        useEffect(() => {
+            services_1.locationServices.getWeather(latitude, longitude).then(result => {
+                setWeather(result);
+            });
+        }, [latitude, longitude]);
+    }
+    else {
+        shouldWeatherLoad = true;
+    }
     return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
 }
 function useLocation(LocationArrayProps, initialLocation) {
+    //set the locationArray to be the LocationArrayProps
+    //or default to the inital Location
     const [LocationArray, setlocationArray] = useState(LocationArrayProps || initialLocation);
     useEffect(() => {
         setlocationArray(LocationArrayProps || initialLocation || []);

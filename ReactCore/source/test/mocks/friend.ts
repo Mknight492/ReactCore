@@ -10,7 +10,7 @@ export const FriendMock1: Friend = {
   UserId: "811be611-e47f-4117-8f61-4e1781cd6617"
 };
 
-export const FriendStateMock1: FriendsObj = {
+export const FriendsStateMock1: FriendsObj = {
   143: {
     Id: 143,
     Location: {

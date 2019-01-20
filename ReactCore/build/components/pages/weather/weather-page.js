@@ -9,8 +9,8 @@ const react_redux_1 = require("react-redux");
 const weatherActions_1 = require("../../../redux/actions/weatherActions");
 const WeatherPage = () => {
     return (React.createElement("div", null,
-        React.createElement("button", { onClick: () => helpers_1.HF.Appfetch("api/Authenticate/Throw500") }, "throw5000"),
-        React.createElement("button", { onClick: () => helpers_1.HF.Appfetch("api/Authenticate/Throw400") }, "throw400"),
+        React.createElement("button", { onClick: () => helpers_1.HF.AppAxios({ url: "api/Authenticate/Throw500" }) }, "throw5000"),
+        React.createElement("button", { onClick: () => helpers_1.HF.AppAxios({ url: "api/Authenticate/Throw400" }) }, "throw400"),
         React.createElement(friendsHook_1.default, null)));
 };
 const mapStateToProps = state => ({

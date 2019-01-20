@@ -12,11 +12,11 @@ export const Weather: React.SFC<IProps> = props => {
   if (weather) {
     return (
       <div className={styles.weather}>
-        {showLabel && <h4 className={styles.weatherLabel}> Weather: </h4>}
-        <h4 className={styles.weatherData}>
+        {showLabel && <h5 className={styles.weatherLabel}> Weather: </h5>}
+        <h5 className={styles.weatherData}>
           {weather.name} &nbsp; {weather.main.temp} &deg;C,{" "}
           {weather.weather[0].main},{weather.weather[0].description}
-        </h4>
+        </h5>
       </div>
     );
   } else return null;

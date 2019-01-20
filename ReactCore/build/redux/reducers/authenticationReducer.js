@@ -27,5 +27,5 @@ function authentication(state = initialState, action) {
             return state;
     }
 }
-exports.authentication = authentication;
+exports.default = authentication;
 //# sourceMappingURL=authenticationReducer.js.map

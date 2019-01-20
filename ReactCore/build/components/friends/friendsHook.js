@@ -7,7 +7,7 @@ const friendFormHook_1 = require("../../components/friendForm/friendFormHook");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("../../redux/actions");
 const { useEffect } = React;
-const FriendsComponent = ({ loadFriends, friendsObj }) => {
+const FriendsComponent = ({ loadFriends, friendsObj, state }) => {
     //on mounting - load friends
     useEffect(() => {
         loadFriends();
@@ -25,7 +25,8 @@ const FriendsComponent = ({ loadFriends, friendsObj }) => {
 };
 function mapStateToProps(state) {
     return {
-        friendsObj: state.friends.friendsObj
+        friendsObj: state.friends.friendsObj,
+        state: state
     };
 }
 function mapDispatchToProps(dispatch) {

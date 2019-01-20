@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const actions_1 = require("../redux/actions");
-const configure_store_1 = require("../redux/store/configure-store");
+const actions_1 = require("redux/actions");
+const configure_store_1 = require("redux/store/configure-store");
+const axios_1 = require("axios");
 //helper functions
 exports.HF = {
     AFfetch,
     Appfetch,
+    AppAxios,
     isNullOrWhiteSpace,
     formatLocation,
     Utf8ArrayToStr,
@@ -64,6 +66,43 @@ async function Appfetch(url, options) {
     catch (e) {
         throw e;
     }
+}
+async function AppAxios(options) {
+    console.log("here");
+    options.headers = {
+        "Content-Type": "application/json",
+        RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
+    };
+    try {
+        let res = await axios_1.default(options);
+        console.log(res);
+        return res;
+    }
+    catch (error) {
+        console.log(error.response);
+        console.log(error.response.data);
+        let action = actions_1.handleHTTPError(error.response, error.response.data);
+        configure_store_1.store.dispatch(action);
+        throw error;
+    }
+    console.log("here");
+    // axios(options)
+    //   .then(result => {
+    //     console.log(result);
+    //     return result;
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //     console.log(error);
+    //     error.body
+    //       .getReader()
+    //       .read()
+    //       .then(r => {
+    //         let errorMessage = Utf8ArrayToStr(r.value);
+    //         let obj = handleHTTPError(error, errorMessage);
+    //         store.dispatch(obj);
+    //       });
+    //   });
 }
 function isNullOrWhiteSpace(input) {
     if (typeof input === "undefined" || input == null)

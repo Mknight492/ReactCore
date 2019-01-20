@@ -2,41 +2,61 @@ import * as React from "react";
 
 //components
 import DatePicker from "react-datepicker";
-import Autocomplete from "react-autocomplete";
+import * as Autocomplete from "react-autocomplete";
 
 //css imports
 import * as styles from "../../friendForm/friendForm.module.scss";
 import { FormGroup, Col, FormControl, ControlLabel } from "react-bootstrap";
 
 //helper functions
-import { HF } from "../../../helpers";
+import { HF } from "helpers";
 
-const input = props => {
-    let inputField;
-    let errorMessage;
+//models
+import { formRow, Locations } from "models";
+import { isNull } from "util";
 
-  if (props.invalid && props.shouldValidate && props.touched) {
-    errorMessage = <em>{props.errorMessage}</em>;
+interface IProps {
+  formRow: formRow;
+  changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  blur: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  items: any[];
+  selectHandler: (value: string) => void;
+}
+
+const FormRow: React.FunctionComponent<IProps> = ({
+  formRow,
+  changed,
+  blur,
+  items = [],
+  selectHandler
+}) => {
+  let inputField;
+  let errorMessage;
+
+  //if form is current;y invalid, requires validation and
+  // has been altered by a use show the error msg
+  if (!formRow.valid && formRow.validation && formRow.touched) {
+    errorMessage = <em>{formRow.errorMessage}</em>;
   }
-  switch (props.elementType) {
+  switch (formRow.element) {
     case "input":
       inputField = (
-        <>
+        <div>
           <div style={{ display: "block" }}>
             <label className={styles.name} htmlFor="name" id="name">
               Name:
             </label>
             <input
               className={styles.input}
-              key={props.id}
-              type={props.type}
-              value={props.value}
-              onChange={props.changed}
-              onBlur={props.blur}
+              key={formRow.id}
+              type={formRow.type}
+              value={formRow.value}
+              onChange={changed}
+              onBlur={blur}
             />
             <em className={styles.errorMessage}>{errorMessage}</em>
           </div>
-        </>
+        </div>
       );
       break;
     case "typeAhead":
@@ -52,24 +72,24 @@ const input = props => {
           <div className={styles.typeAhead}>
             {/*Needs div for custom CSS hook */}
             <Autocomplete
-              name="location"
               getItemValue={item => item}
-              items={props.items}
+              items={items || []}
               renderItem={(item, isHighlighted) => (
                 <div
                   key={item}
-                  style={{
-                    background: isHighlighted ? "lightgray" : "white"
-                  }}
+                  style={
+                    {
+                      //background: isHighlighted ? "lightgray" : "white"
+                    }
+                  }
                   className="typeAheadComponent"
                 >
                   {item}
                 </div>
               )}
-              value={props.value}
-              onChange={props.changed}
-              onSelect={props.selectHandler}
-              onBlur={props.changed}
+              value={formRow.value}
+              onChange={changed}
+              onSelect={selectHandler}
             />
           </div>
           <em className={styles.errorMessage}>{errorMessage}</em>
@@ -83,4 +103,4 @@ const input = props => {
   return <div>{inputField}</div>;
 };
 
-export default input;
+export default FormRow;

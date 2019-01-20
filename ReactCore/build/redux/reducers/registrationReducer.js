@@ -13,5 +13,5 @@ function registration(state = {}, action) {
             return state;
     }
 }
-exports.registration = registration;
+exports.default = registration;
 //# sourceMappingURL=registrationReducer.js.map

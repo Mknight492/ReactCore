@@ -10,7 +10,7 @@ function* getUser() {
     };
 
     const APIresponse = yield HF.AppAxios(requestionOptions);
-
+    console.log("yoy");
     if (APIresponse.data.notLoggedIn) {
       //customis this to pop up login modal
       yield put(userActions.getUserFailure());

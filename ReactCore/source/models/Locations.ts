@@ -8,11 +8,11 @@ export interface Locations {
   FeatureClass: string;
   FeatureCode: string;
   CountryCode: string;
-  Cc2: string;
-  Admin1Code: string;
-  Admin2Code: string;
-  Admin3Code: string;
-  Admin4Code: string;
+  Cc2: string | null;
+  Admin1Code?: string | null;
+  Admin2Code?: string | null;
+  Admin3Code?: string | null;
+  Admin4Code?: string | null;
   Population: number | null;
   Elevation: number | null;
   Dem: number | null;

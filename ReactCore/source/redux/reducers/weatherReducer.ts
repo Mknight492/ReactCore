@@ -9,14 +9,10 @@ const initalState = {
     latitude: -1.11735,
     longitude: 73.0803
   },
-  locationWeather: undefined
+  locationWeather: undefined as any
 };
 
-export default function WeatherReducer(state, action) {
-  if (state === undefined) {
-    return initalState;
-  }
-
+export default function WeatherReducer(state = initalState, action) {
   switch (action.type) {
     case POSITION_SUCCESS:
       return {

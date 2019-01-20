@@ -22,5 +22,5 @@ function users(state = initialState, action) {
             return state;
     }
 }
-exports.users = users;
+exports.default = users;
 //# sourceMappingURL=usersReducer.js.map

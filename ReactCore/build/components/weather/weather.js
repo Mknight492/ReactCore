@@ -6,8 +6,8 @@ exports.Weather = props => {
     const { weather, showLabel } = props;
     if (weather) {
         return (React.createElement("div", { className: styles.weather },
-            showLabel && React.createElement("h4", { className: styles.weatherLabel }, " Weather: "),
-            React.createElement("h4", { className: styles.weatherData },
+            showLabel && React.createElement("h5", { className: styles.weatherLabel }, " Weather: "),
+            React.createElement("h5", { className: styles.weatherData },
                 weather.name,
                 " \u00A0 ",
                 weather.main.temp,

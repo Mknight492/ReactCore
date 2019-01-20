@@ -7,7 +7,7 @@ __export(require("./authHeader"));
 __export(require("./config"));
 //export * from "./history";
 __export(require("./functions"));
-__export(require("./formUtility"));
-__export(require("./inputConfiguration"));
+__export(require("../components/UI/inputs/formUtility"));
+__export(require("../components/UI/inputs/inputConfiguration"));
 __export(require("./locationHelpers"));
 //# sourceMappingURL=index.js.map

@@ -5,12 +5,17 @@ import { HF } from "../../helpers/index";
 
 function* getUser() {
   try {
-    const user = yield HF.Appfetch("api/Authenticate/CheckUser");
-    const userJson = yield user.json();
-    if (userJson.notLoggedIn) {
+    const requestionOptions = {
+      url: "/api/Authenticate/CheckUser"
+    };
+
+    const APIresponse = yield HF.AppAxios(requestionOptions);
+    console.log("yoy");
+    if (APIresponse.data.notLoggedIn) {
+      //customis this to pop up login modal
       yield put(userActions.getUserFailure());
     } else {
-      yield put(userActions.getUserSuccess(userJson));
+      yield put(userActions.getUserSuccess(APIresponse.data));
     }
   } catch (e) {
     yield put(userActions.getUserFailure());

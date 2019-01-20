@@ -64,14 +64,24 @@ module.exports = {
     minimize: false
   },
   watch: true,
-  resolve: { extensions: [".js", ".jsx", ".ts", ".tsx"] },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    modules: [path.resolve(__dirname, "./source"), "node_modules"]
+  },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          options: {
+            plugins: [
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              "react-hot-loader/babel",
+              "@babel/plugin-syntax-dynamic-import"
+            ]
+          }
         }
       },
       {
@@ -92,7 +102,8 @@ module.exports = {
             ],
             plugins: [
               // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
-              "react-hot-loader/babel"
+              "react-hot-loader/babel",
+              "@babel/plugin-syntax-dynamic-import"
             ]
           }
         }
@@ -151,7 +162,6 @@ module.exports = {
       }
     ]),
     new ForkTsCheckerWebpackPlugin()
-    // new CheckerPlugin()
   ]
 };
 

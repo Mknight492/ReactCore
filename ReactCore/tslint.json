@@ -1,4 +1,5 @@
 {
+  "extends": ["tslint-eslint-rules"],
   "lintOptions": {
     "typeCheck": true,
     "project": true

@@ -13,11 +13,21 @@ exports.default = () => {
     return redux_1.combineReducers({
         friends: friendReducer_1.default,
         weather: weatherReducer_1.default,
-        authentication: authenticationReducer_1.authentication,
-        alert: alertReducer_1.alert,
-        registration: registrationReducer_1.registration,
-        users: usersReducer_1.users,
+        authentication: authenticationReducer_1.default,
+        alert: alertReducer_1.default,
+        registration: registrationReducer_1.default,
+        users: usersReducer_1.default,
         errorHandler: errorHandlerReducer_1.default
     });
 };
+// export const rootReducer = combineReducers({
+//   friends,
+//   weather: WeatherReducer,
+//   authentication,
+//   alert,
+//   registration,
+//   users,
+//   errorHandler
+//   //@ts-ignore
+// })(undefined, undefined as Action<any>);
 //# sourceMappingURL=index.js.map

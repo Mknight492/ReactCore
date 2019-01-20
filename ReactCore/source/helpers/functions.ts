@@ -1,12 +1,14 @@
-import { handleHTTPError } from "../redux/actions";
-import store from "../redux/store/configure-store";
-import { Locations } from "../models";
+import { handleHTTPError } from "redux/actions";
+import { store } from "redux/store/configure-store";
+import { Locations } from "models";
+import axios from "axios";
 
 //helper functions
 
 export const HF = {
   AFfetch,
   Appfetch,
+  AppAxios,
   isNullOrWhiteSpace,
   formatLocation,
   Utf8ArrayToStr,
@@ -60,22 +62,49 @@ async function Appfetch(url: string, options?: any) {
   }
   try {
     const result = await fetch(url, options);
-      if (result.status < 200 || result.status >= 300) {
-          if (result.body) {
-              await result.body
-                  .getReader()
-                  .read()
-                  .then(r => {
-                      let errorMessage = Utf8ArrayToStr(r.value);
-                      let obj = handleHTTPError(result, errorMessage);
-                      store.dispatch(obj);
-                  });
-          }
-
+    if (result.status < 200 || result.status >= 300) {
+      if (result.body) {
+        await result.body
+          .getReader()
+          .read()
+          .then(r => {
+            let errorMessage = Utf8ArrayToStr(r.value);
+            let obj = handleHTTPError(result, errorMessage);
+            store.dispatch(obj);
+          });
+      }
     }
     return result;
   } catch (e) {
     throw e;
+  }
+}
+
+async function AppAxios(options) {
+  //make sure not in testing env
+  if (
+    !(
+      navigator.userAgent.includes("jsdom") ||
+      navigator.userAgent.includes("Node.js")
+    )
+  ) {
+    //then add the antiforgery token to the header
+    options.headers = {
+      "Content-Type": "application/json",
+      RequestVerificationToken: (<HTMLInputElement>(
+        document.getElementsByName("__RequestVerificationToken")[0]
+      )).value
+    };
+  }
+
+  try {
+    let res = await axios(options);
+    //console.log(res);
+    return res;
+  } catch (error) {
+    let action = handleHTTPError(error.response, error.response.data);
+    store.dispatch(action);
+    //throw error;
   }
 }
 

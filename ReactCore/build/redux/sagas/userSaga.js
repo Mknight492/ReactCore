@@ -6,13 +6,16 @@ const index_2 = require("../actions/index");
 const index_3 = require("../../helpers/index");
 function* getUser() {
     try {
-        const user = yield index_3.HF.Appfetch("api/Authenticate/CheckUser");
-        const userJson = yield user.json();
-        if (userJson.notLoggedIn) {
+        const requestionOptions = {
+            url: "/api/Authenticate/CheckUser"
+        };
+        const APIresponse = yield index_3.HF.AppAxios(requestionOptions);
+        if (APIresponse.data.notLoggedIn) {
+            //customis this to pop up login modal
             yield effects_1.put(index_2.userActions.getUserFailure());
         }
         else {
-            yield effects_1.put(index_2.userActions.getUserSuccess(userJson));
+            yield effects_1.put(index_2.userActions.getUserSuccess(APIresponse.data));
         }
     }
     catch (e) {

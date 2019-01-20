@@ -1,18 +1,35 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { shallow, mount } from "enzyme";
+import { render, fireEvent } from "react-testing-library";
 import { create } from "react-test-renderer";
 import App from "./app";
+import NavBar from "components/navigation/navigation";
+import IndexPage from "components/pages/index/index-page";
 
-test("it Renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+let component;
+
+beforeEach(() => {
+  component = shallow(<App />);
+
+  window.fetch = jest.fn(async () => {
+    return {
+      ok: true
+    };
+  });
 });
 
-function sum(a, b) {
-  return a + b;
-}
+afterEach(() => {
+  component.unmount();
+});
 
-test("adds 1 +2 to equal 3", () => {
-  expect(sum(1, 2)).toBe(3);
+// test("it Renders without crashing", () => {
+//   const component = render(<App />);
+// });
+
+it("shows a Navigation Bar", () => {
+  expect(component.find(NavBar).length).toEqual(1);
+});
+
+it("shows the index page", () => {
+  expect(component.find(IndexPage).length).toEqual(1);
 });

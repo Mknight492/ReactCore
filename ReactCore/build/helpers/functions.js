@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const actions_1 = require("../redux/actions");
-const configure_store_1 = require("../redux/store/configure-store");
+const actions_1 = require("redux/actions");
+const configure_store_1 = require("redux/store/configure-store");
+const axios_1 = require("axios");
 //helper functions
 exports.HF = {
     AFfetch,
     Appfetch,
+    AppAxios,
     isNullOrWhiteSpace,
     formatLocation,
     Utf8ArrayToStr,
@@ -55,7 +57,7 @@ async function Appfetch(url, options) {
                     .then(r => {
                     let errorMessage = Utf8ArrayToStr(r.value);
                     let obj = actions_1.handleHTTPError(result, errorMessage);
-                    configure_store_1.default.dispatch(obj);
+                    configure_store_1.store.dispatch(obj);
                 });
             }
         }
@@ -63,6 +65,27 @@ async function Appfetch(url, options) {
     }
     catch (e) {
         throw e;
+    }
+}
+async function AppAxios(options) {
+    //make sure not in testing env
+    if (!(navigator.userAgent.includes("jsdom") ||
+        navigator.userAgent.includes("Node.js"))) {
+        //then add the antiforgery token to the header
+        options.headers = {
+            "Content-Type": "application/json",
+            RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
+        };
+    }
+    try {
+        let res = await axios_1.default(options);
+        //console.log(res);
+        return res;
+    }
+    catch (error) {
+        let action = actions_1.handleHTTPError(error.response, error.response.data);
+        configure_store_1.store.dispatch(action);
+        //throw error;
     }
 }
 function isNullOrWhiteSpace(input) {

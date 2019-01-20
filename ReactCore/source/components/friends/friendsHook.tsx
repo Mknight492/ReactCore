@@ -3,7 +3,7 @@ import * as React from "react";
 import FriendComponent from "../friend/friendHook";
 import * as styles from "./friends.module.scss";
 
-import Test from "../../components/friendForm/friendFormHook";
+import FriendForm from "../../components/friendForm/friendFormHook";
 
 import { connect } from "react-redux";
 import { friendActions } from "../../redux/actions";
@@ -14,22 +14,19 @@ const { useEffect } = React;
 
 interface IProps {
   loadFriends: Function;
-  currentlyActive: number;
-  changeActive: Function;
   friendsObj: FriendsObj;
+  state: any;
 }
 
 const FriendsComponent: React.FunctionComponent<IProps> = ({
   loadFriends,
-  currentlyActive,
-  changeActive,
-  friendsObj
+  friendsObj,
+  state
 }) => {
   //on mounting - load friends
   useEffect(() => {
     loadFriends();
   }, []);
-
   return (
     <div className={styles.flexContainer}>
       {friendsObj &&
@@ -37,18 +34,14 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
           return (
             <div className={styles.flexItem} key={Friend.Id}>
               <div className={styles.border}>
-                <FriendComponent
-                  Friend={Friend}
-                  isActive={currentlyActive === Friend.Id}
-                  changeActive={changeActive}
-                />
+                <FriendComponent Friend={Friend} />
               </div>
             </div>
           );
         })}
       <div className={styles.flexItem}>
         <div className={styles.border}>
-          <Test edit={false} />
+          <FriendForm edit={false} />
         </div>
       </div>
     </div>
@@ -58,7 +51,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
 function mapStateToProps(state) {
   return {
     friendsObj: state.friends.friendsObj,
-    currentlyActive: state.friends.isActive
+    state: state
   };
 }
 
@@ -66,9 +59,6 @@ function mapDispatchToProps(dispatch) {
   return {
     loadFriends: () => {
       dispatch(friendActions.loadFriendAttemptAG());
-    },
-    changeActive: id => {
-      dispatch(friendActions.changeFriendAG(id));
     }
   };
 }

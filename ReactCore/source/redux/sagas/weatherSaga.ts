@@ -22,6 +22,7 @@ function* APIRequest(action) {
         }
       }
     );
+
     yield put(weatherSuccessAction(APIdata.data));
   } catch (e) {
     yield put(weatherFailureAction());

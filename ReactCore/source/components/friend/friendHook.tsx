@@ -25,10 +25,11 @@ const { useState, useEffect } = React;
 
 interface OwnProps {
   Friend: Friend;
-  isActive: boolean;
-  changeActive: Function;
+  weatherTest?: WeatherObject;
 }
-interface StateProps {}
+interface StateProps {
+  isActive?: number;
+}
 interface DispatchProps {
   changeActive: Function;
 }
@@ -39,11 +40,12 @@ type Props = StateProps & DispatchProps & OwnProps & State;
 const FriendComponent: React.FunctionComponent<Props> = ({
   Friend,
   changeActive,
-  isActive
+  isActive,
+  weatherTest
 }) => {
-  const [weather, setWeather] = useState(undefined as
-    | WeatherObject
-    | undefined);
+  const [weather, setWeather] = useState(
+    weatherTest || (undefined as WeatherObject | undefined)
+  );
 
   useEffect(
     () => {
@@ -66,20 +68,23 @@ const FriendComponent: React.FunctionComponent<Props> = ({
   });
   */
 
-  return (
-    <div>
-      {isActive ? (
+  if (isActive === Friend.Id) {
+    return (
+      <div>
         <>
           <FriendForm
             Friend={Friend}
-            initialWeather={weather}
-            isActive={isActive}
+            initialWeather={weatherTest || weather}
             edit={true}
           />
         </>
-      ) : (
+      </div>
+    );
+  } else {
+    return (
+      <div id={`Friend${Friend.Id}`}>
         <div>
-          <h3 className={styles.name}> {Friend.Name}</h3>
+          <h3 className={styles.name}>{Friend.Name}</h3>
           <h4 className={styles.location}>
             {HF.formatLocation(Friend.Location)}
           </h4>
@@ -105,13 +110,15 @@ const FriendComponent: React.FunctionComponent<Props> = ({
             </div>
           )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isActive: state.friends.isActive || -1
+  };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,16 +1,33 @@
 import * as React from "react";
+import axios from "axios";
 
-export interface HelloProps {
-  compiler: string;
-  framework: string;
-}
+function Test3() {
+  // Declare a new state variable, which we'll call "count"
 
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
-export const Hello: React.SFC<HelloProps> = props => {
+  const [text, setText] = React.useState("");
+
   return (
-    <h1>
-      Hello from {props.compiler} and {props.framework}!
-    </h1>
+    <form onSubmit={() => setText("")}>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          setText("");
+
+          axios
+            .get("api/Authenticate/CheckUser")
+            .then(result => {
+              console.log(result);
+              return result;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }}
+      >
+        Click me
+      </button>
+      <textarea value={text} onChange={e => setText(e.target.value)} />
+    </form>
   );
-};
+}
+export { Test3 };

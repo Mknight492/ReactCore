@@ -2,7 +2,7 @@ import { userConstants } from "../constants/index";
 import { userService } from "../services/index";
 import { alertActions } from "./index";
 //import { history } from "../../helpers/index";
-import { ApplicationUserDto } from "../../models";
+import { ApplicationUserDto } from "models";
 
 export const userActions = {
   //login,
@@ -26,7 +26,6 @@ function getUserFailure() {
   };
 }
 function getUserSuccess(user: ApplicationUserDto) {
-  console.log(user);
   return {
     type: userConstants.GET_USER_SUCCESS,
     payload: user

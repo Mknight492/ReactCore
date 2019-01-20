@@ -4,7 +4,7 @@ const constants_1 = require("../constants");
 const lodash_1 = require("lodash");
 const initalState = {
     friendsObj: {},
-    isActive: undefined,
+    isActive: -1,
     locations: []
 };
 function friendReducer(state = initalState, action) {

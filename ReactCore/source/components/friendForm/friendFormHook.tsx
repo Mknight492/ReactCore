@@ -2,7 +2,7 @@ import * as React from "react";
 
 //style imports
 import { Form, Well, FormGroup, Col } from "react-bootstrap";
-import { returnInputConfiguration, formUtilityActions } from "../../helpers";
+import { returnInitalFormState, formUtilityActions } from "helpers";
 import * as styles from "./friendForm.module.scss";
 import classNames from "classnames";
 
@@ -12,18 +12,18 @@ import MapComponent from "../map/maphook";
 
 //redux imports
 import { connect } from "react-redux";
-import { friendActions } from "../../redux/actions";
-import { locationServices } from "../../redux/services";
+import { friendActions } from "redux/actions";
+import { locationServices } from "redux/services";
 
 //helper functions
-import Input from "../UI/inputs/weatherInputs";
-import { HF, locationHelpers } from "../../helpers";
+import FormRow from "components/UI/inputs/weatherInputs";
+import { HF, locationHelpers } from "helpers";
 
 //models
-import { Friend, WeatherObject, Locations } from "../../models";
+import { Friend, WeatherObject, Locations } from "models";
 
 //Custom Hooks
-import { HookHelpers } from "../../customHooks";
+import { HookHelpers } from "customHooks";
 
 const { useState, useEffect } = React;
 
@@ -35,7 +35,7 @@ interface OwnProps {
   edit: boolean;
 }
 interface StateProps {
-  LocationArrayProps: Locations[];
+  LocationArrayProps?: Locations[];
 }
 interface DispatchProps {
   changeActive: (Id?: any) => void;
@@ -46,7 +46,7 @@ interface State {}
 
 type Props = StateProps & DispatchProps & OwnProps & State;
 
-const TestComponent: React.SFC<Props> = ({
+const FriendFormComponent: React.SFC<Props> = ({
   Friend,
   initialWeather,
   edit,
@@ -70,11 +70,8 @@ const TestComponent: React.SFC<Props> = ({
 
   ///FORM
   const initalForm = Friend
-    ? returnInputConfiguration([
-        Friend.Name,
-        HF.formatLocation(Friend.Location)
-      ])
-    : returnInputConfiguration();
+    ? returnInitalFormState([Friend.Name, HF.formatLocation(Friend.Location)])
+    : returnInitalFormState();
 
   const [ownerForm, setownerForm] = useState(initalForm);
 
@@ -202,7 +199,7 @@ const TestComponent: React.SFC<Props> = ({
   async function addFriend() {
     await locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
     await loadFriends();
-    setownerForm(returnInputConfiguration([]));
+    setownerForm(returnInitalFormState([]));
   }
 
   async function editFriend() {
@@ -226,29 +223,25 @@ const TestComponent: React.SFC<Props> = ({
 
   return (
     <div ref={componentRef}>
-      <Form horizontal>
+      <form>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
         thus allowing the UI/from to refelct the current state */}
         {formUtilityActions
           .convertStateToArrayOfFormObjects(ownerForm)
-          .map(element => {
+          .map(formRow => {
             return (
-              <Input
-                key={element.id}
-                elementType={element.element}
-                id={element.id}
-                label={element.label}
-                type={element.type}
-                value={element.value}
-                changed={event => handleChangeEvent(event, element.id)}
-                errorMessage={element.errorMessage}
-                invalid={!element.valid}
-                shouldValidate={element.validation}
-                touched={element.touched}
-                blur={event => handleChangeEvent(event, element.id)}
+              //map over the form state
+              //pass the each row its props
+              // including event handlers to pass state back to friendform component
+
+              <FormRow
+                key={formRow.id}
+                formRow={formRow}
+                changed={event => handleChangeEvent(event, formRow.id)}
+                blur={event => handleChangeEvent(event, formRow.id)}
                 //TypeAhead Specific props
-                items={locationHelpers.uniqueTAValues(LocationArray)}
-                selectHandler={val => selectTAHandler(val, element.id)}
+                items={locationHelpers.uniqueTAValues(LocationArray || [])}
+                selectHandler={val => selectTAHandler(val, formRow.id)}
               />
             );
           })}
@@ -279,7 +272,7 @@ const TestComponent: React.SFC<Props> = ({
             Add friend
           </button>
         )}
-      </Form>
+      </form>
       <MapComponent
         mapKey={"addNew"}
         position={{
@@ -296,7 +289,7 @@ const TestComponent: React.SFC<Props> = ({
 
 function mapStateToProps(state) {
   let id = state.friends.isActive;
-
+  //this is unreliable and needs to be edited
   return {
     LocationArrayProps: state.friends[id] || state.friends[-1] || undefined
   };
@@ -316,16 +309,22 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const connectedTestComponent = connect<StateProps, DispatchProps, OwnProps>(
+const connectedFriendFormComponent = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps
+>(
   mapStateToProps,
   mapDispatchToProps
-)(TestComponent);
+)(FriendFormComponent);
 
-export default connectedTestComponent;
+export default connectedFriendFormComponent;
 
 ////customHooks
 
 function useWeather(initialWeather?: WeatherObject) {
+  let shouldWeatherLoad = false;
+
   //either take the inital location from the
   //weather object or generate a random number
   let initialLatitude = initialWeather
@@ -341,19 +340,27 @@ function useWeather(initialWeather?: WeatherObject) {
   const [longitude, setlongitude] = useState(initialLongitude);
 
   //every time the latitude or longitude  changes - fetch a new weather object
-  useEffect(
-    () => {
-      locationServices.getWeather(latitude, longitude).then(result => {
-        setWeather(result);
-      });
-    },
-    [latitude, longitude]
-  );
+  // but only do this if not inital weather was supplied or irs, not the
+  // first time this function is called
+  if (!initialWeather || shouldWeatherLoad) {
+    useEffect(
+      () => {
+        locationServices.getWeather(latitude, longitude).then(result => {
+          setWeather(result);
+        });
+      },
+      [latitude, longitude]
+    );
+  } else {
+    shouldWeatherLoad = true;
+  }
 
   return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
 }
 
 function useLocation(LocationArrayProps, initialLocation) {
+  //set the locationArray to be the LocationArrayProps
+  //or default to the inital Location
   const [LocationArray, setlocationArray] = useState(
     LocationArrayProps || initialLocation
   );

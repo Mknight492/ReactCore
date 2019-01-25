@@ -17,7 +17,7 @@ const POJS_js_1 = __importDefault(require("./POJS.js"));
 const IndexPage = props => {
     return (React.createElement(React.Fragment, null,
         React.createElement("h2", null, " you shouldn't be here.."),
-        React.createElement("h2", null, " you shouldn't be here"),
+        React.createElement("h2", null, " you shouldn't be here..."),
         React.createElement(test2_1.Test2, null),
         React.createElement(test3_1.Test3, null),
         React.createElement(POJS_js_1.default, null)));

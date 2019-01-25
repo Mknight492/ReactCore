@@ -108,7 +108,6 @@
     "@reach/router": "^1.2.1",
     "autoprefixer": "^9.4.3",
     "axios": "^0.18.0",
-    "babel": "^6.23.0",
     "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-regenerator": "^6.26.0",

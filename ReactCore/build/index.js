@@ -1,19 +1,20 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 //envornmnet setup imports
-require("babel-regenerator-runtime");
-require("promise-polyfill/src/polyfill");
+import "babel-regenerator-runtime";
+import "promise-polyfill/src/polyfill";
 //React imports
-const React = require("react");
-const ReactDOM = require("react-dom");
-const configure_store_1 = require("./redux/store/configure-store");
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+//Redux Imports
+import { Provider } from "react-redux";
+import { configureStore } from "./redux/store/configure-store";
 //import global styles
-require("./index.scss");
-const store = configure_store_1.configureStore();
+import "./index.scss";
+const store = configureStore();
 const rootEl = document.getElementById("app");
 let render = () => {
-    const Root = require("components/app/saga").default;
-    ReactDOM.render(React.createElement(Root, { store: store }), rootEl);
+    const App = require("components/app/app").default;
+    ReactDOM.render(React.createElement(Provider, { store: store },
+        React.createElement(App, null)), rootEl);
 };
 ///may need to be app.js
 if (module.hot) {

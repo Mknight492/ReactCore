@@ -1,17 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const friendsHook_1 = require("../../friends/friendsHook");
+import * as React from "react";
+import Friends from "../../friends/friendsHook";
 //helper functions
-const helpers_1 = require("../../../helpers");
+import { HF } from "../../../helpers";
 //redux imports
-const react_redux_1 = require("react-redux");
-const weatherActions_1 = require("../../../redux/actions/weatherActions");
+import { connect } from "react-redux";
+import { positionSuccessAction, performWeatherSearch } from "../../../redux/actions/weatherActions";
 const WeatherPage = () => {
-    return (React.createElement("div", null,
-        React.createElement("button", { onClick: () => helpers_1.HF.AppAxios({ url: "api/Authenticate/Throw500" }) }, "throw5000"),
-        React.createElement("button", { onClick: () => helpers_1.HF.AppAxios({ url: "api/Authenticate/Throw400" }) }, "throw400"),
-        React.createElement(friendsHook_1.default, null)));
+    return (React.createElement("div", { "data-testid": "weatherPage" },
+        React.createElement("button", { onClick: () => HF.AppAxios({ url: "api/Authenticate/Throw500" }) }, "throw5000"),
+        React.createElement("button", { onClick: () => HF.AppAxios({ url: "api/Authenticate/Throw400" }) }, "throw400"),
+        React.createElement(Friends, null)));
 };
 const mapStateToProps = state => ({
     position: state.weather.currentPosition,
@@ -19,9 +17,9 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     dispatchUpdatedPosition: position => {
-        dispatch(weatherActions_1.positionSuccessAction(position));
-        dispatch(weatherActions_1.performWeatherSearch(position));
+        dispatch(positionSuccessAction(position));
+        dispatch(performWeatherSearch(position));
     }
 });
-exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(WeatherPage);
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherPage);
 //# sourceMappingURL=weather-page.js.map

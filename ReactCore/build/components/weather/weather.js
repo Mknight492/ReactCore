@@ -1,21 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const styles = require("./weather.module.scss");
-exports.Weather = props => {
+import * as React from "react";
+import * as styles from "./weather.module.scss";
+import { HF } from "helpers";
+export const Weather = props => {
     const { weather, showLabel } = props;
     if (weather) {
         return (React.createElement("div", { className: styles.weather },
             showLabel && React.createElement("h5", { className: styles.weatherLabel }, " Weather: "),
-            React.createElement("h5", { className: styles.weatherData },
-                weather.name,
-                " \u00A0 ",
-                weather.main.temp,
-                " \u00B0C,",
-                " ",
-                weather.weather[0].main,
-                ",",
-                weather.weather[0].description)));
+            React.createElement("h5", { className: styles.weatherData }, HF.formatWeather(weather, false))));
     }
     else
         return null;

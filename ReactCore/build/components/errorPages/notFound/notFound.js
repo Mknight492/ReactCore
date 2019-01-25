@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
+import * as React from "react";
 const FourZeroFourComponent = () => {
     return (React.createElement("div", null,
         React.createElement("h2", null, "Error 404: Page Not Found")));
 };
-exports.default = FourZeroFourComponent;
+export default FourZeroFourComponent;
 //# sourceMappingURL=notFound.js.map

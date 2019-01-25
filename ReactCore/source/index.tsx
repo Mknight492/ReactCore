@@ -5,9 +5,7 @@ import "promise-polyfill/src/polyfill";
 //React imports
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import Root from "./components/app/saga";
 
-import Saga from "components/app/saga";
 //Redux Imports
 import { Provider } from "react-redux";
 import { configureStore } from "./redux/store/configure-store";
@@ -33,28 +31,24 @@ let render = () => {
 declare const module: any;
 
 ///may need to be app.js
-// if (module.hot) {
-//   const renderApp = render;
-//   const renderError = error => {
-//     const RedBox = require("redbox-react");
-//     ReactDOM.render(<RedBox error={error} />, rootEl);
-//   };
-
-//   render = () => {
-//     try {
-//       renderApp();
-//     } catch (error) {
-//       renderError(error);
-//     }
-//   };
-
-//   module.hot.accept("components/app/app", () => {
-//     setTimeout(render);
-//   });
-// }
-
 if (module.hot) {
-  module.hot.accept();
+  const renderApp = render;
+  const renderError = error => {
+    const RedBox = require("redbox-react");
+    ReactDOM.render(<RedBox error={error} />, rootEl);
+  };
+
+  render = () => {
+    try {
+      renderApp();
+    } catch (error) {
+      renderError(error);
+    }
+  };
+
+  module.hot.accept("components/app/app", () => {
+    setTimeout(render);
+  });
 }
 
 if (module.hot) {
@@ -62,3 +56,5 @@ if (module.hot) {
 }
 
 render();
+
+export { store };

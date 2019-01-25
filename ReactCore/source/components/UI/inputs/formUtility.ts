@@ -41,6 +41,7 @@ function executeValidationAndReturnFormElement(
 }
 
 function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
+  console.log(ownerForm);
   Object.keys(ownerForm).map(key => {
     //map over each value in the formObj.
     //turn touched to true and check if valid and add error message

@@ -1,29 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = require("axios");
+import axios from "axios";
 //import { takeLatest } from "redux-saga";
-const effects_1 = require("redux-saga/effects"); //select allows you to access values from state
-const weatherActions_1 = require("../actions/weatherActions");
-const security_1 = require("./../../security");
+import { put, call, takeLatest } from "redux-saga/effects"; //select allows you to access values from state
+import { weatherSuccessAction, weatherFailureAction, PERFORM_WEATHER_SEARCH } from "../actions/weatherActions";
+import { weatherAPI } from "./../../security";
 function* APIRequest(action) {
     try {
-        const APIdata = yield effects_1.call(axios_1.default.get, "http://api.openweathermap.org/data/2.5/weather", {
+        const APIdata = yield call(axios.get, "http://api.openweathermap.org/data/2.5/weather", {
             params: {
                 lat: action.payload.latitude,
                 lon: action.payload.longitude,
-                appid: security_1.weatherAPI,
+                appid: weatherAPI,
                 units: "metric"
             }
         });
-        yield effects_1.put(weatherActions_1.weatherSuccessAction(APIdata.data));
+        yield put(weatherSuccessAction(APIdata.data));
     }
     catch (e) {
-        yield effects_1.put(weatherActions_1.weatherFailureAction());
+        yield put(weatherFailureAction());
     }
 }
-function* default_1() {
-    yield effects_1.takeLatest(weatherActions_1.PERFORM_WEATHER_SEARCH, APIRequest);
+export default function* () {
+    yield takeLatest(PERFORM_WEATHER_SEARCH, APIRequest);
 }
-exports.default = default_1;
 //wwwe
 //# sourceMappingURL=weatherSaga.js.map

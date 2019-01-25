@@ -1,6 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import { FormGroup, Col, FormControl, ControlLabel } from "react-bootstrap";
+//
 
 const input = props => {
   let inputField = null;

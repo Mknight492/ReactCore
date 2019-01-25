@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
+import * as React from "react";
 const { useEffect } = React;
 const MapComponent = ({ position, mapKey, weather, zoom, style }) => {
     //stops unneccesary and visable rerender on the maps when filling in the form
@@ -55,5 +53,5 @@ function weatherSelecter(weather) {
         };
     return { text: "\uf053\uf441\uf054", color: "rgb(49, 89, 119)" };
 }
-exports.default = MapComponent;
+export default MapComponent;
 //# sourceMappingURL=maphook.js.map

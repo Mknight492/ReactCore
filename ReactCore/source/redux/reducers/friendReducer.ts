@@ -5,11 +5,11 @@ import { FriendsObj, Locations } from "../../models";
 
 interface IinitialState {
   friendsObj: FriendsObj;
-  isActive: boolean;
+  isActive: number;
   locations: Locations[];
 }
 
-const initalState = {
+const initalState: IinitialState = {
   friendsObj: {},
   isActive: -1,
   locations: []
@@ -24,7 +24,7 @@ export default function friendReducer(state = initalState, action) {
     case friendConstants.LOAD_FRIEND_SUCCESS:
       //action.payload = [friend{}, friend{}]
       // eslint-disable-next-line no-case-declarations
-      const friendsObj = mapKeys(action.payload, "Id");
+      let friendsObj = mapKeys(action.payload, "Id");
       //only update the state if the friendObj is differn't = stops rerenders
       if (isEqual(state.friendsObj, friendsObj)) {
         return state;
@@ -34,6 +34,17 @@ export default function friendReducer(state = initalState, action) {
 
     case friendConstants.ADD_FRIEND_ATTEMPT:
       return state;
+    case friendConstants.EDIT_FRIEND_SUCCESS:
+      let newObj = mapKeys(action.payload, "Id");
+      console.log(action.payload);
+      console.log({ ...state.friendsObj });
+      return {
+        ...state,
+        friendsObj: {
+          ...state.friendsObj,
+          [action.payload.Id]: action.payload
+        }
+      };
     case friendConstants.CHANGE_ACTIVE_FRIEND:
       //action.paylod = id (of currently active friend item)
       return {
@@ -48,6 +59,8 @@ export default function friendReducer(state = initalState, action) {
       return state;
     case friendConstants.RESET_LOCATION_TA:
       return { ...state, locations: [] };
+    case friendConstants.RESET_FRIENDS_TA_VALUES:
+      return { ...state, [action.id]: undefined };
     default:
       return state;
   }

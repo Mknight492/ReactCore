@@ -1,6 +1,3 @@
-import * as moment from "moment";
-import input from "./weatherInputs";
-
 import { formState } from "models";
 
 //const returnInputConfiguration( string[]): input
@@ -24,7 +21,8 @@ export const returnInitalFormState = (config: string[] = []): formState => ({
     valid: false,
     touched: false,
     errorMessage: "",
-    label: "Location:"
+    label: "Location:",
+    showDropdown: false
   }
   /*
     dateOfBirth: {

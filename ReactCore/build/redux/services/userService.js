@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const helpers_1 = require("../../helpers");
-exports.userService = {
+import { authHeader, config, HF } from "../../helpers";
+export const userService = {
     //login,
     logout,
     register,
@@ -31,22 +29,22 @@ exports.userService = {
 }*/
 async function logout() {
     // remove user from local storage to log user out
-    const result = await helpers_1.HF.Appfetch("api/authenticate/Logout");
+    const result = await HF.Appfetch("api/authenticate/Logout");
     return result;
 }
 function getAll() {
     const requestOptions = {
         method: "GET",
-        headers: helpers_1.authHeader()
+        headers: authHeader()
     };
-    return fetch(helpers_1.config.apiUrl + "/users", requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + "/users", requestOptions).then(handleResponse, handleError);
 }
 function getById(id) {
     const requestOptions = {
         method: "GET",
-        headers: helpers_1.authHeader()
+        headers: authHeader()
     };
-    return fetch(helpers_1.config.apiUrl + "/users/" + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + "/users/" + id, requestOptions).then(handleResponse, handleError);
 }
 function register(user) {
     const requestOptions = {
@@ -59,18 +57,18 @@ function register(user) {
 function update(user) {
     const requestOptions = {
         method: "PUT",
-        headers: Object.assign({}, helpers_1.authHeader(), { "Content-Type": "application/json" }),
+        headers: Object.assign({}, authHeader(), { "Content-Type": "application/json" }),
         body: JSON.stringify(user)
     };
-    return fetch(helpers_1.config.apiUrl + "/users/" + user.id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + "/users/" + user.id, requestOptions).then(handleResponse, handleError);
 }
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
     const requestOptions = {
         method: "DELETE",
-        headers: helpers_1.authHeader()
+        headers: authHeader()
     };
-    return fetch(helpers_1.config.apiUrl + "/users/" + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + "/users/" + id, requestOptions).then(handleResponse, handleError);
 }
 function handleResponse(response) {
     return new Promise((resolve, reject) => {

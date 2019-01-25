@@ -1,34 +1,33 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
+import * as React from "react";
+import { hot } from "react-hot-loader";
 //routing Imports
-const router_1 = require("@reach/router");
+import { Router } from "@reach/router";
 //import pages
-const navigation_1 = require("components/navigation/navigation");
-const index_page_1 = require("../pages/index/index-page");
-const notFound_1 = require("../errorPages/notFound/notFound");
+import Navigation from "components/navigation/navigation";
+import IndexPage from "../pages/index/index-page";
+import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
-const internalServer_1 = require("../errorPages/internalServer/internalServer");
+import ServerErrorPage from "../errorPages/internalServer/internalServer";
 //import global style
-const styles = require("./app.module.scss");
-require("./FA");
+import * as styles from "./app.module.scss";
+import "./FA";
 //import loadable
-const MyLoadable_1 = require("../../higherOrderComponents/MyLoadable");
-const WeatherPageLoadable = MyLoadable_1.default({
-    loader: () => Promise.resolve().then(() => require("../pages/weather/weather-page")),
+import MyLoadable from "../../higherOrderComponents/MyLoadable";
+const WeatherPageLoadable = MyLoadable({
+    loader: () => import("../pages/weather/weather-page"),
     modules: ["../pages/weather/weather-page"],
     webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
 const App = () => {
     return (React.createElement(React.Fragment, null,
-        React.createElement(navigation_1.default, null),
-        React.createElement("h2", null, "test me"),
+        React.createElement(Navigation, null),
+        React.createElement("h2", null, "test me..."),
         React.createElement("div", { className: styles.wrapper },
-            React.createElement(router_1.Router, null,
-                React.createElement(index_page_1.default, { path: "/" }),
+            React.createElement(Router, null,
+                React.createElement(IndexPage, { path: "/" }),
                 React.createElement(WeatherPageLoadable, { path: "/weather" }),
-                React.createElement(internalServer_1.default, { path: "/500" }),
-                React.createElement(notFound_1.default, { path: "*" })))));
+                React.createElement(ServerErrorPage, { path: "/500" }),
+                React.createElement(NotFound, { path: "*" })))));
 };
 // const App = () => {
 //   return (
@@ -41,7 +40,7 @@ const App = () => {
 //     </div>
 //   );
 // };
-exports.default = App;
+export default hot(module)(App);
 //
 //hmmvv <Route component={FourZeroFour} />
 //# sourceMappingURL=app.js.map

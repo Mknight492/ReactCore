@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const weatherActions_1 = require("../actions/weatherActions");
+import { POSITION_SUCCESS, WEATHER_SEARCH_FAILURE, WEATHER_SEARCH_SUCCESS } from "../actions/weatherActions";
 const initalState = {
     currentPosition: {
         latitude: -1.11735,
@@ -8,11 +6,11 @@ const initalState = {
     },
     locationWeather: undefined
 };
-function WeatherReducer(state = initalState, action) {
+export default function WeatherReducer(state = initalState, action) {
     switch (action.type) {
-        case weatherActions_1.POSITION_SUCCESS:
+        case POSITION_SUCCESS:
             return Object.assign({}, state, { currentPosition: action.coords });
-        case weatherActions_1.WEATHER_SEARCH_SUCCESS:
+        case WEATHER_SEARCH_SUCCESS:
             return Object.assign({}, state, { locationWeather: {
                     location: action.payload.name,
                     country: action.payload.sys.country,
@@ -20,11 +18,10 @@ function WeatherReducer(state = initalState, action) {
                     weatherDescription: action.payload.weather[0].description,
                     temp: action.payload.main.temp
                 } });
-        case weatherActions_1.WEATHER_SEARCH_FAILURE:
+        case WEATHER_SEARCH_FAILURE:
             return state;
         default:
             return state;
     }
 }
-exports.default = WeatherReducer;
 //# sourceMappingURL=weatherReducer.js.map

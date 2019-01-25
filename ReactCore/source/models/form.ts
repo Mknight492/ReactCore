@@ -8,6 +8,7 @@ export interface formRow {
   touched: boolean;
   errorMessage: string;
   label: string;
+  showDropdown?: boolean | false;
 }
 
 export interface formState {
@@ -20,6 +21,7 @@ export interface formState {
     touched: boolean;
     errorMessage: string;
     label: string;
+    showDropdown?: boolean | false;
   };
 }
 

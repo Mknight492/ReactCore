@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.userConstants = {
+export const userConstants = {
     REGISTER_REQUEST: "USERS_REGISTER_REQUEST",
     REGISTER_SUCCESS: "USERS_REGISTER_SUCCESS",
     REGISTER_FAILURE: "USERS_REGISTER_FAILURE",

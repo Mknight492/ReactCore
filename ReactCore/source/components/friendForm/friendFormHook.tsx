@@ -9,6 +9,7 @@ import classNames from "classnames";
 //component imports
 import { Weather } from "../weather/weather";
 import MapComponent from "../map/maphook";
+import TypeAhead from "components/typeAhead/typeAhead";
 
 //redux imports
 import { connect } from "react-redux";
@@ -18,9 +19,10 @@ import { locationServices } from "redux/services";
 //helper functions
 import FormRow from "components/UI/inputs/weatherInputs";
 import { HF, locationHelpers } from "helpers";
+import { parse, stringify } from "flatted/cjs";
 
 //models
-import { Friend, WeatherObject, Locations } from "models";
+import { Friend, WeatherObject, Locations, EditFriendModel } from "models";
 
 //Custom Hooks
 import { HookHelpers } from "customHooks";
@@ -92,16 +94,20 @@ const FriendFormComponent: React.SFC<Props> = ({
   const [selectedLocationId, setselectedLocationId] = useState(
     initalLocationId
   );
+  const [selectedLocation, setselectedLocation] = useState(initialLocation[0]);
 
   //Typeahead Location Array
 
   const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
 
   //Outside Click
+  const OnOutsideClickFunction = () => {
+    changeActive(Id);
+  };
 
   const componentRef = React.useRef(null as any);
   if (edit) {
-    HookHelpers.useOutSideClick(componentRef, changeActive);
+    HookHelpers.useOutSideClick(componentRef, OnOutsideClickFunction);
   }
 
   //on loading get the current weather and then display in wweather section and map
@@ -185,8 +191,9 @@ const FriendFormComponent: React.SFC<Props> = ({
     setlatitude(matchingLocation.Latitude);
     setlongitude(matchingLocation.Longitude);
     setselectedLocationId(matchingLocation.Geonameid);
+    setselectedLocation(matchingLocation);
     //update the state to include the selectedId (for API calls )
-
+    console.log("here");
     // get the weather for the new location and display it on the map
     const weather = await locationServices.getWeather(
       matchingLocation.Latitude,
@@ -203,12 +210,15 @@ const FriendFormComponent: React.SFC<Props> = ({
 
   async function editFriend() {
     if (Friend) {
-      await locationServices.editFriend(
-        ownerForm.Name.value,
-        selectedLocationId,
-        Friend.Id
-      );
-      await loadFriends();
+      let EditedFriend: Friend = {
+        Name: ownerForm.Name.value,
+        LocationId: selectedLocationId,
+        Id: Friend.Id,
+        UserId: Friend.UserId,
+        Location: selectedLocation
+      };
+
+      await locationServices.editFriend(EditedFriend);
       changeActive();
     }
   }
@@ -221,7 +231,7 @@ const FriendFormComponent: React.SFC<Props> = ({
   }
 
   return (
-    <div ref={componentRef}>
+    <div ref={componentRef} data-testid="friendForm">
       <form>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
         thus allowing the UI/from to refelct the current state */}
@@ -234,16 +244,18 @@ const FriendFormComponent: React.SFC<Props> = ({
               // including event handlers to pass state back to friendform component
 
               <FormRow
-                key={formRow.id}
+                key={formRow.id + "row"}
                 formRow={formRow}
                 changed={event => handleChangeEvent(event, formRow.id)}
                 blur={event => handleChangeEvent(event, formRow.id)}
                 //TypeAhead Specific props
                 items={locationHelpers.uniqueTAValues(LocationArray || [])}
                 selectHandler={val => selectTAHandler(val, formRow.id)}
+                locations={LocationArray}
               />
             );
           })}
+
         <br />
         <Weather weather={weather} showLabel={false} />
         {edit ? (
@@ -290,7 +302,7 @@ function mapStateToProps(state) {
   let id = state.friends.isActive;
   //this is unreliable and needs to be edited
   return {
-    LocationArrayProps: state.friends[id] || state.friends[-1] || undefined
+    LocationArrayProps: state.friends[id] || undefined
   };
 }
 
@@ -300,7 +312,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(friendActions.loadFriendAttemptAG());
     },
     changeActive: id => {
-      dispatch(friendActions.changeFriendAG(id));
+      dispatch(friendActions.changeFriendAG(-1));
+      dispatch(friendActions.resetFriendsTAValues(id));
     },
     loadLocation: (searchTerm, Id) => {
       dispatch(friendActions.loadLocationTAAttempt(searchTerm, Id));

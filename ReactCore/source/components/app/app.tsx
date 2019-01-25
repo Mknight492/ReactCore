@@ -31,7 +31,7 @@ import { Root } from "../../redux/store/configure-store";
 
 //componet imports
 
-import WeatherPage from "./../pages/weather/weather-page";
+import WeatherPage from "../pages/weather/weather-page";
 
 const WeatherPageLoadable = MyLoadable({
   loader: () => import("../pages/weather/weather-page"),

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.friendConstants = {
+export const friendConstants = {
     ADD_FRIEND_ATTEMPT: "ADD_FRIEND_ATTEMPT",
     ADD_FRIEND_SUCCESS: "ADD_FRIEND_SUCCESS",
     ADD_FRIEND_FAILURE: "ADD_FRIEND_FAILURE",
@@ -11,6 +9,7 @@ exports.friendConstants = {
     LOAD_LOCATION_TA_ATTEMPT: "LOAD_LOCATION_TA_ATTEMPT",
     LOAD_LOCATION_TA_SUCCESS: "LOAD_LOCATION_TA_SUCCESS",
     LOAD_LOCATION_TA_FAILURE: "LOAD_LOCATION_TA_FAILURE",
-    RESET_LOCATION_TA: "RESET_LOCATION_TA:"
+    RESET_LOCATION_TA: "RESET_LOCATION_TA:",
+    RESET_FRIENDS_TA_VALUES: "RESET_FRIENDS_TA_VALUES"
 };
 //# sourceMappingURL=friendConstants.js.map

@@ -1,15 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const actions_1 = require("redux/actions");
-const configure_store_1 = require("redux/store/configure-store");
-const axios_1 = require("axios");
+import { handleHTTPError } from "redux/actions";
+import { store } from "redux/store/configure-store";
+import axios from "axios";
 //helper functions
-exports.HF = {
+export const HF = {
     AFfetch,
     Appfetch,
     AppAxios,
     isNullOrWhiteSpace,
     formatLocation,
+    formatWeather,
     Utf8ArrayToStr,
     generateRandomNumber
 };
@@ -56,8 +55,8 @@ async function Appfetch(url, options) {
                     .read()
                     .then(r => {
                     let errorMessage = Utf8ArrayToStr(r.value);
-                    let obj = actions_1.handleHTTPError(result, errorMessage);
-                    configure_store_1.store.dispatch(obj);
+                    let obj = handleHTTPError(result, errorMessage);
+                    store.dispatch(obj);
                 });
             }
         }
@@ -69,8 +68,7 @@ async function Appfetch(url, options) {
 }
 async function AppAxios(options) {
     //make sure not in testing env
-    if (!(navigator.userAgent.includes("jsdom") ||
-        navigator.userAgent.includes("Node.js"))) {
+    if (!(process.env.NODE_ENV === "test")) {
         //then add the antiforgery token to the header
         options.headers = {
             "Content-Type": "application/json",
@@ -78,15 +76,14 @@ async function AppAxios(options) {
         };
     }
     try {
-        let res = await axios_1.default(options);
-        //console.log(res);
+        let res = await axios(options);
         return res;
     }
     catch (error) {
-        let action = actions_1.handleHTTPError(error.response, error.response.data);
-        configure_store_1.store.dispatch(action);
-        //throw error;
+        let action = handleHTTPError(error.response, error.response.data);
+        store.dispatch(action);
     }
+    return { data: undefined };
 }
 function isNullOrWhiteSpace(input) {
     if (typeof input === "undefined" || input == null)
@@ -99,6 +96,12 @@ function formatLocation(locationObj) {
     }
     else {
         return "";
+    }
+}
+function formatWeather(weatherObj, displayName) {
+    let name = displayName ? `${weatherObj.name}: ` : "";
+    if (weatherObj) {
+        return `${name}${weatherObj.main.temp}°C ${weatherObj.weather[0].main}, ${weatherObj.weather[0].description}`;
     }
 }
 function Utf8ArrayToStr(array) {

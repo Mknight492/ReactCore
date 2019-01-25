@@ -31,7 +31,7 @@ type Props = StateProps & DispatchProps & OwnProps & State;
 
 const WeatherPage: React.SFC<Props> = () => {
   return (
-    <div>
+    <div data-testid="weatherPage">
       <button onClick={() => HF.AppAxios({ url: "api/Authenticate/Throw500" })}>
         throw5000
       </button>

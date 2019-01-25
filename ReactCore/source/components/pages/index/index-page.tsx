@@ -5,6 +5,10 @@ import { Test2 } from "../../test/test2";
 import { Test3 } from "../../test/test3";
 import { userActions } from "../../../redux/actions";
 
+import TypeAhead from "components/typeAhead/typeAhead";
+import { LocationArrayMock1 } from "test/mocks";
+// import Random from "./random.jsx";
+
 interface IProps {
   path: string;
 }
@@ -14,8 +18,10 @@ const IndexPage: React.SFC<IProps> = props => {
     <>
       <h2> you shouldn't be here..</h2>
       <h2> you shouldn't be here</h2>
+      {/* <Random /> */}
       <Test2 />
       <Test3 />
+      {/* <TypeAhead suggestions={LocationArrayMock1} /> */}
     </>
   );
 };

@@ -1,26 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("../constants");
+import { userConstants } from "../constants";
 const initialState = {
     LoggedIn: false,
     user: undefined,
     noUserActive: undefined,
     loading: false
 };
-function users(state = initialState, action) {
+export default function users(state = initialState, action) {
     switch (action.type) {
-        case constants_1.userConstants.GETALL_REQUEST:
+        case userConstants.GETALL_REQUEST:
             return Object.assign({}, state, { loading: true });
-        case constants_1.userConstants.GET_USER_REQUEST:
+        case userConstants.GET_USER_REQUEST:
             return Object.assign({}, state, { loading: true });
-        case constants_1.userConstants.GET_USER_FAILURE:
-            return Object.assign({}, state, { noUserActive: true });
-        case constants_1.userConstants.GET_USER_SUCCESS:
+        case userConstants.GET_USER_FAILURE:
+            return Object.assign({}, state, { loading: false, noUserActive: true });
+        case userConstants.GET_USER_SUCCESS:
             //payload = user{}
             return Object.assign({}, state, { LoggedIn: true, user: action.payload });
         default:
             return state;
     }
 }
-exports.default = users;
 //# sourceMappingURL=usersReducer.js.map

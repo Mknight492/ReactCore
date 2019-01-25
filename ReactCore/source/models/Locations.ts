@@ -2,7 +2,7 @@ export interface Locations {
   Geonameid: number;
   Name: string;
   Asciiname: string;
-  Alternatenames: string;
+  Alternatenames: string | null;
   Latitude: number;
   Longitude: number;
   FeatureClass: string;

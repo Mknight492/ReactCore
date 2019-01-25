@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const Autocomplete = require("react-autocomplete");
+import * as React from "react";
+import * as Autocomplete from "react-autocomplete";
 function Test2() {
     // Declare a new state variable, which we'll call "count"
     const [count, setCount] = React.useState(0);
@@ -15,5 +13,5 @@ function Test2() {
             " times"),
         React.createElement("button", { onClick: () => setCount(count + 1) }, "Click me")));
 }
-exports.Test2 = Test2;
+export { Test2 };
 //# sourceMappingURL=test2.js.map

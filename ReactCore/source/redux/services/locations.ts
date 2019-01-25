@@ -1,5 +1,10 @@
 import { HF } from "../../helpers";
 import { weatherAPI } from "../../security";
+import axios from "axios";
+import { store } from "index";
+import { friendActions } from "redux/actions";
+import { Friend, EditFriendModel } from "models";
+
 export const locationServices = {
   getCities,
   addFriend,
@@ -9,41 +14,46 @@ export const locationServices = {
 };
 
 async function getCities(name) {
-  const result = await HF.AFfetch(`/api/location?type=location&query=${name}`, {
+  const result = await HF.AppAxios({
+    url: `/api/location?type=location&query=${name}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     }
   });
-  const parsedResult = await result.json();
+  const parsedResult = await result.data;
   return parsedResult;
 }
 
 async function addFriend(Name, LocationId) {
   const data = JSON.stringify({ Name, LocationId });
-  const result = await HF.Appfetch("/api/friend", {
-    method: "POST",
+
+  const result = await HF.AppAxios({
+    url: "api/friend",
+    method: "post",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: data
+    data
   });
+
   return result;
 }
 
-async function editFriend(Name, LocationId, Id) {
-  console.log(Name, LocationId, Id);
-  const data = JSON.stringify({ Name, LocationId, Id });
-  const result = await HF.Appfetch("/api/friend", {
+async function editFriend(FriendToEdit: Friend) {
+  const result = await HF.AppAxios({
+    url: "/api/friend",
     method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: data
+    data: JSON.stringify(FriendToEdit)
   });
+  console.log(FriendToEdit);
+  store.dispatch(friendActions.editFriendSuccessAG(FriendToEdit));
   return result;
 }
 
@@ -60,12 +70,10 @@ async function deleteFriend(Id) {
 
 async function getWeather(latitude: number, longitude: number) {
   try {
-    const APIdata = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
-    );
-    const APIdataParsed = await APIdata.json();
-    console.log(APIdataParsed);
-    return APIdataParsed;
+    const APIdata = await axios({
+      url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
+    });
+    return APIdata.data;
   } catch (e) {
     return e;
   }

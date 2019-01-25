@@ -6,7 +6,7 @@ export const FriendMock1: Friend = {
   Id: 143,
   Location: LocationMock1,
   LocationId: 2187237,
-  Name: "me",
+  Name: "mike",
   UserId: "811be611-e47f-4117-8f61-4e1781cd6617"
 };
 

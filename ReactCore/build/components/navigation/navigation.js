@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const styles = require("./navigation.module.scss");
-const router_1 = require("@reach/router");
-const helpers_1 = require("../../helpers");
-const services_1 = require("../../redux/services");
-const react_redux_1 = require("react-redux");
-const actions_1 = require("../../redux/actions");
+import * as React from "react";
+import * as styles from "./navigation.module.scss";
+import { Link } from "@reach/router";
+import { HF } from "../../helpers";
+import { userService } from "../../redux/services";
+import { connect } from "react-redux";
+import { userActions } from "../../redux/actions";
 const { useEffect } = React;
 const NavigationComponent = ({ user, LoggedIn, getUser }) => {
     let loaded;
@@ -14,15 +12,15 @@ const NavigationComponent = ({ user, LoggedIn, getUser }) => {
         getUser();
     }, [loaded]);
     return user ? (React.createElement("div", { className: styles.container },
-        React.createElement(router_1.Link, { to: "/" }, "Home"),
-        React.createElement(router_1.Link, { to: "/weather" }, " Weather"),
-        React.createElement(router_1.Link, { to: "/identity" }, " Register "),
-        React.createElement(router_1.Link, { to: "/identityLogin", onClick: services_1.userService.logout },
+        React.createElement(Link, { to: "/" }, "Home"),
+        React.createElement(Link, { to: "/weather" }, " Weather"),
+        React.createElement(Link, { to: "/identity" }, " Register "),
+        React.createElement(Link, { to: "/identityLogin", onClick: userService.logout },
             " ",
             "Logout",
             " "),
         React.createElement("a", { href: "/Manage/index" }, user.FirstName))) : (React.createElement("div", { className: styles.container },
-        React.createElement(router_1.Link, { to: "/" }, "Home"),
+        React.createElement(Link, { to: "/" }, "Home"),
         React.createElement("a", { href: "/Account/register" }, " Register "),
         React.createElement("a", { href: "/Account/login" }, " Login ")));
 };
@@ -34,12 +32,12 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        getUser: () => dispatch(actions_1.userActions.getUserRequest())
+        getUser: () => dispatch(userActions.getUserRequest())
     };
 }
-exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(NavigationComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationComponent);
 async function getUser() {
-    const user = await helpers_1.HF.Appfetch("/api/Authenticate/CheckUser");
+    const user = await HF.Appfetch("/api/Authenticate/CheckUser");
     const userJson = await user.json();
     return userJson;
 }

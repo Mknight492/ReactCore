@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const Autocomplete = require("react-autocomplete");
+import * as React from "react";
+import * as Autocomplete from "react-autocomplete";
 //css imports
-const styles = require("../../friendForm/friendForm.module.scss");
+import * as styles from "../../friendForm/friendForm.module.scss";
 const FormRow = ({ formRow, changed, blur, items = [], selectHandler }) => {
     let inputField;
     let errorMessage;
@@ -16,13 +14,13 @@ const FormRow = ({ formRow, changed, blur, items = [], selectHandler }) => {
         case "input":
             inputField = (React.createElement("div", null,
                 React.createElement("div", { style: { display: "block" } },
-                    React.createElement("label", { className: styles.name, htmlFor: "name", id: "name" }, "Name:"),
-                    React.createElement("input", { className: styles.input, key: formRow.id, type: formRow.type, value: formRow.value, onChange: changed, onBlur: blur }),
+                    React.createElement("label", { className: styles.name, htmlFor: formRow.id, id: "name" }, "Name:"),
+                    React.createElement("input", { id: formRow.id, className: styles.input, key: formRow.id, type: formRow.type, value: formRow.value, onChange: changed, onBlur: blur, onFocus: focus }),
                     React.createElement("em", { className: styles.errorMessage }, errorMessage))));
             break;
         case "typeAhead":
             inputField = (React.createElement("div", null,
-                React.createElement("label", { style: { textAlign: "left" }, className: styles.location, htmlFor: "location" }, "Location:"),
+                React.createElement("label", { style: { textAlign: "left" }, className: styles.location, htmlFor: formRow.id }, "Location:"),
                 React.createElement("div", { className: styles.typeAhead },
                     React.createElement(Autocomplete, { getItemValue: item => item, items: items || [], renderItem: (item, isHighlighted) => (React.createElement("div", { key: item, style: {
                             //background: isHighlighted ? "lightgray" : "white"
@@ -34,5 +32,5 @@ const FormRow = ({ formRow, changed, blur, items = [], selectHandler }) => {
     }
     return React.createElement("div", null, inputField);
 };
-exports.default = FormRow;
+export default FormRow;
 //# sourceMappingURL=weatherInputs.js.map

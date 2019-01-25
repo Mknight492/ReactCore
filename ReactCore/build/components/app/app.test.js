@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
-const enzyme_1 = require("enzyme");
-const app_1 = require("./app");
-const navigation_1 = require("components/navigation/navigation");
-const index_page_1 = require("components/pages/index/index-page");
+import * as React from "react";
+import { shallow } from "enzyme";
+import App from "./app";
+import NavBar from "components/navigation/navigation";
+import IndexPage from "components/pages/index/index-page";
 let component;
 beforeEach(() => {
-    component = enzyme_1.shallow(React.createElement(app_1.default, null));
+    component = shallow(React.createElement(App, null));
     window.fetch = jest.fn(async () => {
         return {
             ok: true
@@ -21,9 +19,9 @@ afterEach(() => {
 //   const component = render(<App />);
 // });
 it("shows a Navigation Bar", () => {
-    expect(component.find(navigation_1.default).length).toEqual(1);
+    expect(component.find(NavBar).length).toEqual(1);
 });
 it("shows the index page", () => {
-    expect(component.find(index_page_1.default).length).toEqual(1);
+    expect(component.find(IndexPage).length).toEqual(1);
 });
 //# sourceMappingURL=app.test.js.map

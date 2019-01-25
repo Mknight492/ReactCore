@@ -52,7 +52,6 @@ async function editFriend(FriendToEdit: Friend) {
     },
     data: JSON.stringify(FriendToEdit)
   });
-  console.log(FriendToEdit);
   store.dispatch(friendActions.editFriendSuccessAG(FriendToEdit));
   return result;
 }
@@ -65,6 +64,7 @@ async function deleteFriend(Id) {
       "Content-Type": "application/json"
     }
   });
+  store.dispatch(friendActions.deleteFriendSuccessAG(Id));
   return result;
 }
 

@@ -1,7 +1,14 @@
-import { HF } from "../../helpers";
-import { weatherAPI } from "../../security";
-import axios from "axios";
-export const locationServices = {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const helpers_1 = require("../../helpers");
+const security_1 = require("../../security");
+const axios_1 = __importDefault(require("axios"));
+const index_1 = require("index");
+const actions_1 = require("redux/actions");
+exports.locationServices = {
     getCities,
     addFriend,
     editFriend,
@@ -9,7 +16,7 @@ export const locationServices = {
     getWeather
 };
 async function getCities(name) {
-    const result = await HF.AppAxios({
+    const result = await helpers_1.HF.AppAxios({
         url: `/api/location?type=location&query=${name}`,
         method: "GET",
         headers: {
@@ -22,44 +29,45 @@ async function getCities(name) {
 }
 async function addFriend(Name, LocationId) {
     const data = JSON.stringify({ Name, LocationId });
-    const result = await HF.AppAxios({
+    const result = await helpers_1.HF.AppAxios({
         url: "api/friend",
-        method: "POST",
+        method: "post",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: data
+        data
     });
     return result;
 }
-async function editFriend(Name, LocationId, Id) {
-    console.log(Name, LocationId, Id);
-    const data = JSON.stringify({ Name, LocationId, Id });
-    const result = await HF.Appfetch("/api/friend", {
+async function editFriend(FriendToEdit) {
+    const result = await helpers_1.HF.AppAxios({
+        url: "/api/friend",
         method: "PUT",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: data
+        data: JSON.stringify(FriendToEdit)
     });
+    index_1.store.dispatch(actions_1.friendActions.editFriendSuccessAG(FriendToEdit));
     return result;
 }
 async function deleteFriend(Id) {
-    const result = await HF.Appfetch("/api/friend/" + Id, {
+    const result = await helpers_1.HF.Appfetch("/api/friend/" + Id, {
         method: "DELETE",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         }
     });
+    index_1.store.dispatch(actions_1.friendActions.deleteFriendSuccessAG(Id));
     return result;
 }
 async function getWeather(latitude, longitude) {
     try {
-        const APIdata = await axios({
-            url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
+        const APIdata = await axios_1.default({
+            url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${security_1.weatherAPI}&units=metric`
         });
         return APIdata.data;
     }

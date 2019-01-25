@@ -1,7 +1,8 @@
 import { friendConstants } from "../constants";
-import { mapKeys, isEqual } from "lodash";
+import { mapKeys, isEqual, omit } from "lodash";
 
 import { FriendsObj, Locations } from "../../models";
+import { Action } from "redux";
 
 interface IinitialState {
   friendsObj: FriendsObj;
@@ -35,15 +36,19 @@ export default function friendReducer(state = initalState, action) {
     case friendConstants.ADD_FRIEND_ATTEMPT:
       return state;
     case friendConstants.EDIT_FRIEND_SUCCESS:
-      let newObj = mapKeys(action.payload, "Id");
-      console.log(action.payload);
-      console.log({ ...state.friendsObj });
       return {
         ...state,
         friendsObj: {
           ...state.friendsObj,
           [action.payload.Id]: action.payload
         }
+      };
+
+    case friendConstants.DELETE_FRIEND_SUCCESS:
+      friendsObj = omit(state.friendsObj, action.payload);
+      return {
+        ...state,
+        friendsObj
       };
     case friendConstants.CHANGE_ACTIVE_FRIEND:
       //action.paylod = id (of currently active friend item)

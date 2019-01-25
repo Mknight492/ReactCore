@@ -7,7 +7,7 @@ import { userActions } from "../../../redux/actions";
 
 import TypeAhead from "components/typeAhead/typeAhead";
 import { LocationArrayMock1 } from "test/mocks";
-// import Random from "./random.jsx";
+import POJS from "./POJS.js";
 
 interface IProps {
   path: string;
@@ -17,10 +17,11 @@ const IndexPage: React.SFC<IProps> = props => {
   return (
     <>
       <h2> you shouldn't be here..</h2>
-      <h2> you shouldn't be here</h2>
+      <h2> you shouldn't be here...</h2>
       {/* <Random /> */}
       <Test2 />
       <Test3 />
+      <POJS />
       {/* <TypeAhead suggestions={LocationArrayMock1} /> */}
     </>
   );

@@ -30,6 +30,11 @@ const editFriendSuccessAG = (friend: EditFriendModel) => ({
   payload: friend
 });
 
+const deleteFriendSuccessAG = (Id: number) => ({
+  type: friendConstants.DELETE_FRIEND_SUCCESS,
+  payload: Id
+});
+
 const changeFriendAG = id => ({
   type: friendConstants.CHANGE_ACTIVE_FRIEND,
   payload: id
@@ -66,6 +71,7 @@ export const friendActions = {
   loadFriendSuccessAG,
   loadFriendFailureAG,
   editFriendSuccessAG,
+  deleteFriendSuccessAG,
   changeFriendAG,
   loadLocationTAAttempt,
   loadLocationTASuccess,

@@ -1,8 +1,13 @@
-import { handleHTTPError } from "redux/actions";
-import { store } from "redux/store/configure-store";
-import axios from "axios";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const actions_1 = require("redux/actions");
+const configure_store_1 = require("redux/store/configure-store");
+const axios_1 = __importDefault(require("axios"));
 //helper functions
-export const HF = {
+exports.HF = {
     AFfetch,
     Appfetch,
     AppAxios,
@@ -55,8 +60,8 @@ async function Appfetch(url, options) {
                     .read()
                     .then(r => {
                     let errorMessage = Utf8ArrayToStr(r.value);
-                    let obj = handleHTTPError(result, errorMessage);
-                    store.dispatch(obj);
+                    let obj = actions_1.handleHTTPError(result, errorMessage);
+                    configure_store_1.store.dispatch(obj);
                 });
             }
         }
@@ -71,17 +76,21 @@ async function AppAxios(options) {
     if (!(process.env.NODE_ENV === "test")) {
         //then add the antiforgery token to the header
         options.headers = {
+            "X-Requested-With": "json",
             "Content-Type": "application/json",
             RequestVerificationToken: (document.getElementsByName("__RequestVerificationToken")[0]).value
         };
+        // options.headers.RequestVerificationToken = (<HTMLInputElement>(
+        //   document.getElementsByName("__RequestVerificationToken")[0]
+        // )).value;
     }
     try {
-        let res = await axios(options);
+        let res = await axios_1.default(options);
         return res;
     }
     catch (error) {
-        let action = handleHTTPError(error.response, error.response.data);
-        store.dispatch(action);
+        let action = actions_1.handleHTTPError(error.response, error.response.data);
+        configure_store_1.store.dispatch(action);
     }
     return { data: undefined };
 }

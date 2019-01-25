@@ -2,7 +2,7 @@ import * as React from "react";
 
 //components
 import DatePicker from "react-datepicker";
-import * as Autocomplete from "react-autocomplete";
+import Autocomplete from "react-autocomplete";
 import TypeAhead from "components/typeAhead/typeAhead";
 
 //css imports

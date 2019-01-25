@@ -28,8 +28,6 @@ let render = () => {
   );
 };
 
-declare const module: any;
-
 ///may need to be app.js
 if (module.hot) {
   const renderApp = render;

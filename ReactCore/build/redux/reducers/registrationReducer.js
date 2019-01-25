@@ -1,14 +1,17 @@
-import { userConstants } from "../constants";
-export default function registration(state = {}, action) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
+function registration(state = {}, action) {
     switch (action.type) {
-        case userConstants.REGISTER_REQUEST:
+        case constants_1.userConstants.REGISTER_REQUEST:
             return { registering: true };
-        case userConstants.REGISTER_SUCCESS:
+        case constants_1.userConstants.REGISTER_SUCCESS:
             return {};
-        case userConstants.REGISTER_FAILURE:
+        case constants_1.userConstants.REGISTER_FAILURE:
             return {};
         default:
             return state;
     }
 }
+exports.default = registration;
 //# sourceMappingURL=registrationReducer.js.map

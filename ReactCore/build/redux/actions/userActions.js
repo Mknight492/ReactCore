@@ -1,7 +1,9 @@
-import { userConstants } from "../constants/index";
-import { userService } from "../services/index";
-import { alertActions } from "./index";
-export const userActions = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_1 = require("../constants/index");
+const index_2 = require("../services/index");
+const index_3 = require("./index");
+exports.userActions = {
     //login,
     logout,
     register,
@@ -13,17 +15,17 @@ export const userActions = {
 };
 function getUserRequest() {
     return {
-        type: userConstants.GET_USER_REQUEST
+        type: index_1.userConstants.GET_USER_REQUEST
     };
 }
 function getUserFailure() {
     return {
-        type: userConstants.GET_USER_FAILURE
+        type: index_1.userConstants.GET_USER_FAILURE
     };
 }
 function getUserSuccess(user) {
     return {
-        type: userConstants.GET_USER_SUCCESS,
+        type: index_1.userConstants.GET_USER_SUCCESS,
         payload: user
     };
 }
@@ -44,76 +46,76 @@ function login(username, password) {
     );
   };*/
 function request(user) {
-    return { type: userConstants.LOGIN_REQUEST, user };
+    return { type: index_1.userConstants.LOGIN_REQUEST, user };
 }
 function success(user) {
-    return { type: userConstants.LOGIN_SUCCESS, user };
+    return { type: index_1.userConstants.LOGIN_SUCCESS, user };
 }
 function failure(error) {
-    return { type: userConstants.LOGIN_FAILURE, error };
+    return { type: index_1.userConstants.LOGIN_FAILURE, error };
 }
 function logout() {
-    userService.logout();
-    return { type: userConstants.LOGOUT };
+    index_2.userService.logout();
+    return { type: index_1.userConstants.LOGOUT };
 }
 function register(user) {
     return dispatch => {
         dispatch(request(user));
-        userService.register(user).then(user => {
+        index_2.userService.register(user).then(user => {
             dispatch(success(user));
             //history.push("/login");
-            dispatch(alertActions.success("Registration successful"));
+            dispatch(index_3.alertActions.success("Registration successful"));
         }, error => {
             dispatch(failure(error));
-            dispatch(alertActions.error(error));
+            dispatch(index_3.alertActions.error(error));
         });
     };
     function request(user) {
-        return { type: userConstants.REGISTER_REQUEST, user };
+        return { type: index_1.userConstants.REGISTER_REQUEST, user };
     }
     function success(user) {
-        return { type: userConstants.REGISTER_SUCCESS, user };
+        return { type: index_1.userConstants.REGISTER_SUCCESS, user };
     }
     function failure(error) {
-        return { type: userConstants.REGISTER_FAILURE, error };
+        return { type: index_1.userConstants.REGISTER_FAILURE, error };
     }
 }
 function getAll() {
     return dispatch => {
         dispatch(request());
-        userService.getAll().then(users => dispatch(success(users)), error => {
+        index_2.userService.getAll().then(users => dispatch(success(users)), error => {
             dispatch(failure(error));
-            dispatch(alertActions.error(error));
+            dispatch(index_3.alertActions.error(error));
         });
     };
     function request() {
-        return { type: userConstants.GETALL_REQUEST };
+        return { type: index_1.userConstants.GETALL_REQUEST };
     }
     function success(users) {
-        return { type: userConstants.GETALL_SUCCESS, users };
+        return { type: index_1.userConstants.GETALL_SUCCESS, users };
     }
     function failure(error) {
-        return { type: userConstants.GETALL_FAILURE, error };
+        return { type: index_1.userConstants.GETALL_FAILURE, error };
     }
 }
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
     return dispatch => {
         dispatch(request(id));
-        userService.delete(id).then(user => {
+        index_2.userService.delete(id).then(user => {
             dispatch(success(id));
         }, error => {
             dispatch(failure(id, error));
         });
     };
     function request(id) {
-        return { type: userConstants.DELETE_REQUEST, id };
+        return { type: index_1.userConstants.DELETE_REQUEST, id };
     }
     function success(id) {
-        return { type: userConstants.DELETE_SUCCESS, id };
+        return { type: index_1.userConstants.DELETE_SUCCESS, id };
     }
     function failure(id, error) {
-        return { type: userConstants.DELETE_FAILURE, id, error };
+        return { type: index_1.userConstants.DELETE_FAILURE, id, error };
     }
 }
 //# sourceMappingURL=userActions.js.map

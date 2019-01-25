@@ -1,4 +1,6 @@
-export function authHeader() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function authHeader() {
     // return authorization header with jwt token
     let userString = localStorage.getItem("user");
     let user;
@@ -12,4 +14,5 @@ export function authHeader() {
         return { Authorization: "" };
     }
 }
+exports.authHeader = authHeader;
 //# sourceMappingURL=authHeader.js.map

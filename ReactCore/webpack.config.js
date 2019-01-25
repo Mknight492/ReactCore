@@ -95,7 +95,7 @@ module.exports = {
             presets: [
               [
                 "@babel/preset-env",
-                { targets: { browsers: "last 2 versions" }, modules: false }
+                { targets: { browsers: "last 2 versions" } } //modules: false }
                 // or whatever your project requires
               ],
               "@babel/preset-typescript",

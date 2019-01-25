@@ -7,6 +7,7 @@
     "test": "jest  --env=jsdom",
     "test:update": "jest --silent -u",
     "test:watch": "jest  --watch --o --env=jsdom",
+    "cc": "jest --clearCache",
     "w": "jest  --watch --o --env=jsdom",
     "wf": "jest  --watch --o --env=jsdom \"source/components/friend\"",
     "w_t": "jest  --watch --o --env=jsdom \"__tests__\"",
@@ -30,12 +31,14 @@
     "@babel/preset-typescript": "^7.1.0",
     "@types/axios": "^0.14.0",
     "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/es6-promise": "^3.3.0",
     "@types/googlemaps": "^3.30.16",
     "@types/jest": "^23.3.12",
     "@types/jsdom": "^12.2.1",
     "@types/moxios": "^0.4.8",
     "@types/node": "^10.12.18",
+    "@types/promise-polyfill": "^6.0.1",
     "@types/react-autocomplete": "^1.8.4",
     "@types/react-bootstrap": "^0.32.15",
     "@types/react-datepicker": "^2.0.2",
@@ -47,7 +50,7 @@
     "aspnet-webpack": "^2.0.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.0-beta.6",
+    "babel-loader": "^8.0.5",
     "babel-preset-react": "^6.24.1",
     "browser-sync-webpack-plugin": "^2.2.2",
     "copy-webpack-plugin": "^4.6.0",
@@ -153,6 +156,5 @@
     "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "thunk": "^0.0.1"
-  },
-  "babel": "./babelrc.js"
+  }
 }

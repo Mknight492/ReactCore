@@ -1,20 +1,22 @@
-import { errorConstants } from "../constants";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
 function execute401Handler(props) {
-    return { type: errorConstants.HTTP_401_ERROR, props };
+    return { type: constants_1.errorConstants.HTTP_401_ERROR, props };
 }
 function execute404Handler(props) {
-    return { type: errorConstants.HTTP_404_ERROR, props };
+    return { type: constants_1.errorConstants.HTTP_404_ERROR, props };
 }
 function execute500Handler(error, errorMessage) {
-    return { type: errorConstants.HTTP_500_ERROR, errorMessage };
+    return { type: constants_1.errorConstants.HTTP_500_ERROR, errorMessage };
 }
 function executeOtherErrorHandler(error) {
     return {
-        type: errorConstants.HTTP_OTHER_ERROR,
+        type: constants_1.errorConstants.HTTP_OTHER_ERROR,
         error
     };
 }
-export function handleHTTPError(error, errorMessage) {
+function handleHTTPError(error, errorMessage) {
     if (error.status === 401) {
         return execute401Handler(error);
     }
@@ -28,4 +30,5 @@ export function handleHTTPError(error, errorMessage) {
         return executeOtherErrorHandler(error);
     }
 }
+exports.handleHTTPError = handleHTTPError;
 //# sourceMappingURL=errorActions.js.map

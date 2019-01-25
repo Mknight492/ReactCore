@@ -1,5 +1,7 @@
-import { errorConstants } from "../constants";
-import { navigate } from "@reach/router";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
+const router_1 = require("@reach/router");
 const initialState = {
     showErrorModal: false,
     errorMessage: ""
@@ -11,11 +13,11 @@ const execute401 = state => {
     return state;
 };
 const execute404 = (state, action) => {
-    navigate("/404");
+    router_1.navigate("/404");
     return Object.assign({}, state, { redircted: true });
 };
 function execute500(state, action) {
-    navigate("/500");
+    router_1.navigate("/500");
     return Object.assign({}, state, { errorMessage: action.errorMessage });
 }
 const executeOtherError = (state, action) => {
@@ -23,19 +25,19 @@ const executeOtherError = (state, action) => {
 };
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case errorConstants.HTTP_401_ERROR:
+        case constants_1.errorConstants.HTTP_401_ERROR:
             return execute401(state);
-        case errorConstants.HTTP_404_ERROR:
+        case constants_1.errorConstants.HTTP_404_ERROR:
             return execute404(state, action);
-        case errorConstants.HTTP_500_ERROR:
+        case constants_1.errorConstants.HTTP_500_ERROR:
             return execute500(state, action);
-        case errorConstants.HTTP_OTHER_ERROR:
+        case constants_1.errorConstants.HTTP_OTHER_ERROR:
             return executeOtherError(state, action);
         default:
             return state;
     }
 };
-export default reducer;
+exports.default = reducer;
 function Utf8ArrayToStr(array) {
     var out, i, len, c;
     var char2, char3;

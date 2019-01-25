@@ -1,33 +1,45 @@
-import * as React from "react";
-import { hot } from "react-hot-loader";
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __importStar(require("react"));
+const react_hot_loader_1 = require("react-hot-loader");
 //routing Imports
-import { Router } from "@reach/router";
+const router_1 = require("@reach/router");
 //import pages
-import Navigation from "components/navigation/navigation";
-import IndexPage from "../pages/index/index-page";
-import NotFound from "../errorPages/notFound/notFound";
+const navigation_1 = __importDefault(require("components/navigation/navigation"));
+const index_page_1 = __importDefault(require("../pages/index/index-page"));
+const notFound_1 = __importDefault(require("../errorPages/notFound/notFound"));
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
-import ServerErrorPage from "../errorPages/internalServer/internalServer";
+const internalServer_1 = __importDefault(require("../errorPages/internalServer/internalServer"));
 //import global style
-import * as styles from "./app.module.scss";
-import "./FA";
+const styles = __importStar(require("./app.module.scss"));
+require("./FA");
 //import loadable
-import MyLoadable from "../../higherOrderComponents/MyLoadable";
-const WeatherPageLoadable = MyLoadable({
-    loader: () => import("../pages/weather/weather-page"),
+const MyLoadable_1 = __importDefault(require("../../higherOrderComponents/MyLoadable"));
+const WeatherPageLoadable = MyLoadable_1.default({
+    loader: () => Promise.resolve().then(() => __importStar(require("../pages/weather/weather-page"))),
     modules: ["../pages/weather/weather-page"],
     webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
 const App = () => {
     return (React.createElement(React.Fragment, null,
-        React.createElement(Navigation, null),
+        React.createElement(navigation_1.default, null),
         React.createElement("h2", null, "test me..."),
         React.createElement("div", { className: styles.wrapper },
-            React.createElement(Router, null,
-                React.createElement(IndexPage, { path: "/" }),
+            React.createElement(router_1.Router, null,
+                React.createElement(index_page_1.default, { path: "/" }),
                 React.createElement(WeatherPageLoadable, { path: "/weather" }),
-                React.createElement(ServerErrorPage, { path: "/500" }),
-                React.createElement(NotFound, { path: "*" })))));
+                React.createElement(internalServer_1.default, { path: "/500" }),
+                React.createElement(notFound_1.default, { path: "*" })))));
 };
 // const App = () => {
 //   return (
@@ -40,7 +52,7 @@ const App = () => {
 //     </div>
 //   );
 // };
-export default hot(module)(App);
+exports.default = react_hot_loader_1.hot(module)(App);
 //
 //hmmvv <Route component={FourZeroFour} />
 //# sourceMappingURL=app.js.map

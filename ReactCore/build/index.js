@@ -1,19 +1,29 @@
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 //envornmnet setup imports
-import "babel-regenerator-runtime";
-import "promise-polyfill/src/polyfill";
+require("babel-regenerator-runtime");
+require("promise-polyfill/src/polyfill");
 //React imports
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+const React = __importStar(require("react"));
+const ReactDOM = __importStar(require("react-dom"));
 //Redux Imports
-import { Provider } from "react-redux";
-import { configureStore } from "./redux/store/configure-store";
+const react_redux_1 = require("react-redux");
+const configure_store_1 = require("./redux/store/configure-store");
 //import global styles
-import "./index.scss";
-const store = configureStore();
+require("./index.scss");
+const store = configure_store_1.configureStore();
+exports.store = store;
 const rootEl = document.getElementById("app");
 let render = () => {
     const App = require("components/app/app").default;
-    ReactDOM.render(React.createElement(Provider, { store: store },
+    ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store },
         React.createElement(App, null)), rootEl);
 };
 ///may need to be app.js

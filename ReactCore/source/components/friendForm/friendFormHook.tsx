@@ -226,7 +226,7 @@ const FriendFormComponent: React.SFC<Props> = ({
   async function deleteFriend() {
     if (Friend) {
       await locationServices.deleteFriend(Friend.Id);
-      loadFriends();
+      //loadFriends();
     }
   }
 

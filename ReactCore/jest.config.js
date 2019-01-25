@@ -1,5 +1,5 @@
 module.exports = {
-  transform: { "^.+\\.tsx?$": "ts-jest" },
+  transform: { "^.+\\.tsx?$": "ts-jest", "^.+\\.jsx?$": "babel-jest" },
   testEnvironment: "jsdom",
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
@@ -14,6 +14,8 @@ module.exports = {
   globals: {
     NODE_PATH: "source/"
   },
+  roots: ["<rootDir>/source"],
   moduleDirectories: ["node_modules", "source/"],
   automock: false
+  //transformIgnorePatterns: ["<rootDir>/node_modules/"]
 };

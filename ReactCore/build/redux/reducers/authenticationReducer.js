@@ -1,28 +1,31 @@
-import { userConstants } from "../constants";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
 let userString = localStorage.getItem("user");
 let user;
 if (userString) {
     user = JSON.parse(userString);
 }
 const initialState = user ? { loggedIn: true, user: user } : {};
-export default function authentication(state = initialState, action) {
+function authentication(state = initialState, action) {
     switch (action.type) {
-        case userConstants.LOGIN_REQUEST:
+        case constants_1.userConstants.LOGIN_REQUEST:
             return {
                 loggingIn: true,
                 user: action.user
             };
-        case userConstants.LOGIN_SUCCESS:
+        case constants_1.userConstants.LOGIN_SUCCESS:
             return {
                 loggedIn: true,
                 user: action.user
             };
-        case userConstants.LOGIN_FAILURE:
+        case constants_1.userConstants.LOGIN_FAILURE:
             return {};
-        case userConstants.LOGOUT:
+        case constants_1.userConstants.LOGOUT:
             return {};
         default:
             return state;
     }
 }
+exports.default = authentication;
 //# sourceMappingURL=authenticationReducer.js.map

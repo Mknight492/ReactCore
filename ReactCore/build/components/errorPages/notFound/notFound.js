@@ -1,7 +1,16 @@
-import * as React from "react";
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __importStar(require("react"));
 const FourZeroFourComponent = () => {
     return (React.createElement("div", null,
         React.createElement("h2", null, "Error 404: Page Not Found")));
 };
-export default FourZeroFourComponent;
+exports.default = FourZeroFourComponent;
 //# sourceMappingURL=notFound.js.map

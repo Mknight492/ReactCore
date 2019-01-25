@@ -1,29 +1,31 @@
-import { put, takeLatest, all } from "redux-saga/effects"; //select allows you to access values from state
-import { userConstants } from "../constants/index";
-import { userActions } from "../actions/index";
-import { HF } from "../../helpers/index";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const effects_1 = require("redux-saga/effects"); //select allows you to access values from state
+const index_1 = require("../constants/index");
+const index_2 = require("../actions/index");
+const index_3 = require("../../helpers/index");
 function* getUser() {
     try {
         const requestionOptions = {
             url: "/api/Authenticate/CheckUser"
         };
-        const APIresponse = yield HF.AppAxios(requestionOptions);
+        const APIresponse = yield index_3.HF.AppAxios(requestionOptions);
         if (APIresponse.data.notLoggedIn) {
             //customis this to pop up login modal
-            yield put(userActions.getUserFailure());
+            yield effects_1.put(index_2.userActions.getUserFailure());
         }
         else {
-            yield put(userActions.getUserSuccess(APIresponse.data));
+            yield effects_1.put(index_2.userActions.getUserSuccess(APIresponse.data));
         }
     }
     catch (e) {
-        yield put(userActions.getUserFailure());
+        yield effects_1.put(index_2.userActions.getUserFailure());
     }
 }
 function* combiner() {
-    yield all([takeLatest(userConstants.GET_USER_REQUEST, getUser)]);
+    yield effects_1.all([effects_1.takeLatest(index_1.userConstants.GET_USER_REQUEST, getUser)]);
 }
-export default combiner;
+exports.default = combiner;
 /*
 export default function*() {
   yield takeLatest(friendConstants.LOAD_FRIEND_ATTEMPT, loadFriendsData);

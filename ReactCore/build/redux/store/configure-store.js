@@ -1,28 +1,42 @@
-import * as React from "react";
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __importStar(require("react"));
 //redux imports
-import { createStore, applyMiddleware, compose } from "redux";
-import createRootReducer from "redux/reducers/index";
-import { Provider } from "react-redux";
+const redux_1 = require("redux");
+const index_1 = __importDefault(require("redux/reducers/index"));
+const react_redux_1 = require("react-redux");
 //logger imports
-import { createLogger } from "redux-logger";
+const redux_logger_1 = require("redux-logger");
 //Saga Imports
-import createSagaMiddleware from "redux-saga";
-import thunkMiddleware from "redux-thunk";
-import rootSaga from "../sagas";
-import SagaManager from "redux/sagas/sagaManager";
+const redux_saga_1 = __importDefault(require("redux-saga"));
+const redux_thunk_1 = __importDefault(require("redux-thunk"));
+const sagas_1 = __importDefault(require("../sagas"));
+exports.rootSaga = sagas_1.default;
+const sagaManager_1 = __importDefault(require("redux/sagas/sagaManager"));
 //generating initial state
 const initialState = {};
 //generate middleware
-const sagaMiddleware = createSagaMiddleware();
-const logger = createLogger();
+const sagaMiddleware = redux_saga_1.default();
+exports.sagaMiddleware = sagaMiddleware;
+const logger = redux_logger_1.createLogger();
 //generating redux store with middleware NB routerMiddleWare must remain fist
-const middleWares = [logger, sagaMiddleware, thunkMiddleware];
+const middleWares = [logger, sagaMiddleware, redux_thunk_1.default];
 const storeEnhancers = [];
-const middlewareEnhancer = applyMiddleware(...middleWares);
+const middlewareEnhancer = redux_1.applyMiddleware(...middleWares);
 storeEnhancers.unshift(middlewareEnhancer);
 const configureStore = () => {
-    const store = createStore(createRootReducer(), initialState, compose(...storeEnhancers));
-    SagaManager.startSagas(sagaMiddleware);
+    const store = redux_1.createStore(index_1.default(), initialState, redux_1.compose(...storeEnhancers));
+    sagaManager_1.default.startSagas(sagaMiddleware);
     console.log("store created");
     if (module.hot) {
         console.log("attempting HMR");
@@ -34,30 +48,35 @@ const configureStore = () => {
             console.log("reducer complete");
         });
         module.hot.accept("../sagas/sagaManager", () => {
-            SagaManager.cancelSagas(store);
+            sagaManager_1.default.cancelSagas(store);
             require("../sagas/sagaManager").default.startSagas(sagaMiddleware);
             console.log("saga HMR complete");
         });
     }
     return store;
 };
+exports.configureStore = configureStore;
 let store = configureStore();
-sagaMiddleware.run(rootSaga);
+exports.store = store;
+sagaMiddleware.run(sagas_1.default);
 const Root = props => {
-    return React.createElement(Provider, { store: store }, props.children);
+    return React.createElement(react_redux_1.Provider, { store: store }, props.children);
 };
-const SagaRootKit = { sagaMiddleware, rootSaga, configureTestStore };
+exports.Root = Root;
+const SagaRootKit = { sagaMiddleware, rootSaga: sagas_1.default, configureTestStore };
+exports.SagaRootKit = SagaRootKit;
 const TestRoot = ({ children, initialState = {} }) => {
-    return (React.createElement(Provider, { store: configureTestStore(initialState) }, children));
+    return (React.createElement(react_redux_1.Provider, { store: configureTestStore(initialState) }, children));
 };
+exports.TestRoot = TestRoot;
 const SagaTestRoot = ({ SagaRootKit, initialState = {}, children }) => {
-    store = configureTestStore(initialState);
+    exports.store = store = configureTestStore(initialState);
     SagaRootKit.sagaMiddleware.run(SagaRootKit.rootSaga);
-    return React.createElement(Provider, { store: store }, children);
+    return React.createElement(react_redux_1.Provider, { store: store }, children);
 };
-export { store, SagaTestRoot, Root, TestRoot, sagaMiddleware, rootSaga, SagaRootKit, configureStore };
+exports.SagaTestRoot = SagaTestRoot;
 function configureTestStore(initialState) {
-    const store = createStore(createRootReducer(), initialState, compose(...storeEnhancers));
+    const store = redux_1.createStore(index_1.default(), initialState, redux_1.compose(...storeEnhancers));
     console.log("store created");
     if (module.hot) {
         console.log("attempting HMR");

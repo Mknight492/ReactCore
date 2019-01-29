@@ -58,7 +58,7 @@ const configureStore = () => {
 exports.configureStore = configureStore;
 let store = configureStore();
 exports.store = store;
-sagaMiddleware.run(sagas_1.default);
+//sagaMiddleware.run(rootSaga);
 const Root = props => {
     return React.createElement(react_redux_1.Provider, { store: store }, props.children);
 };

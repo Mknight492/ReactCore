@@ -55,7 +55,7 @@ const configureStore = () => {
 };
 
 let store = configureStore();
-sagaMiddleware.run(rootSaga);
+//sagaMiddleware.run(rootSaga);
 
 const Root = props => {
   return <Provider store={store}>{props.children}</Provider>;

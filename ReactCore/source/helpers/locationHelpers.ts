@@ -1,4 +1,4 @@
-import { HF } from "./index";
+import { HF } from "helpers";
 
 export const locationHelpers = {
   uniqueTAValues

@@ -47,13 +47,14 @@ beforeEach(() => {
 
   //setup moxios to load a friend from the DB
   //this API should be refactored into in own endpoint to make the mocking more specific.
-  moxios.stubRequest("api/friend", {
+
+  moxios.stubOnce("GET", "api/friend/getall", {
     status: 200,
     response: []
   });
 });
 
-it("can add a new Friend", async done => {
+it("can add a new Friend", async () => {
   const { container, getByTestId, getByText, getByLabelText } = render(
     <SagaTestRoot SagaRootKit={SagaRootKit} initialState={{}}>
       <App />
@@ -64,6 +65,7 @@ it("can add a new Friend", async done => {
   let VerificationToken = document.createElement("input");
   VerificationToken.value = "AB";
   VerificationToken.name = "__RequestVerificationToken";
+
   container.appendChild(VerificationToken);
 
   expect(window.location.href).toBe("http://localhost/");
@@ -71,8 +73,9 @@ it("can add a new Friend", async done => {
   await wait(() => getByText(/weather/i));
   fireEvent.click(getByText(/weather/i));
 
+  await flushPromises();
   expect(window.location.href).toBe("http://localhost/weather");
-  await wait(() => getByTestId("friendForm"));
+  await wait(() => expect(getByTestId("friendForm")).toBeTruthy());
 
   const nameInput = getByLabelText(/name/i) as HTMLInputElement;
   let locationInput2 = getByLabelText(/location/i) as HTMLInputElement;
@@ -91,44 +94,49 @@ it("can add a new Friend", async done => {
 
   //selectthe element that has the corresponding drop down bar.
   fireEvent.click(getByText(/Wells/i));
-
+  await flushPromises();
   expect(nameInput.value).toBe("mike");
-  expect(moxios.requests.count()).toBe(5);
+  expect(moxios.requests.count()).toBe(6);
   expect(moxios.requests.at(0).url).toMatch("/api/Authenticate/CheckUser");
   expect(moxios.requests.at(1).url).toMatch(/http\:\/\/api.openweathermap.org/);
-  expect(moxios.requests.at(2).url).toMatch("api/friend");
+  expect(moxios.requests.at(2).url).toMatch("api/friend/getall");
   expect(moxios.requests.at(3).url).toMatch(
     /api\/location\?type=location&query=/
   );
-
-  moxios.stubRequest("api/friend", {
+  expect(moxios.requests.at(4).url).toMatch(/http\:\/\/api.openweathermap.org/);
+  expect(moxios.requests.at(5).url).toMatch(/http\:\/\/api.openweathermap.org/);
+  moxios.uninstall();
+  moxios.install();
+  moxios.stubOnce("GET", "api/friend/getall", {
     status: 200,
-    response: [LocationArrayMock1]
+    response: [FriendMock1]
+  });
+  moxios.stubRequest("api/friend/create", {
+    status: 200,
+    response: []
   });
 
   //submit the add friend form
   fireEvent.click(getByText(/^add/i));
   await flushPromises();
 
-  expect(moxios.requests.count()).toBe(9);
-  expect(moxios.requests.at(4).url).toMatch(/http\:\/\/api.openweathermap.org/);
-  expect(moxios.requests.at(5).url).toMatch(/http\:\/\/api.openweathermap.org/);
-  expect(moxios.requests.at(6).url).toMatch(/http\:\/\/api.openweathermap.org/);
-  expect(moxios.requests.at(7).url).toMatch("api/friend");
-
-  let request = JSON.parse(moxios.requests.at(7).config.data);
+  let request = JSON.parse(moxios.requests.at(0).config.data);
   expect(request).toEqual({
     Name: "mike",
     LocationId: 2179530
   });
-  expect(moxios.requests.at(7).config.method).toBe("post");
-  expect(moxios.requests.at(8).url).toMatch("api/friend");
+  expect(moxios.requests.at(0).config.method).toBe("post");
+  //expect(moxios.requests.at(7).url).toMatch("api/friend/getall");
 
   await wait(() => {
     getByText(FriendMock1.Name);
   });
-
   expect(locationInput2.value).toBeFalsy();
   expect(getByTestId(`Friend${FriendMock1.Id}`)).toBeTruthy();
-  done();
+  expect(moxios.requests.count()).toBe(3);
+  expect(moxios.requests.at(0).url).toMatch("api/friend/create");
+  expect(moxios.requests.at(1).url).toMatch("api/friend/getall");
+  expect(moxios.requests.at(2).url).toMatch(/http\:\/\/api.openweathermap.org/);
 });
+
+//RENAME APIS

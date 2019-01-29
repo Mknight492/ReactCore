@@ -9,7 +9,7 @@ import IndexPage from "components/pages/index/index-page";
 let component;
 
 beforeEach(() => {
-  component = shallow(<App />);
+    component = shallow(<App  />);
 
   window.fetch = jest.fn(async () => {
     return {

@@ -4,8 +4,8 @@ import { hot } from "react-hot-loader";
 //routing Imports
 import { Router } from "@reach/router";
 //import { history } from "../../helpers/index";
-import { PrivateRoute } from "../privateRoute/privateRoute";
-import { Private } from "../privateRoute/private";
+//import { PrivateRoute } from "../privateRoute/privateRoute";
+//import { Private } from "../privateRoute/private";
 
 //import pages
 import Navigation from "components/navigation/navigation";
@@ -22,18 +22,18 @@ import "./FA";
 import MyLoadable from "../../higherOrderComponents/MyLoadable";
 
 //redux
-import { connect } from "react-redux";
-import { userActions } from "../../redux/actions/index";
-import { ApplicationUserDto } from "../../models/index";
+//import { connect } from "react-redux";
+//import { userActions } from "../../redux/actions/index";
+//import { ApplicationUserDto } from "../../models/index";
 //Redux Imports
-import { Provider } from "react-redux";
-import { Root } from "../../redux/store/configure-store";
+//import { Provider } from "react-redux";
+//import { Root } from "../../redux/store/configure-store";
 
 //componet imports
 
 import WeatherPage from "../pages/weather/weather-page";
 
-const WeatherPageLoadable = MyLoadable({
+const WeatherPageLoadable: any = MyLoadable({
   loader: () => import("../pages/weather/weather-page"),
   modules: ["../pages/weather/weather-page"],
   webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
@@ -43,7 +43,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <h2>test me...</h2>
+      <h2>test me</h2>
       <div className={styles.wrapper}>
         <Router>
           <IndexPage path="/" />
@@ -67,6 +67,8 @@ const App = () => {
 //     </div>
 //   );
 // };
+
+const App2 = () => <div>cool</div>;
 
 export default hot(module)(App);
 

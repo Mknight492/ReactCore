@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("../../helpers");
 const security_1 = require("../../security");
 const axios_1 = __importDefault(require("axios"));
-const index_1 = require("index");
+const configure_store_1 = require("redux/store/configure-store");
 const actions_1 = require("redux/actions");
 exports.locationServices = {
     getCities,
@@ -50,7 +50,7 @@ async function editFriend(FriendToEdit) {
         },
         data: JSON.stringify(FriendToEdit)
     });
-    index_1.store.dispatch(actions_1.friendActions.editFriendSuccessAG(FriendToEdit));
+    configure_store_1.store.dispatch(actions_1.friendActions.editFriendSuccessAG(FriendToEdit));
     return result;
 }
 async function deleteFriend(Id) {
@@ -61,7 +61,7 @@ async function deleteFriend(Id) {
             "Content-Type": "application/json"
         }
     });
-    index_1.store.dispatch(actions_1.friendActions.deleteFriendSuccessAG(Id));
+    configure_store_1.store.dispatch(actions_1.friendActions.deleteFriendSuccessAG(Id));
     return result;
 }
 async function getWeather(latitude, longitude) {

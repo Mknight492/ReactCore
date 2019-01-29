@@ -1,7 +1,7 @@
 import { HF } from "../../helpers";
 import { weatherAPI } from "../../security";
 import axios from "axios";
-import { store } from "index";
+import { store } from "redux/store/configure-store";
 import { friendActions } from "redux/actions";
 import { Friend, EditFriendModel } from "models";
 
@@ -30,7 +30,7 @@ async function addFriend(Name, LocationId) {
   const data = JSON.stringify({ Name, LocationId });
 
   const result = await HF.AppAxios({
-    url: "api/friend",
+    url: "api/friend/create",
     method: "post",
     headers: {
       Accept: "application/json",
@@ -44,7 +44,7 @@ async function addFriend(Name, LocationId) {
 
 async function editFriend(FriendToEdit: Friend) {
   const result = await HF.AppAxios({
-    url: "/api/friend",
+    url: "/api/friend/update",
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -57,7 +57,7 @@ async function editFriend(FriendToEdit: Friend) {
 }
 
 async function deleteFriend(Id) {
-  const result = await HF.Appfetch("/api/friend/" + Id, {
+  const result = await HF.Appfetch("/api/friend/delete/" + Id, {
     method: "DELETE",
     headers: {
       Accept: "application/json",

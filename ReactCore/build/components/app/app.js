@@ -14,6 +14,9 @@ const React = __importStar(require("react"));
 const react_hot_loader_1 = require("react-hot-loader");
 //routing Imports
 const router_1 = require("@reach/router");
+//import { history } from "../../helpers/index";
+//import { PrivateRoute } from "../privateRoute/privateRoute";
+//import { Private } from "../privateRoute/private";
 //import pages
 const navigation_1 = __importDefault(require("components/navigation/navigation"));
 const index_page_1 = __importDefault(require("../pages/index/index-page"));
@@ -33,7 +36,7 @@ const WeatherPageLoadable = MyLoadable_1.default({
 const App = () => {
     return (React.createElement(React.Fragment, null,
         React.createElement(navigation_1.default, null),
-        React.createElement("h2", null, "test me..."),
+        React.createElement("h2", null, "test me"),
         React.createElement("div", { className: styles.wrapper },
             React.createElement(router_1.Router, null,
                 React.createElement(index_page_1.default, { path: "/" }),
@@ -52,6 +55,7 @@ const App = () => {
 //     </div>
 //   );
 // };
+const App2 = () => React.createElement("div", null, "cool");
 exports.default = react_hot_loader_1.hot(module)(App);
 //
 //hmmvv <Route component={FourZeroFour} />

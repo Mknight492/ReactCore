@@ -8,7 +8,8 @@ const index_4 = require("../services/index");
 //import { Friend } from "../../models/index";
 function* loadFriendsData() {
     try {
-        const friendArray = yield index_3.HF.AppAxios({ url: "api/friend" });
+        const friendArray = yield index_3.HF.AppAxios({ url: "api/friend/getAll" });
+        console.log(friendArray);
         //const friendArrayParsed = yield friendArray.json()
         yield effects_1.put(index_2.friendActions.loadFriendSuccessAG(friendArray.data));
     }

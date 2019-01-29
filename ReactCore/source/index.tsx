@@ -1,6 +1,7 @@
 ﻿//envornmnet setup imports
 import "babel-regenerator-runtime";
-import "promise-polyfill/src/polyfill";
+
+//import "promise-polyfill/src/polyfill";
 
 //React imports
 import * as React from "react";
@@ -8,18 +9,20 @@ import * as ReactDOM from "react-dom";
 
 //Redux Imports
 import { Provider } from "react-redux";
-import { configureStore } from "./redux/store/configure-store";
+import { configureStore, store } from "redux/store/configure-store";
 
 //components
 import App from "components/app/app";
 
 //import global styles
 import "./index.scss";
-const store = configureStore();
+//const store = configureStore();
 
 const rootEl = document.getElementById("app");
 let render = () => {
+  //const dynamicImport = import('./my_module').then(x => x.default || x);
   const App = require("components/app/app").default;
+  //const Default = App.default;
   ReactDOM.render(
     <Provider store={store}>
       <App />
@@ -28,7 +31,6 @@ let render = () => {
   );
 };
 
-///may need to be app.js
 if (module.hot) {
   const renderApp = render;
   const renderError = error => {
@@ -54,5 +56,3 @@ if (module.hot) {
 }
 
 render();
-
-export { store };

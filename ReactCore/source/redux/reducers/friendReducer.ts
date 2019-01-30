@@ -1,18 +1,23 @@
 import { friendConstants } from "../constants";
-import { mapKeys, isEqual } from "lodash";
+import { mapKeys, isEqual, omit } from "lodash";
 
 import { FriendsObj, Locations } from "../../models";
+import { Action } from "redux";
 
 interface IinitialState {
   friendsObj: FriendsObj;
-  isActive: boolean;
+  isActive: number;
   locations: Locations[];
+  loadingTA: boolean | false;
+  noTAresultsFound: boolean | false;
 }
 
-const initalState = {
+const initalState: IinitialState = {
   friendsObj: {},
   isActive: -1,
-  locations: []
+  locations: [],
+  loadingTA: false,
+  noTAresultsFound: false
 };
 
 export default function friendReducer(state = initalState, action) {
@@ -24,7 +29,7 @@ export default function friendReducer(state = initalState, action) {
     case friendConstants.LOAD_FRIEND_SUCCESS:
       //action.payload = [friend{}, friend{}]
       // eslint-disable-next-line no-case-declarations
-      const friendsObj = mapKeys(action.payload, "Id");
+      let friendsObj = mapKeys(action.payload, "Id");
       //only update the state if the friendObj is differn't = stops rerenders
       if (isEqual(state.friendsObj, friendsObj)) {
         return state;
@@ -34,6 +39,21 @@ export default function friendReducer(state = initalState, action) {
 
     case friendConstants.ADD_FRIEND_ATTEMPT:
       return state;
+    case friendConstants.EDIT_FRIEND_SUCCESS:
+      return {
+        ...state,
+        friendsObj: {
+          ...state.friendsObj,
+          [action.payload.Id]: action.payload
+        }
+      };
+
+    case friendConstants.DELETE_FRIEND_SUCCESS:
+      friendsObj = omit(state.friendsObj, action.payload);
+      return {
+        ...state,
+        friendsObj
+      };
     case friendConstants.CHANGE_ACTIVE_FRIEND:
       //action.paylod = id (of currently active friend item)
       return {
@@ -41,13 +61,24 @@ export default function friendReducer(state = initalState, action) {
         isActive: action.payload
       };
     case friendConstants.LOAD_LOCATION_TA_ATTEMPT:
-      return state;
+      return { ...state, loadingTA: true };
     case friendConstants.LOAD_LOCATION_TA_SUCCESS:
-      return { ...state, [action.Id]: action.payload };
+      let noTAresultsFound = false;
+      if (isEqual(action.payload, [])) {
+        noTAresultsFound = true;
+      }
+      return {
+        ...state,
+        [action.Id]: action.payload,
+        loadingTA: false,
+        noTAresultsFound
+      };
     case friendConstants.LOAD_LOCATION_TA_FAILURE:
-      return state;
+      return { ...state, loadingTA: false };
     case friendConstants.RESET_LOCATION_TA:
       return { ...state, locations: [] };
+    case friendConstants.RESET_FRIENDS_TA_VALUES:
+      return { ...state, [action.id]: undefined };
     default:
       return state;
   }

@@ -1,0 +1,31 @@
+@keyframes spinning {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(359deg);
+  }
+}
+
+.spinner {
+  //Theheighthereisjustfordemopurposesheight:100%opacity: 1;
+  position: relative;
+  transition: opacity linear 0.1s;
+  z-index: 1;
+  &::before {
+    animation: 2s linear infinite spinning;
+    border: solid 3px #eee;
+    border-bottom-color: #ef6565;
+    border-radius: 50%;
+    content: "";
+    height: 40px;
+    left: 50%;
+    opacity: inherit;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    transform-origin: center;
+    width: 40px;
+    will-change: transform;
+  }
+}

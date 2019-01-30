@@ -6,7 +6,7 @@ import { formState, formRow } from "models";
 export const formUtilityActions = {
   convertStateToArrayOfFormObjects,
   executeValidationAndReturnFormElement,
-  countInvalidElements,
+  checkIfFormValid,
   executeFormValidationAndReturnForm
 };
 
@@ -41,6 +41,7 @@ function executeValidationAndReturnFormElement(
 }
 
 function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
+  console.log(ownerForm);
   Object.keys(ownerForm).map(key => {
     //map over each value in the formObj.
     //turn touched to true and check if valid and add error message
@@ -51,7 +52,7 @@ function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
       element.validation,
       LocationArray
     );
-    element.touched = true;
+    //element.touched = true;
     element.valid = validationResponse.isValid;
     element.errorMessage = validationResponse.errorMessage;
   });
@@ -59,7 +60,7 @@ function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
   return ownerForm;
 }
 
-function countInvalidElements(ownerForm) {
+function checkIfFormValid(ownerForm) {
   for (let element in ownerForm) {
     if (!ownerForm[element].valid) {
       return false;

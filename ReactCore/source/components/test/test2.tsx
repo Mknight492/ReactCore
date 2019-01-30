@@ -1,12 +1,12 @@
 import * as React from "react";
-import * as Autocomplete from "react-autocomplete";
+//import Autocomplete from "react-autocomplete";
 function Test2() {
   // Declare a new state variable, which we'll call "count"
   const [count, setCount] = React.useState(0);
 
   return (
     <div>
-      <Autocomplete
+      {/* <Autocomplete
         getItemValue={item => item}
         items={[]}
         renderItem={(item, isHighlighted) => (
@@ -25,7 +25,7 @@ function Test2() {
         value={"formRow.value"}
         onChange={() => {}}
         onSelect={() => {}}
-      />
+      /> */}
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>

@@ -1,0 +1,157 @@
+@import "scssImports/variables.scss";
+
+body {
+  font-family: sans-serif;
+}
+
+input {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  width: 300px;
+}
+
+.noSuggestions {
+  color: #999;
+  padding: 0.5rem;
+}
+
+.suggestions {
+  border: 1px solid #999;
+  border-top-width: 0;
+  list-style: none;
+  margin-top: 0;
+  max-height: 143px;
+  overflow-y: auto;
+  padding-left: 0;
+  width: calc(300px + 1rem);
+}
+
+.suggestions li {
+  padding: 0.5rem;
+}
+
+.suggestionActive {
+  background-color: #008f68;
+  color: #fae042;
+  cursor: pointer;
+  font-weight: 700;
+}
+.suggestions li:hover {
+  background-color: #008f68;
+  color: #fae042;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}
+
+.matching {
+  font-weight: bold;
+}
+
+.name {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 24px;
+  padding-right: 2rem;
+}
+.location {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 22px;
+  padding-right: 2rem;
+}
+
+.input {
+  @extend .name;
+  color: inherit;
+  outline: none;
+  appearance: none;
+  border: 0px;
+  border-bottom: 2.5px dashed $color-primary-3;
+  background-color: $friendBGColor;
+  background-color: $transparent; //opacity 0 i.e. inherit BG color
+  text-align: center;
+}
+
+.weather {
+  //display: inline-block;
+  font-size: $friendWeatherFont;
+  font-weight: 400;
+}
+.weatherLabel {
+  font-size: $friendWeatherFont;
+  display: inline-block;
+  padding-right: 1rem;
+}
+.weatherData {
+  display: inline-block;
+}
+
+.typeAhead {
+  // have nested css to target imported typeahead component
+  @extend .location;
+  display: inline-block;
+  position: relative;
+
+  &input {
+    //typeahead input component
+    background-color: $transparent; // inherit BG color
+    color: inherit; //inherit as otherwise set to black
+    outline: none;
+    appearance: none;
+    border: 0;
+    font-size: $friendLocationFont;
+    border-bottom: 2.5px dashed $color-primary-3;
+    position: relative;
+    width: 100%;
+  }
+  &list {
+    //typeahead dropdown component NB has significant inline styles...
+    // therefore !important used
+    width: 120%;
+    position: absolute;
+    right: 0.01%;
+    left: auto;
+
+    text-align: left;
+    list-style: none;
+    color: inherit;
+    font-size: $friendLocationFont !important;
+    background-color: $friendBGColor !important;
+    z-index: 1;
+    border: 2px solid $color-primary-3;
+    border-radius: 1rem;
+
+    &Item {
+      //typeahead label
+      text-decoration: none;
+      border: 0px;
+      color: inherit;
+      font-size: $friendLocationFont !important;
+      z-index: 1;
+      padding-left: 1rem;
+      &active {
+        background-color: $color-primary-1 !important;
+        z-index: 1;
+      }
+      &:hover {
+        //color: pink !important;
+        background-color: $color-primary-2 !important;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+.errorMessage {
+  display: block;
+  font-size: 1.6rem;
+  color: red !important;
+}
+
+.countryCode {
+  padding-left: 2rem;
+}

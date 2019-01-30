@@ -1,6 +1,6 @@
 import { handleHTTPError } from "redux/actions";
 import { store } from "redux/store/configure-store";
-import { Locations } from "models";
+import { Locations, WeatherObject } from "models";
 import axios from "axios";
 
 //helper functions
@@ -11,6 +11,7 @@ export const HF = {
   AppAxios,
   isNullOrWhiteSpace,
   formatLocation,
+  formatWeather,
   Utf8ArrayToStr,
   generateRandomNumber
 };
@@ -80,32 +81,34 @@ async function Appfetch(url: string, options?: any) {
   }
 }
 
-async function AppAxios(options) {
+interface AxiosReturn {
+  data: any;
+}
+
+async function AppAxios(options): Promise<AxiosReturn> {
   //make sure not in testing env
-  if (
-    !(
-      navigator.userAgent.includes("jsdom") ||
-      navigator.userAgent.includes("Node.js")
-    )
-  ) {
+  if (!(process.env.NODE_ENV === "test")) {
     //then add the antiforgery token to the header
     options.headers = {
+      "X-Requested-With": "json",
       "Content-Type": "application/json",
       RequestVerificationToken: (<HTMLInputElement>(
         document.getElementsByName("__RequestVerificationToken")[0]
       )).value
     };
+    // options.headers.RequestVerificationToken = (<HTMLInputElement>(
+    //   document.getElementsByName("__RequestVerificationToken")[0]
+    // )).value;
   }
 
   try {
     let res = await axios(options);
-    //console.log(res);
     return res;
   } catch (error) {
     let action = handleHTTPError(error.response, error.response.data);
     store.dispatch(action);
-    //throw error;
   }
+  return { data: undefined };
 }
 
 function isNullOrWhiteSpace(input) {
@@ -119,6 +122,18 @@ function formatLocation(locationObj: Locations) {
     return locationObj.Name + " " + locationObj.CountryCode;
   } else {
     return "";
+  }
+}
+
+function formatWeather(
+  weatherObj: WeatherObject,
+  displayName: boolean | false
+) {
+  let name = displayName ? `${weatherObj.name}: ` : "";
+  if (weatherObj) {
+    return `${name}${weatherObj.main.temp}°C ${weatherObj.weather[0].main}, ${
+      weatherObj.weather[0].description
+    }`;
   }
 }
 

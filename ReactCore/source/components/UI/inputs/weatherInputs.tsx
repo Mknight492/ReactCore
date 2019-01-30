@@ -2,7 +2,8 @@ import * as React from "react";
 
 //components
 import DatePicker from "react-datepicker";
-import * as Autocomplete from "react-autocomplete";
+import Autocomplete from "react-autocomplete";
+import TypeAhead from "components/typeAhead/typeAhead";
 
 //css imports
 import * as styles from "../../friendForm/friendForm.module.scss";
@@ -20,15 +21,19 @@ interface IProps {
   changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
   blur: (event: React.ChangeEvent<HTMLInputElement>) => void;
   items: any[];
-  selectHandler: (value: string) => void;
+  selectHandler: (value: Locations) => void;
+  locations: Locations[];
 }
+
+export interface myAutocomplete extends Autocomplete {}
 
 const FormRow: React.FunctionComponent<IProps> = ({
   formRow,
   changed,
   blur,
   items = [],
-  selectHandler
+  selectHandler,
+  locations
 }) => {
   let inputField;
   let errorMessage;
@@ -43,16 +48,18 @@ const FormRow: React.FunctionComponent<IProps> = ({
       inputField = (
         <div>
           <div style={{ display: "block" }}>
-            <label className={styles.name} htmlFor="name" id="name">
+            <label className={styles.name} htmlFor={formRow.id} id="name">
               Name:
             </label>
             <input
+              id={formRow.id}
               className={styles.input}
               key={formRow.id}
               type={formRow.type}
               value={formRow.value}
               onChange={changed}
               onBlur={blur}
+              onFocus={focus}
             />
             <em className={styles.errorMessage}>{errorMessage}</em>
           </div>
@@ -61,39 +68,51 @@ const FormRow: React.FunctionComponent<IProps> = ({
       break;
     case "typeAhead":
       inputField = (
-        <div>
-          <label
-            style={{ textAlign: "left" }}
-            className={styles.location}
-            htmlFor={"location"}
-          >
-            Location:
-          </label>
-          <div className={styles.typeAhead}>
-            {/*Needs div for custom CSS hook */}
-            <Autocomplete
-              getItemValue={item => item}
-              items={items || []}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  key={item}
-                  style={
-                    {
-                      //background: isHighlighted ? "lightgray" : "white"
-                    }
-                  }
-                  className="typeAheadComponent"
-                >
-                  {item}
-                </div>
-              )}
-              value={formRow.value}
-              onChange={changed}
+        <>
+          <div>
+            <label
+              style={{ textAlign: "left" }}
+              className={styles.location}
+              htmlFor={formRow.id}
+            >
+              Location:
+            </label>
+            <TypeAhead
+              name={"Location"}
               onSelect={selectHandler}
+              suggestions={locations}
+              onChange={changed}
+              onBlur={blur}
+              onFocus={focus}
+              formRow={formRow}
+              errorMessage={errorMessage}
             />
+            {/* <div className={styles.typeAhead}>
+              
+              <Autocomplete
+                getItemValue={item => item}
+                items={items || []}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item + "TA"}
+                    style={
+                      {
+                        //background: isHighlighted ? "lightgray" : "white"
+                      }
+                    }
+                    className="typeAheadComponent"
+                  >
+                    {item}
+                  </div>
+                )}
+                value={formRow.value}
+                onChange={changed}
+                onSelect={selectHandler}
+              />
+            </div> 
+            */}
           </div>
-          <em className={styles.errorMessage}>{errorMessage}</em>
-        </div>
+        </>
       );
       break;
     default:

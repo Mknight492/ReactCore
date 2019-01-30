@@ -1,5 +1,5 @@
 import { put, call, takeLatest, all } from "redux-saga/effects/"; //select allows you to access values from state
-import { friendConstants } from "../constants/index";
+import { friendConstants } from "redux/constants/index";
 import { friendActions, handleHTTPError } from "../actions/index";
 import { HF } from "../../helpers/index";
 import { locationServices } from "../services/index";
@@ -8,9 +8,10 @@ import { locationServices } from "../services/index";
 
 function* loadFriendsData() {
   try {
-    const friendArray = yield HF.Appfetch("api/friend");
-    const friendArrayParsed = yield friendArray.json();
-    yield put(friendActions.loadFriendSuccessAG(friendArrayParsed));
+    const friendArray = yield HF.AppAxios({ url: "api/friend/getall" });
+
+    //const friendArrayParsed = yield friendArray.json()
+    yield put(friendActions.loadFriendSuccessAG(friendArray.data));
   } catch (e) {
     yield put(friendActions.loadFriendFailureAG());
   }

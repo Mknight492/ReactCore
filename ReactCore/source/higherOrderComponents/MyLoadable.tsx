@@ -1,4 +1,4 @@
-import * as Loadable from "react-loadable";
+import Loadable from "react-loadable";
 import * as React from "react";
 
 const LoadingComponent = props => {
@@ -26,14 +26,11 @@ const LoadingComponent = props => {
 };
 
 export default function MyLoadable(opts) {
-  return Loadable(
-    Object.assign(
-      {
-        loading: LoadingComponent,
-        delay: 200,
-        timeout: 10000
-      },
-      opts
-    )
-  );
+  //@ts-ignore
+  return Loadable({
+    loading: LoadingComponent,
+    delay: 200,
+    timeout: 10000,
+    ...opts
+  });
 }

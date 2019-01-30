@@ -1,4 +1,5 @@
 {
+  "parser": "pluggable-babel-eslint",
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
@@ -7,18 +8,16 @@
     "prettier",
     "prettier/react"
   ],
+
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "plugins": ["typescript"]
   },
-<<<<<<< HEAD
-  "plugins": ["react", "import", "jsx-a11y"],
-=======
   "plugins": ["react", "import", "jsx-a11y", "react-hooks"],
->>>>>>> testing
   "env": {
     "es6": true,
     "browser": true,
@@ -28,11 +27,17 @@
   "globals": {
     "React": true,
     "google": true
-<<<<<<< HEAD
-=======
+
   },
   "rules": {
-    "react-hooks/rules-of-hooks": "error"
->>>>>>> testing
+    "react-hooks/rules-of-hooks": "error",
+    "import/no-unresolved": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["source"]
+      }
+    }
   }
 }

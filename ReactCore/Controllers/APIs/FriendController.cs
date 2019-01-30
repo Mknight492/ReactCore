@@ -23,7 +23,7 @@ namespace ReactCore.Controllers.APIs
 {
     
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     [ValidateAntiForgeryToken]
     public class FriendController : ControllerBase
@@ -47,7 +47,7 @@ namespace ReactCore.Controllers.APIs
 
         [HttpGet]
         [Authorize]
-        // GET: api/Friend
+        // GET: api/Friend/getAll
         public async Task<IActionResult> GetAll()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -172,6 +172,7 @@ namespace ReactCore.Controllers.APIs
                 returncode = "200"
             });
         }
+
 
     }
 }

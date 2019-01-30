@@ -7,6 +7,8 @@ import { userActions } from "./index";
 
 import { ApplicationUserMock1 } from "test/mocks";
 
+console.log(process.env.NODE_ENV);
+
 describe("getUserRequest", () => {
   it("has the right type", () => {
     const action = userActions.getUserRequest();

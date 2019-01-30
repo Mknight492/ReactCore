@@ -7,10 +7,12 @@ namespace Contracts
 {
     public interface IRepositoryBase<T>
     {
-        T GetById(int Id);
+        void Create(T entity);
         IEnumerable<T> FindAll();
         IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
-        void Create(T entity);
+        T GetById(int Id);
+        IEnumerable<T> GetRandom(int count);
+        
         void Update(T entity);
         
         

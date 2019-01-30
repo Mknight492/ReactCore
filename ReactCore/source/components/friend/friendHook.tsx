@@ -82,7 +82,7 @@ const FriendComponent: React.FunctionComponent<Props> = ({
     );
   } else {
     return (
-      <div id={`Friend${Friend.Id}`}>
+      <div id={`Friend${Friend.Id}`} data-testid={`Friend${Friend.Id}`}>
         <div>
           <h3 className={styles.name}>{Friend.Name}</h3>
           <h4 className={styles.location}>

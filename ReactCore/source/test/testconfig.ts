@@ -1,5 +1,5 @@
 import * as Enzyme from "enzyme";
-import * as Adapter from "enzyme-adapter-react-16";
+import Adapter from "enzyme-adapter-react-16";
 import { GlobalWithFetchMock } from "jest-fetch-mock";
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -24,7 +24,8 @@ export interface myGlobal extends GlobalWithFetchMock {
 // (global as myGlobal).fetchMock = global.fetch;
 // //declare var global: myGlobal;
 //global.window as myWindow;
-
+if (!window.localStorage) {
+}
 var localStorageMock = (function() {
   var store = {};
   return {

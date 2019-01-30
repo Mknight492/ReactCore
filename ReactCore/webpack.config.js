@@ -1,9 +1,9 @@
 ﻿const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
-const webpackMerge = require("webpack-merge");
-const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
-const presetConfig = require("./build-utils/loadPresets");
+//const webpackMerge = require("webpack-merge");
+//const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+//const presetConfig = require("./build-utils/loadPresets");
 const postcssModulesValues = require("postcss-modules-values");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 var autoprefixer = require("autoprefixer");
@@ -95,7 +95,8 @@ module.exports = {
             presets: [
               [
                 "@babel/preset-env",
-                { targets: { browsers: "last 2 versions" } } // or whatever your project requires
+                { targets: { browsers: "last 2 versions" } } //modules: false }
+                // or whatever your project requires
               ],
               "@babel/preset-typescript",
               "@babel/preset-react"

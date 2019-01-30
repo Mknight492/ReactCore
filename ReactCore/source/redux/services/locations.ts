@@ -3,27 +3,34 @@ import { weatherAPI } from "../../security";
 import axios from "axios";
 import { store } from "redux/store/configure-store";
 import { friendActions } from "redux/actions";
-import { Friend, EditFriendModel } from "models";
+import { Friend, EditFriendModel, WeatherObject } from "models";
 
 export const locationServices = {
   getCities,
   addFriend,
   editFriend,
   deleteFriend,
-  getWeather
+  getWeather,
+  getRandom
 };
 
 async function getCities(name) {
   const result = await HF.AppAxios({
-    url: `/api/location?type=location&query=${name}`,
+    url: `/api/location/get?type=location&query=${name}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     }
   });
-  const parsedResult = await result.data;
-  return parsedResult;
+  return result.data;
+}
+
+async function getRandom() {
+  const result = await HF.AppAxios({
+    url: "/api/location/random"
+  });
+  return result;
 }
 
 async function addFriend(Name, LocationId) {
@@ -68,7 +75,11 @@ async function deleteFriend(Id) {
   return result;
 }
 
-async function getWeather(latitude: number, longitude: number) {
+async function getWeather(
+  latitude: number,
+  longitude: number
+): Promise<WeatherObject> {
+  console.log("getting weather");
   try {
     const APIdata = await axios({
       url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`

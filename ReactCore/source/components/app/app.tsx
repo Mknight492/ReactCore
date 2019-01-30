@@ -68,8 +68,6 @@ const App = () => {
 //   );
 // };
 
-const App2 = () => <div>cool</div>;
-
 export default hot(module)(App);
 
 //

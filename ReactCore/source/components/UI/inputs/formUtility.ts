@@ -6,7 +6,7 @@ import { formState, formRow } from "models";
 export const formUtilityActions = {
   convertStateToArrayOfFormObjects,
   executeValidationAndReturnFormElement,
-  countInvalidElements,
+  checkIfFormValid,
   executeFormValidationAndReturnForm
 };
 
@@ -52,7 +52,7 @@ function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
       element.validation,
       LocationArray
     );
-    element.touched = true;
+    //element.touched = true;
     element.valid = validationResponse.isValid;
     element.errorMessage = validationResponse.errorMessage;
   });
@@ -60,7 +60,7 @@ function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
   return ownerForm;
 }
 
-function countInvalidElements(ownerForm) {
+function checkIfFormValid(ownerForm) {
   for (let element in ownerForm) {
     if (!ownerForm[element].valid) {
       return false;

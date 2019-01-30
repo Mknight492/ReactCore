@@ -13,7 +13,7 @@ export const Weather: React.SFC<IProps> = props => {
   if (weather) {
     return (
       <div className={styles.weather}>
-        {showLabel && <h5 className={styles.weatherLabel}> Weather: </h5>}
+        {showLabel && <h5 className={styles.weatherLabel}> {weather.name} </h5>}
         <h5 className={styles.weatherData}>
           {HF.formatWeather(weather, false)}
         </h5>

@@ -1,11 +1,11 @@
 ﻿//envornmnet setup imports
 import "babel-regenerator-runtime";
-
-//import "promise-polyfill/src/polyfill";
+import "promise-polyfill/src/polyfill";
 
 //React imports
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { AppContainer } from "react-hot-loader";
 
 //Redux Imports
 import { Provider } from "react-redux";

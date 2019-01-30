@@ -64,43 +64,65 @@ const FriendFormComponent: React.SFC<Props> = ({
     initialLocation = [Friend.Location];
     initalLocationId = Friend.Location.Geonameid;
   } else {
+    console.log("here");
     Id = -1;
     initialLocation = [];
     initalLocationId = null;
   }
 
-  ///FORM
+  // --------------
+  // WEATHER STATE
+  //---------------
+
+  const [weather, setWeather, coords, setCoords] = useWeather(initialWeather);
+  let mapWeather = weather ? weather.weather[0].main : undefined;
+
+  // --------------
+  // SELECTED LOCATION STATE
+  //---------------
+
+  const [selectedLocationId, setselectedLocationId] = useState(
+    initalLocationId
+  );
+  const [selectedLocation, setselectedLocation] = useState(initialLocation[0]);
+
+  const [initialLoad, setInitialLoad] = useState(!edit);
+  if (initialLoad) {
+    setInitialLoad(false);
+    locationServices.getRandom().then(result => {
+      //setselectedLocation(result.data[0]);
+      console.log(result.data[0]);
+      console.log(Id);
+      setCoords({
+        latitude: result.data[0].Latitude,
+        longitude: result.data[0].Longitude
+      });
+    });
+  }
+
+  // --------------
+  // LOCATIONS STATE
+  //---------------
+
+  const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
+
+  // --------------
+  // FORM STATE
+  //---------------
+
   const initalForm = Friend
     ? returnInitalFormState([Friend.Name, HF.formatLocation(Friend.Location)])
     : returnInitalFormState();
 
   const [ownerForm, setownerForm] = useState(initalForm);
 
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
 
-  //WEATHER
+  // --------------
+  // OUTSIDECLICK
+  //---------------
 
-  const [
-    weather,
-    latitude,
-    longitude,
-    setlatitude,
-    setlongitude,
-    setWeather
-  ] = useWeather(initialWeather);
-  let mapWeather = weather ? weather.weather[0].main : null;
-
-  //SELECTED LOCATION
-  const [selectedLocationId, setselectedLocationId] = useState(
-    initalLocationId
-  );
-  const [selectedLocation, setselectedLocation] = useState(initialLocation[0]);
-
-  //Typeahead Location Array
-
-  const [LocationArray] = useLocation(LocationArrayProps, initialLocation);
-
-  //Outside Click
+  //will reset the redux state of the currently active form to -1 (the default for the adding a new friend form)
   const OnOutsideClickFunction = () => {
     changeActive(Id);
   };
@@ -110,41 +132,94 @@ const FriendFormComponent: React.SFC<Props> = ({
     HookHelpers.useOutSideClick(componentRef, OnOutsideClickFunction);
   }
 
+  // --------------
+  // FORM VALIDATION
+  //---------------
+
+  function validateFormAndUpdateState(): boolean {
+    //run the form through validation
+    let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
+      ownerForm,
+      LocationArray
+    );
+    //update forms state
+    setownerForm(updatedForm);
+
+    //then check if form is valid and update tthe state to reflect this.
+    const isFormValid = formUtilityActions.checkIfFormValid(updatedForm);
+    setIsFormValid(isFormValid);
+    return isFormValid;
+  }
+
   //on loading get the current weather and then display in wweather section and map
   //function which undate the form
-  function handleChangeEvent(event, id) {
-    const updatedOwnerForm = ownerForm;
-    updatedOwnerForm[
-      id
-    ] = formUtilityActions.executeValidationAndReturnFormElement(
-      event,
-      updatedOwnerForm,
-      LocationArray,
-      id
-    );
+  function handleChangeEvent(
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) {
+    //NB directly mutating nested state here
+    //but by calling validate form and update state after this state is appropriatly updated
+    ownerForm[id].touched = true;
+    ownerForm[id].value = event.target.value;
+    validateFormAndUpdateState();
 
-    const isFormValid = formUtilityActions.countInvalidElements(
-      updatedOwnerForm
-    );
-
-    setIsFormValid(isFormValid);
-    setownerForm(updatedOwnerForm);
     if (id === "Location") {
       requestTAValues(event);
     }
   }
 
-  async function SubmitForm(event, type) {
+  function requestTAValues(event: React.ChangeEvent<HTMLInputElement>) {
+    let searchTerm = event.target.value;
+
+    if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
+      //ensures atleast 3 letters before sending TA API call
+      loadLocation(searchTerm, Id); // dispatches API call
+    }
+  }
+
+  async function selectTAHandler(location: Locations, id: string) {
+    //fist update the form
+    //NB directly mutating nested state here
+    //but by calling validate form and update state after this state is appropriatly updated
+
+    ownerForm[id].value = HF.formatLocation(location);
+    ownerForm[id].touched = true;
+    validateFormAndUpdateState();
+
+    setCoords({
+      latitude: location.Latitude,
+      longitude: location.Longitude
+    });
+
+    //update the state to include the selectedlocation and Id (for API calls )
+    setselectedLocationId(location.Geonameid);
+    setselectedLocation(location);
+
+    // get the weather for the new location and display it on the map
+    const weather = await locationServices.getWeather(
+      location.Latitude,
+      location.Longitude
+    );
+    setWeather(weather);
+  }
+
+  // --------------
+  // FRIEND CRUD ACTIONS
+  //---------------
+
+  async function SubmitForm(event: React.MouseEvent<HTMLButtonElement>, type) {
     event.preventDefault();
 
-    const updatedOwnerForm = formUtilityActions.executeFormValidationAndReturnForm(
-      ownerForm,
-      LocationArray
-    );
-    const isFormValid = formUtilityActions.countInvalidElements(ownerForm);
-
-    setIsFormValid(isFormValid);
-    setownerForm(updatedOwnerForm);
+    setownerForm(ownerForm => {
+      Object.keys(ownerForm).map(key => {
+        //map over each value in the formObj.
+        //turn touched to true add error message
+        const element = ownerForm[key];
+        element.touched = true;
+      });
+      return ownerForm;
+    });
+    const isFormValid = validateFormAndUpdateState();
 
     if (isFormValid) {
       let method;
@@ -163,43 +238,6 @@ const FriendFormComponent: React.SFC<Props> = ({
       }
       await method();
     }
-  }
-
-  function requestTAValues(event) {
-    let searchTerm = event.target.value;
-
-    if (!HF.isNullOrWhiteSpace(searchTerm) && searchTerm.length >= 3) {
-      //ensures atleast 3 letters before sending TA API call
-      loadLocation(searchTerm, Id); // dispatches API call
-    }
-  }
-
-  async function selectTAHandler(TAvalue: string, id: string) {
-    //find the location object that matches  the  TypeAhead value
-
-    const matchingLocation = LocationArray.find(
-      l => HF.formatLocation(l) === TAvalue
-    );
-
-    //get the form obj, update the value and set valid to true (as a location has been selected)
-    setownerForm(oldForm => {
-      oldForm[id].valid = true;
-      oldForm[id].value = TAvalue;
-      return oldForm;
-    });
-
-    setlatitude(matchingLocation.Latitude);
-    setlongitude(matchingLocation.Longitude);
-    setselectedLocationId(matchingLocation.Geonameid);
-    setselectedLocation(matchingLocation);
-    //update the state to include the selectedId (for API calls )
-    console.log("here");
-    // get the weather for the new location and display it on the map
-    const weather = await locationServices.getWeather(
-      matchingLocation.Latitude,
-      matchingLocation.Longitude
-    );
-    setWeather(weather);
   }
 
   async function addFriend() {
@@ -226,9 +264,16 @@ const FriendFormComponent: React.SFC<Props> = ({
   async function deleteFriend() {
     if (Friend) {
       await locationServices.deleteFriend(Friend.Id);
-      //loadFriends();
     }
   }
+
+  // --------------
+  // DYNAMIC STYLES
+  //---------------
+
+  const OnlyActiveOnValidForm = classNames("btn", "btn--small", {
+    "btn--disabled": !isFormValid
+  });
 
   return (
     <div ref={componentRef} data-testid="friendForm">
@@ -257,19 +302,23 @@ const FriendFormComponent: React.SFC<Props> = ({
           })}
 
         <br />
-        <Weather weather={weather} showLabel={false} />
+        {weather && <Weather weather={weather} showLabel={!edit} />}
         {edit ? (
           <>
             <button
-              className={"btn btn--small"}
+              className={OnlyActiveOnValidForm}
               type="submit"
-              onClick={e => SubmitForm(e, "EDIT")}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                SubmitForm(e, "EDIT")
+              }
             >
               Comfirm Edit
             </button>
             <button
               className={"btn btn--small"}
-              onClick={e => SubmitForm(e, "DELETE")}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                SubmitForm(e, "DELETE")
+              }
             >
               Delete
             </button>
@@ -278,7 +327,9 @@ const FriendFormComponent: React.SFC<Props> = ({
           <button
             type="submit"
             className={"btn btn--small"}
-            onClick={e => SubmitForm(e, "ADD")}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+              SubmitForm(e, "ADD")
+            }
           >
             Add friend
           </button>
@@ -286,10 +337,7 @@ const FriendFormComponent: React.SFC<Props> = ({
       </form>
       <MapComponent
         mapKey={"addNew"}
-        position={{
-          latitude,
-          longitude
-        }}
+        position={coords}
         style={styles.map}
         zoom={9}
         weather={mapWeather}
@@ -334,7 +382,19 @@ export default connectedFriendFormComponent;
 
 ////customHooks
 
-function useWeather(initialWeather?: WeatherObject) {
+interface coords {
+  latitude: number;
+  longitude: number;
+}
+
+function useWeather(
+  initialWeather?: WeatherObject
+): [
+  WeatherObject | undefined,
+  React.Dispatch<React.SetStateAction<WeatherObject | undefined>>,
+  coords,
+  React.Dispatch<React.SetStateAction<coords>>
+] {
   let shouldWeatherLoad = false;
 
   //either take the inital location from the
@@ -346,28 +406,36 @@ function useWeather(initialWeather?: WeatherObject) {
     ? initialWeather.coord.lon
     : HF.generateRandomNumber(-180, 180);
 
+  let initialCordinates = {
+    latitude: initialLatitude,
+    longitude: initialLongitude
+  };
+
   //generate the stae variables
   const [weather, setWeather] = useState(initialWeather);
-  const [latitude, setlatitude] = useState(initialLatitude);
-  const [longitude, setlongitude] = useState(initialLongitude);
-
+  //const [latitude, setlatitude] = useState(initialLatitude);
+  //const [longitude, setlongitude] = useState(initialLongitude);
+  const [coords, setCoords] = useState(initialCordinates);
   //every time the latitude or longitude  changes - fetch a new weather object
   // but only do this if not inital weather was supplied or irs, not the
   // first time this function is called
-  if (!initialWeather || shouldWeatherLoad) {
-    useEffect(
-      () => {
-        locationServices.getWeather(latitude, longitude).then(result => {
-          setWeather(result);
-        });
-      },
-      [latitude, longitude]
-    );
-  } else {
-    shouldWeatherLoad = true;
-  }
 
-  return [weather, latitude, longitude, setlatitude, setlongitude, setWeather];
+  useEffect(
+    () => {
+      if (!initialWeather || shouldWeatherLoad) {
+        locationServices
+          .getWeather(coords.latitude, coords.longitude)
+          .then(result => {
+            setWeather(result);
+          });
+      } else {
+        shouldWeatherLoad = true;
+      }
+    },
+    [coords.latitude, coords.longitude]
+  );
+
+  return [weather, setWeather, coords, setCoords];
 }
 
 function useLocation(LocationArrayProps, initialLocation) {

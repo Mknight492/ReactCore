@@ -8,12 +8,16 @@ interface IinitialState {
   friendsObj: FriendsObj;
   isActive: number;
   locations: Locations[];
+  loadingTA: boolean | false;
+  noTAresultsFound: boolean | false;
 }
 
 const initalState: IinitialState = {
   friendsObj: {},
   isActive: -1,
-  locations: []
+  locations: [],
+  loadingTA: false,
+  noTAresultsFound: false
 };
 
 export default function friendReducer(state = initalState, action) {
@@ -57,11 +61,20 @@ export default function friendReducer(state = initalState, action) {
         isActive: action.payload
       };
     case friendConstants.LOAD_LOCATION_TA_ATTEMPT:
-      return state;
+      return { ...state, loadingTA: true };
     case friendConstants.LOAD_LOCATION_TA_SUCCESS:
-      return { ...state, [action.Id]: action.payload };
+      let noTAresultsFound = false;
+      if (isEqual(action.payload, [])) {
+        noTAresultsFound = true;
+      }
+      return {
+        ...state,
+        [action.Id]: action.payload,
+        loadingTA: false,
+        noTAresultsFound
+      };
     case friendConstants.LOAD_LOCATION_TA_FAILURE:
-      return state;
+      return { ...state, loadingTA: false };
     case friendConstants.RESET_LOCATION_TA:
       return { ...state, locations: [] };
     case friendConstants.RESET_FRIENDS_TA_VALUES:

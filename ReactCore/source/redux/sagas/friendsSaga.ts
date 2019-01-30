@@ -9,7 +9,7 @@ import { locationServices } from "../services/index";
 function* loadFriendsData() {
   try {
     const friendArray = yield HF.AppAxios({ url: "api/friend/getall" });
-    console.log(friendArray);
+
     //const friendArrayParsed = yield friendArray.json()
     yield put(friendActions.loadFriendSuccessAG(friendArray.data));
   } catch (e) {

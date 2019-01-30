@@ -40,7 +40,7 @@ beforeEach(() => {
   });
 
   //setup moxios to send a typeAhead Query
-  moxios.stubRequest(`/api/location?type=location&query=${LocationValue}`, {
+  moxios.stubRequest(`/api/location/get?type=location&query=${LocationValue}`, {
     status: 200,
     response: LocationArrayMock1
   });
@@ -88,6 +88,7 @@ it("can add a new Friend", async () => {
   fireEvent.change(locationInput2, { target: { value: LocationValue } });
 
   //focus on the location TypeAhead so that the dropdown appears
+
   locationInput2.focus();
 
   await flushPromises();
@@ -96,15 +97,17 @@ it("can add a new Friend", async () => {
   fireEvent.click(getByText(/Wells/i));
   await flushPromises();
   expect(nameInput.value).toBe("mike");
-  expect(moxios.requests.count()).toBe(6);
+  expect(moxios.requests.count()).toBe(7);
   expect(moxios.requests.at(0).url).toMatch("/api/Authenticate/CheckUser");
-  expect(moxios.requests.at(1).url).toMatch(/http\:\/\/api.openweathermap.org/);
-  expect(moxios.requests.at(2).url).toMatch("api/friend/getall");
-  expect(moxios.requests.at(3).url).toMatch(
-    /api\/location\?type=location&query=/
+  expect(moxios.requests.at(1).url).toMatch(/api\/location\/random/);
+  expect(moxios.requests.at(2).url).toMatch(/http\:\/\/api.openweathermap.org/);
+  expect(moxios.requests.at(3).url).toMatch("api/friend/getall");
+  expect(moxios.requests.at(4).url).toMatch(
+    /api\/location\/get\?type=location&query=/
   );
-  expect(moxios.requests.at(4).url).toMatch(/http\:\/\/api.openweathermap.org/);
+  //need to change the way the weather API is called to reduced unnecessary calls
   expect(moxios.requests.at(5).url).toMatch(/http\:\/\/api.openweathermap.org/);
+  expect(moxios.requests.at(6).url).toMatch(/http\:\/\/api.openweathermap.org/);
   moxios.uninstall();
   moxios.install();
   moxios.stubOnce("GET", "api/friend/getall", {

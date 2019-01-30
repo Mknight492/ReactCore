@@ -4,12 +4,15 @@ export const HookHelpers = {
   useOutSideClick
 };
 
-function useOutSideClick(componentRef, functionToCall) {
+function useOutSideClick(
+  componentRef: React.MutableRefObject<any>,
+  functionToCall
+) {
   function clickedoutside(e) {
     if (componentRef && componentRef.current) {
       if (
         !componentRef.current.contains(e.target) &&
-        e.target.className != "typeAheadComponent"
+        !e.target.className.match("typeAheadlistItem")
       ) {
         functionToCall();
       }

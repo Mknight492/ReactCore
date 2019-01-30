@@ -13,5 +13,5 @@ export const typeAheadinput: string;
 export const typeAheadlist: string;
 export const typeAheadlistItem: string;
 export const typeAheadlistItemactive: string;
-export const map: string;
 export const errorMessage: string;
+export const countryCode: string;

@@ -13,19 +13,21 @@ using Contracts;
 
 namespace ReactCore.Controllers.APIs
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     [ValidateAntiForgeryToken]
     public class LocationController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly IRepositoryWrapper _repoWrapper;
+        private readonly ILoggerManager _logger;
 
 
-        public LocationController(ApplicationDbContext db, IRepositoryWrapper repositoryWrapper)
+        public LocationController(ApplicationDbContext db, IRepositoryWrapper repositoryWrapper, ILoggerManager logger)
         {
             _db = db;
             _repoWrapper = repositoryWrapper;
+            _logger = logger;
         }
         // GET: api/<controller>
         [HttpGet]
@@ -48,45 +50,29 @@ namespace ReactCore.Controllers.APIs
 
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+
+        [HttpGet]
+        public async Task<IActionResult> Random(int count = 1)
         {
-            var location = _db.Locations.Find(id);
-            if (location != null)
+            try
             {
-                return Json(location);
+                var randomLocations = _repoWrapper.Locations.GetRandom(count);
+
+                if(randomLocations.Count() == 0)
+                {
+                    _logger.LogError("Error inside FriendController Delete action: Unable to find any Locations in the databas");
+                    return StatusCode(404, "Unable to find any Locations in the database");
+                }
+
+                return Ok(randomLocations);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error inside FriendController Delete action: unable to find friend with matching Id");
+                return StatusCode(404, "Unable to find any Locations in the database");
             }
 
-            return NotFound();
-        }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
-        public bool HasTwoDecimalPlace(double number)
-        {
-            if ((number * 10) % 1 == 0)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

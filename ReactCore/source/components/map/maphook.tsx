@@ -2,12 +2,27 @@ import * as React from "react";
 
 const { useEffect } = React;
 
-const MapComponent = ({ position, mapKey, weather, zoom, style }) => {
+interface IProps {
+  position: { latitude: any; longitude: any };
+  mapKey: any;
+  weather: string | undefined;
+  zoom: number;
+  style: string | undefined;
+}
+
+const MapComponent: React.FunctionComponent<IProps> = ({
+  position,
+  mapKey,
+  weather,
+  zoom,
+  style
+}) => {
   //stops unneccesary and visable rerender on the maps when filling in the form
   //only render the map when the position or the weather is updated
   useEffect(
     () => {
       if (position && mapKey && weather) {
+        console.log(position);
         initMap();
       }
     },
@@ -54,7 +69,7 @@ const MapComponent = ({ position, mapKey, weather, zoom, style }) => {
   return <div id={mapKey} className={style} />;
 };
 
-function weatherSelecter(weather: string) {
+function weatherSelecter(weather: string | undefined) {
   if (weather == "Rain" || weather == "Drizzle")
     return {
       text: "\uf73d",

@@ -21,7 +21,7 @@ interface IProps {
   changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
   blur: (event: React.ChangeEvent<HTMLInputElement>) => void;
   items: any[];
-  selectHandler: (value: string) => void;
+  selectHandler: (value: Locations) => void;
   locations: Locations[];
 }
 
@@ -85,10 +85,10 @@ const FormRow: React.FunctionComponent<IProps> = ({
               onBlur={blur}
               onFocus={focus}
               formRow={formRow}
-              showDropdown={{}}
+              errorMessage={errorMessage}
             />
-            <div className={styles.typeAhead}>
-              {/*Needs div for custom CSS hook */}
+            {/* <div className={styles.typeAhead}>
+              
               <Autocomplete
                 getItemValue={item => item}
                 items={items || []}
@@ -109,8 +109,8 @@ const FormRow: React.FunctionComponent<IProps> = ({
                 onChange={changed}
                 onSelect={selectHandler}
               />
-            </div>
-            <em className={styles.errorMessage}>{errorMessage}</em>
+            </div> 
+            */}
           </div>
         </>
       );

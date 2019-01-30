@@ -16,9 +16,15 @@ namespace Repository
             this.RepositoryContext = repositoryContext;
         }
 
-        public T GetById(int Id)
+
+        public void Create(T entity)
         {
-            return this.RepositoryContext.Set<T>().Find(Id);
+            this.RepositoryContext.Set<T>().Add(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            this.RepositoryContext.Set<T>().Remove(entity);
         }
 
         public IEnumerable<T> FindAll()
@@ -31,19 +37,19 @@ namespace Repository
             return this.RepositoryContext.Set<T>().Where(expression);
         }
 
-        public void Create(T entity)
+        public T GetById(int Id)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            return this.RepositoryContext.Set<T>().Find(Id);
+        }
+
+        public IEnumerable<T> GetRandom(int count)
+        {
+            return this.RepositoryContext.Set<T>().OrderBy(x => Guid.NewGuid()).Take(count);
         }
 
         public void Update(T entity)
         {
             this.RepositoryContext.Set<T>().Update(entity);
-        }
-
-        public void Delete(T entity)
-        {
-            this.RepositoryContext.Set<T>().Remove(entity);
         }
 
         public void Save()

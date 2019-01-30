@@ -12,7 +12,7 @@ module.exports = {
     "@babel/plugin-transform-modules-commonjs",
     "babel-plugin-dynamic-import-node"
   ],
-  ignore: [/[\/\\]core-js/, /@babel[\/\\]runtime/],
+  ignore: [/[\/\\]core-js/, /@babel[\/\\]runtime/, /node_modules/],
   env: {
     test: {
       plugins: ["dynamic-import-node"]

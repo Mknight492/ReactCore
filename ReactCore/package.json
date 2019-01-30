@@ -82,16 +82,9 @@
     "pluggable-babel-eslint": "^0.3.0",
     "prettier": "^1.15.2",
     "raw-loader": "^0.5.1",
-<<<<<<< HEAD
-    "react-hot-loader": "^4.3.12",
-    "react-redux": "^5.1.1",
-    "redux": "^4.0.1",
-    "regenerator-runtime": "^0.13.1",
-=======
     "react-hot-loader": "^4.6.3",
     "react-testing-library": "^5.4.4",
     "redux-promise": "^0.6.0",
->>>>>>> testing
     "style-loader": "^0.23.1",
     "ts-jest": "^23.10.5",
     "ts-loader": "^5.3.3",
@@ -149,43 +142,25 @@
     "postcss-simple-vars": "^5.0.1",
     "promise-polyfill": "^8.1.0",
     "prop-types": "^15.6.2",
-<<<<<<< HEAD
-    "react": "^16.6.3",
-    "react-autocomplete": "^1.8.1",
-    "react-dom": "^16.6.3",
-    "react-emotion": "^10.0.0",
-    "react-loadable": "^5.5.0",
-    "react-logger": "^1.1.0",
-=======
     "rambda": "^2.3.1",
     "react": "16.8.0-alpha.0",
     "react-autocomplete": "^1.8.1",
+    "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "16.8.0-alpha.0",
     "react-emotion": "^10.0.0",
     "react-loadable": "^5.5.0",
     "react-logger": "^1.1.0",
     "react-redux": "^6.0.0",
->>>>>>> testconfig
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-test-renderer": "^16.6.3",
-<<<<<<< HEAD
-=======
     "redbox-react": "^1.6.0",
     "redux": "^4.0.1",
->>>>>>> testing
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
-<<<<<<< HEAD
-    "thunk": "^0.0.1",
-    "@babel/plugin-proposal-decorators": "^7.2.3",
-    "@babel/preset-typescript": "^7.1.0",
-    "fork-ts-checker-webpack-plugin": "^0.5.2"
-=======
     "thunk": "^0.0.1"
->>>>>>> testconfig
   }
 }

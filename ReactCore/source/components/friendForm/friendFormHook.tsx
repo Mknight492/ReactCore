@@ -1,7 +1,7 @@
 import * as React from "react";
 
 //style imports
-import { Form, Well, FormGroup, Col } from "react-bootstrap";
+import { Form, FormGroup, Col } from "react-bootstrap";
 import { returnInitalFormState, formUtilityActions } from "helpers";
 import * as styles from "./friendForm.module.scss";
 import classNames from "classnames";
@@ -30,8 +30,7 @@ import { HookHelpers } from "customHooks";
 const { useState, useEffect } = React;
 
 interface OwnProps {
-
-  Friend?: Friend ;
+  Friend?: Friend;
   isActive?: boolean;
   initialWeather?: WeatherObject;
   edit: boolean;

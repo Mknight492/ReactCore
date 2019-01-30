@@ -7,7 +7,7 @@ import TypeAhead from "components/typeAhead/typeAhead";
 
 //css imports
 import * as styles from "../../friendForm/friendForm.module.scss";
-import { FormGroup, Col, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, Col, FormControl} from "react-bootstrap";
 
 //helper functions
 import { HF } from "helpers";

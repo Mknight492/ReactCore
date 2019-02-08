@@ -68,6 +68,8 @@ const FriendComponent: React.FunctionComponent<Props> = ({
   });
   */
 
+  let mapWeather = weather ? weather.weather[0].main : undefined;
+
   if (isActive === Friend.Id) {
     return (
       <div>
@@ -82,33 +84,30 @@ const FriendComponent: React.FunctionComponent<Props> = ({
     );
   } else {
     return (
-      <div id={`Friend${Friend.Id}`} data-testid={`Friend${Friend.Id}`}>
-        <div>
+      <div data-testid="friendComponent">
+        <div id={`Friend${Friend.Id}`} data-testid={`Friend${Friend.Id}`}>
           <h3 className={styles.name}>{Friend.Name}</h3>
           <h4 className={styles.location}>
             {HF.formatLocation(Friend.Location)}
           </h4>
-          {weather && (
-            <div>
-              <Weather weather={weather} showLabel={false} />
-              <button
-                className={"btn btn--small"}
-                onClick={() => changeActive(Friend.Id)}
-              >
-                Edit
-              </button>
-              <MapComponent
-                mapKey={Friend.Id}
-                position={{
-                  latitude: Friend.Location.Latitude,
-                  longitude: Friend.Location.Longitude
-                }}
-                style={styles.map}
-                zoom={9}
-                weather={weather.weather[0].main}
-              />
-            </div>
-          )}
+
+          <Weather weather={weather} showLabel={false} />
+          <button
+            className={"btn btn--small"}
+            onClick={() => changeActive(Friend.Id)}
+          >
+            Edit
+          </button>
+          <MapComponent
+            mapKey={Friend.Id}
+            position={{
+              latitude: Friend.Location.Latitude,
+              longitude: Friend.Location.Longitude
+            }}
+            style={styles.map}
+            zoom={9}
+            weather={mapWeather}
+          />
         </div>
       </div>
     );
@@ -132,6 +131,6 @@ function mapDispatchToProps(dispatch) {
 const ConnectedFriend = connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(FriendComponent);
+)(React.memo(FriendComponent));
 
 export default ConnectedFriend;

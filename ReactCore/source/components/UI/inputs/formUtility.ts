@@ -41,20 +41,21 @@ function executeValidationAndReturnFormElement(
 }
 
 function executeFormValidationAndReturnForm(ownerForm, LocationArray) {
-  console.log(ownerForm);
   Object.keys(ownerForm).map(key => {
     //map over each value in the formObj.
     //turn touched to true and check if valid and add error message
     const element = ownerForm[key];
 
-    const validationResponse = checkValidity(
-      element.value,
-      element.validation,
-      LocationArray
-    );
-    //element.touched = true;
-    element.valid = validationResponse.isValid;
-    element.errorMessage = validationResponse.errorMessage;
+    if (element.touched) {
+      const validationResponse = checkValidity(
+        element.value,
+        element.validation,
+        LocationArray
+      );
+      //element.touched = true;
+      element.valid = validationResponse.isValid;
+      element.errorMessage = validationResponse.errorMessage;
+    }
   });
 
   return ownerForm;

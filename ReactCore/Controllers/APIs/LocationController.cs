@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Entities;
 using Contracts;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,10 +21,13 @@ namespace ReactCore.Controllers.APIs
     {
         private readonly ApplicationDbContext _db;
         private readonly IRepositoryWrapper _repoWrapper;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger _logger;
 
 
-        public LocationController(ApplicationDbContext db, IRepositoryWrapper repositoryWrapper, ILoggerManager logger)
+        public LocationController(
+            ApplicationDbContext db,
+            IRepositoryWrapper repositoryWrapper,
+            ILogger<LocationController> logger)
         {
             _db = db;
             _repoWrapper = repositoryWrapper;

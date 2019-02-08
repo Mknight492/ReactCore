@@ -7,7 +7,7 @@ import TypeAhead from "components/typeAhead/typeAhead";
 
 //css imports
 import * as styles from "../../friendForm/friendForm.module.scss";
-import { FormGroup, Col, FormControl} from "react-bootstrap";
+import { FormGroup, Col, FormControl } from "react-bootstrap";
 
 //helper functions
 import { HF } from "helpers";
@@ -19,10 +19,12 @@ import { isNull } from "util";
 interface IProps {
   formRow: formRow;
   changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  blur: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  blur: (id: string) => void;
   items: any[];
   selectHandler: (value: Locations) => void;
   locations: Locations[];
+  formRef: React.MutableRefObject<any>;
+  setFormState?: any;
 }
 
 export interface myAutocomplete extends Autocomplete {}
@@ -33,7 +35,9 @@ const FormRow: React.FunctionComponent<IProps> = ({
   blur,
   items = [],
   selectHandler,
-  locations
+  locations,
+  formRef,
+  setFormState
 }) => {
   let inputField;
   let errorMessage;
@@ -58,7 +62,9 @@ const FormRow: React.FunctionComponent<IProps> = ({
               type={formRow.type}
               value={formRow.value}
               onChange={changed}
-              onBlur={blur}
+              onBlur={() => {
+                blur(formRow.id);
+              }}
               onFocus={focus}
             />
             <em className={styles.errorMessage}>{errorMessage}</em>
@@ -86,31 +92,9 @@ const FormRow: React.FunctionComponent<IProps> = ({
               onFocus={focus}
               formRow={formRow}
               errorMessage={errorMessage}
+              formRef={formRef}
+              setFormState={setFormState}
             />
-            {/* <div className={styles.typeAhead}>
-              
-              <Autocomplete
-                getItemValue={item => item}
-                items={items || []}
-                renderItem={(item, isHighlighted) => (
-                  <div
-                    key={item + "TA"}
-                    style={
-                      {
-                        //background: isHighlighted ? "lightgray" : "white"
-                      }
-                    }
-                    className="typeAheadComponent"
-                  >
-                    {item}
-                  </div>
-                )}
-                value={formRow.value}
-                onChange={changed}
-                onSelect={selectHandler}
-              />
-            </div> 
-            */}
           </div>
         </>
       );

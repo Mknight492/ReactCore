@@ -12,16 +12,19 @@ import { Locations, formRow } from "models";
 //helpers
 import { HookHelpers } from "customHooks";
 import { HF, locationHelpers } from "helpers";
+import useOnClickOutside from "use-onclickoutside";
 
 interface OwnProps {
   name: string;
   suggestions: Locations[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: ((e: React.ChangeEvent<HTMLInputElement>, value: string) => void);
+  onBlur: ((id: string) => void);
   onFocus: ((e: React.ChangeEvent<HTMLInputElement>, value: string) => void);
   onSelect: (value: Locations) => void;
   formRow: formRow;
   errorMessage: string | "";
+  formRef: React.MutableRefObject<any>;
+  setFormState?: any;
 }
 
 interface DispatchProps {}
@@ -42,15 +45,24 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   errorMessage,
   name,
   loadingTA,
-  noTAresultsFound
+  noTAresultsFound,
+  formRef,
+  setFormState
 }) => {
   // Event fired when the input value is changed
   const [activeSuggestion, setActiveSuggestion] = React.useState(0);
 
   const [showSuggestions, setshowSuggestions] = React.useState(false);
 
-  const typeAheadRef = React.useRef(null as any);
-  HookHelpers.useOutSideClick(typeAheadRef, setshowSuggestions);
+  const ref = React.useRef(null as any);
+  const setshowSuggestionsToFalse = () => {
+    setshowSuggestions(false);
+    setFormState(form => {
+      form.Location.touched = true;
+      return form;
+    });
+  };
+  useOnClickOutside(ref, setshowSuggestionsToFalse);
 
   let filteredSuggestions = locationHelpers.uniqueLocationsList(suggestions);
 
@@ -99,11 +111,18 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         return;
       }
       setActiveSuggestion(activeSuggestion + 1);
-    } else if (e.keyCode === 8) {
+    }
+    //if backspace is pressed and the list is show in'st show erro message
+    else if (e.keyCode === 8) {
       if (formRow.value.length <= 3) {
         setshowSuggestions(false);
         return;
       }
+    }
+    // if the tab key is pressed close the dropdown as per aria specs
+    else if (e.keyCode === 9) {
+      setshowSuggestions(false);
+      return;
     } else {
       setshowSuggestions(true);
     }
@@ -116,7 +135,7 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
 
   if (showSuggestions) {
     suggestionsListComponent = (
-      <ul className={styles.typeAheadlist}>
+      <ul className={styles.typeAheadlist} ref={ref}>
         {filteredSuggestions.map((suggestion, index) => {
           let className;
 
@@ -138,9 +157,13 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
               className={className}
               key={suggestion.Geonameid}
               onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
                 onClick(e);
                 onSelect(suggestion);
               }}
+              ref={formRef}
+              onBlur={() => {}}
             >
               <div className={styles.typeAheadlistItem} data-testid={""}>
                 {Filtered[0]}
@@ -158,20 +181,23 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         })}
         {loadingTA && (
           <li>
-            <div
-              className={styles.typeAheadlistItem + " spinner"}
-              data-testid={""}
-            >
-              Loading...
+            <div className={styles.typeAheadlistItemLoading} data-testid={""}>
+              <div className="lds-css ng-scope">
+                <div className="lds-bars">
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                </div>
+              </div>
             </div>
           </li>
         )}
       </ul>
     );
   }
-
   return (
-    <div className={styles.typeAhead} ref={typeAheadRef}>
+    <div className={styles.typeAhead}>
       <input
         id={name}
         name={name}
@@ -183,12 +209,26 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         onFocus={() => {
           setshowSuggestions(true);
         }}
+        onBlur={() => {
+          onBlur("Location");
+        }}
+        //cannot use on blur as the dropdown is outside the list...
+        list="suggestions"
+        role="comboBox"
       />
-      {filteredSuggestions.length > 0 && suggestionsListComponent}
-      {!showSuggestions && !noTAresultsFound && (
-        <em className={styles.errorMessage}>{errorMessage}</em>
+      {/* display the list of results if there is at least 1 to display */}
+      {(filteredSuggestions.length > 0 || loadingTA) &&
+        suggestionsListComponent}
+      {/* display the errotr message if fromRom is invalid and there is no "no Locations error message" */}
+      {!noTAresultsFound && !formRow.valid && (
+        <em className={styles.errorMessage}>{formRow.errorMessage}</em>
       )}
-      {noTAresultsFound && <div>No Locations with that name exist </div>}
+
+      {noTAresultsFound && !formRow.valid && (
+        <em className={styles.errorMessage}>
+          No Locations with that name exist{" "}
+        </em>
+      )}
     </div>
   );
 };

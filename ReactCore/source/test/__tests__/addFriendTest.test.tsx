@@ -56,7 +56,7 @@ beforeEach(() => {
 
 it("can add a new Friend", async () => {
   const { container, getByTestId, getByText, getByLabelText } = render(
-    <SagaTestRoot SagaRootKit={SagaRootKit} initialState={{}}>
+    <SagaTestRoot initialState={{}}>
       <App />
     </SagaTestRoot>
   );
@@ -75,7 +75,7 @@ it("can add a new Friend", async () => {
 
   await flushPromises();
   expect(window.location.href).toBe("http://localhost/weather");
-  await wait(() => expect(getByTestId("friendForm")).toBeTruthy());
+  await wait(() => expect(getByTestId("friendFormComponent")).toBeTruthy());
 
   const nameInput = getByLabelText(/name/i) as HTMLInputElement;
   let locationInput2 = getByLabelText(/location/i) as HTMLInputElement;

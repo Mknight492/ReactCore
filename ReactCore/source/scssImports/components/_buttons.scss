@@ -25,7 +25,8 @@
     border-radius: 1.1rem;
   }
 
-  &:hover {
+  &:hover,
+  :active {
     background-color: $color-primary-2;
     //color: $color-secondary-1-0;
     //font-weight: 500;

@@ -27,6 +27,8 @@ import { Friend, WeatherObject, Locations, EditFriendModel } from "models";
 //Custom Hooks
 import { HookHelpers } from "customHooks";
 
+import useOnClickOutside from "use-onclickoutside";
+
 const { useState, useEffect } = React;
 
 interface OwnProps {
@@ -64,7 +66,6 @@ const FriendFormComponent: React.SFC<Props> = ({
     initialLocation = [Friend.Location];
     initalLocationId = Friend.Location.Geonameid;
   } else {
-    console.log("here");
     Id = -1;
     initialLocation = [];
     initalLocationId = null;
@@ -90,9 +91,6 @@ const FriendFormComponent: React.SFC<Props> = ({
   if (initialLoad) {
     setInitialLoad(false);
     locationServices.getRandom().then(result => {
-      //setselectedLocation(result.data[0]);
-      console.log(result.data[0]);
-      console.log(Id);
       setCoords({
         latitude: result.data[0].Latitude,
         longitude: result.data[0].Longitude
@@ -121,23 +119,25 @@ const FriendFormComponent: React.SFC<Props> = ({
   // --------------
   // OUTSIDECLICK
   //---------------
-
+  const componentRef = React.useRef(null as any);
+  const formRef = React.useRef(null as any);
   //will reset the redux state of the currently active form to -1 (the default for the adding a new friend form)
   const OnOutsideClickFunction = () => {
     changeActive(Id);
   };
 
-  const componentRef = React.useRef(null as any);
-  if (edit) {
-    HookHelpers.useOutSideClick(componentRef, OnOutsideClickFunction);
-  }
+  if (edit) useOnClickOutside(componentRef, OnOutsideClickFunction);
 
   // --------------
   // FORM VALIDATION
   //---------------
 
-  function validateFormAndUpdateState(): boolean {
+  function validateFormAndUpdateState(id?: string): boolean {
     //run the form through validation
+    if (id) {
+      ownerForm[id].touched = true;
+    }
+
     let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
       ownerForm,
       LocationArray
@@ -264,6 +264,7 @@ const FriendFormComponent: React.SFC<Props> = ({
   async function deleteFriend() {
     if (Friend) {
       await locationServices.deleteFriend(Friend.Id);
+      changeActive();
     }
   }
 
@@ -276,7 +277,11 @@ const FriendFormComponent: React.SFC<Props> = ({
   });
 
   return (
-    <div ref={componentRef} data-testid="friendForm">
+    <div
+      ref={componentRef}
+      data-testid="friendFormComponent"
+      id={`friendFormComponent${Id}`}
+    >
       <form>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
         thus allowing the UI/from to refelct the current state */}
@@ -292,11 +297,13 @@ const FriendFormComponent: React.SFC<Props> = ({
                 key={formRow.id + "row"}
                 formRow={formRow}
                 changed={event => handleChangeEvent(event, formRow.id)}
-                blur={event => handleChangeEvent(event, formRow.id)}
+                blur={validateFormAndUpdateState}
                 //TypeAhead Specific props
                 items={locationHelpers.uniqueTAValues(LocationArray || [])}
                 selectHandler={val => selectTAHandler(val, formRow.id)}
                 locations={LocationArray}
+                formRef={formRef}
+                setFormState={setownerForm}
               />
             );
           })}
@@ -312,7 +319,7 @@ const FriendFormComponent: React.SFC<Props> = ({
                 SubmitForm(e, "EDIT")
               }
             >
-              Comfirm Edit
+              Confirm Edit
             </button>
             <button
               className={"btn btn--small"}

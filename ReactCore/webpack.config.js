@@ -141,6 +141,17 @@ module.exports = {
       {
         test: /\.module\.scss$/,
         use: ["style-loader", CSSModuleLoader, postCSSLoader, "sass-loader"]
+      },
+      {
+        test: /\.(gif|jpg|jpeg|tiff|png|svg)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 500
+            }
+          }
+        ]
       }
     ]
   },

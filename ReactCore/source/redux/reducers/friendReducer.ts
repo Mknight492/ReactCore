@@ -20,6 +20,8 @@ const initalState: IinitialState = {
   noTAresultsFound: false
 };
 
+let friendsObj;
+
 export default function friendReducer(state = initalState, action) {
   switch (action.type) {
     case friendConstants.LOAD_FRIEND_ATTEMPT:
@@ -29,7 +31,7 @@ export default function friendReducer(state = initalState, action) {
     case friendConstants.LOAD_FRIEND_SUCCESS:
       //action.payload = [friend{}, friend{}]
       // eslint-disable-next-line no-case-declarations
-      let friendsObj = mapKeys(action.payload, "Id");
+      friendsObj = mapKeys(action.payload, "Id");
       //only update the state if the friendObj is differn't = stops rerenders
       if (isEqual(state.friendsObj, friendsObj)) {
         return state;

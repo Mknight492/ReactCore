@@ -32,7 +32,7 @@ beforeEach(() => {
     response: ApplicationUserMock1
   });
   component = mount(
-    <SagaTestRoot SagaRootKit={SagaRootKit} initialState={{}}>
+    <SagaTestRoot  initialState={{}}>
       <NavBar />
     </SagaTestRoot>
   );

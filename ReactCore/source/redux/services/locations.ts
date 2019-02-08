@@ -15,7 +15,7 @@ export const locationServices = {
 };
 
 async function getCities(name) {
-  const result = await HF.AppAxios({
+  const result = await HF.ServerAxios({
     url: `/api/location/get?type=location&query=${name}`,
     method: "GET",
     headers: {
@@ -27,7 +27,7 @@ async function getCities(name) {
 }
 
 async function getRandom() {
-  const result = await HF.AppAxios({
+  const result = await HF.ServerAxios({
     url: "/api/location/random"
   });
   return result;
@@ -36,7 +36,7 @@ async function getRandom() {
 async function addFriend(Name, LocationId) {
   const data = JSON.stringify({ Name, LocationId });
 
-  const result = await HF.AppAxios({
+  const result = await HF.ServerAxios({
     url: "api/friend/create",
     method: "post",
     headers: {
@@ -50,7 +50,7 @@ async function addFriend(Name, LocationId) {
 }
 
 async function editFriend(FriendToEdit: Friend) {
-  const result = await HF.AppAxios({
+  const result = await HF.ServerAxios({
     url: "/api/friend/update",
     method: "PUT",
     headers: {
@@ -75,17 +75,15 @@ async function deleteFriend(Id) {
   return result;
 }
 
+//This should be done via the backend as it exposes the API key to the server
+//however as this was a free
+
 async function getWeather(
   latitude: number,
   longitude: number
 ): Promise<WeatherObject> {
-  console.log("getting weather");
-  try {
-    const APIdata = await axios({
-      url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
-    });
-    return APIdata.data;
-  } catch (e) {
-    return e;
-  }
+  const APIdata = await HF.ExternalAxios({
+    url: `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherAPI}&units=metric`
+  });
+  return APIdata.data;
 }

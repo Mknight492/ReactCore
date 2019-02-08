@@ -9,7 +9,7 @@ function* getUser() {
       url: "/api/Authenticate/CheckUser"
     };
 
-    const APIresponse = yield HF.AppAxios(requestionOptions);
+    const APIresponse = yield HF.ServerAxios(requestionOptions);
 
     if (APIresponse.data.notLoggedIn) {
       //customis this to pop up login modal

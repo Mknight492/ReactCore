@@ -43,7 +43,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <h2>test me</h2>
+      <h2>test me...</h2>
       <div className={styles.wrapper}>
         <Router>
           <IndexPage path="/" />

@@ -39,7 +39,7 @@ namespace ReactCore
 
         public Startup(IConfiguration configuration)
         {
-            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+           // LogManager.LoadConfiguration( "../../../nlog.config");
             Configuration = configuration;
             connectionString = Configuration["CONNECTION_STRING"];
         }
@@ -74,6 +74,9 @@ namespace ReactCore
  
 
             services.AddTransient<IEmailSender, EmailSender>();
+
+
+
 
             services.ConfigureMyDbContext(Configuration);
             services.ConfigureRepositoryWrapper();
@@ -114,6 +117,9 @@ namespace ReactCore
             {
                 //app.UseExceptionHandler("/error");
             }
+
+            //whilst in development
+            app.UseDeveloperExceptionPage();
 
             //for linux deploymeny
             app.UseForwardedHeaders(new ForwardedHeadersOptions

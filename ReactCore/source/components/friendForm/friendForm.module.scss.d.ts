@@ -7,3 +7,4 @@ export const weatherLabel: string;
 export const weatherData: string;
 export const map: string;
 export const errorMessage: string;
+export const overlay: string;

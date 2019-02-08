@@ -22,7 +22,6 @@ const MapComponent: React.FunctionComponent<IProps> = ({
   useEffect(
     () => {
       if (position && mapKey && weather) {
-        console.log(position);
         initMap();
       }
     },
@@ -30,43 +29,49 @@ const MapComponent: React.FunctionComponent<IProps> = ({
   );
 
   function initMap() {
-    const center = {
-      lat: position.latitude,
-      lng: position.longitude
-    };
+    if (weather !== undefined) {
+      const center = {
+        lat: position.latitude,
+        lng: position.longitude
+      };
 
-    const mapOptions = {
-      center: center,
-      zoom: zoom || 14,
-      disableDefaultUI: true
-    };
-    let mapElement = document.getElementById(mapKey);
-    const map = new google.maps.Map(mapElement, mapOptions);
-    const textAndColor = weatherSelecter(weather);
+      const mapOptions = {
+        center: center,
+        zoom: zoom || 14,
+        disableDefaultUI: true
+      };
+      let mapElement = document.getElementById(mapKey);
+      const map = new google.maps.Map(mapElement, mapOptions);
+      const textAndColor = weatherSelecter(weather);
 
-    //map much be created before adding a marker
-    const markerOptions = {
-      position: {
-        lat: center.lat + zoom * 0.008, //puts the marker above the center
-        lng: center.lng
-      },
+      //map much be created before adding a marker
+      const markerOptions = {
+        position: {
+          lat: center.lat + zoom * 0.008, //puts the marker above the center
+          lng: center.lng
+        },
 
-      map: map,
-      label: {
-        fontFamily: "'Font Awesome 5 Free'",
-        fontSize: "3rem",
-        fontWeight: "900",
-        ...textAndColor
-      },
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 0.1
-      }
-    };
+        map: map,
+        label: {
+          fontFamily: "'Font Awesome 5 Free'",
+          fontSize: "3rem",
+          fontWeight: "900",
+          ...textAndColor
+        },
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 0.1
+        }
+      };
 
-    const marker = new google.maps.Marker(markerOptions);
+      const marker = new google.maps.Marker(markerOptions);
+    }
   }
-  return <div id={mapKey} className={style} />;
+  return weather !== undefined ? (
+    <div id={mapKey} className={style} />
+  ) : (
+    <div className={style} />
+  );
 };
 
 function weatherSelecter(weather: string | undefined) {

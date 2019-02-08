@@ -4,7 +4,7 @@ import { WeatherObject } from "../../models/index";
 import { HF } from "helpers";
 
 interface IProps {
-  weather: WeatherObject;
+  weather: WeatherObject | undefined;
   showLabel: boolean;
 }
 
@@ -19,5 +19,11 @@ export const Weather: React.SFC<IProps> = props => {
         </h5>
       </div>
     );
-  } else return null;
+  } else
+    return (
+      <div className={styles.weather}>
+        <h5 className={styles.weatherLabel}> </h5>
+        <h5 className={styles.weatherData}> </h5>
+      </div>
+    );
 };

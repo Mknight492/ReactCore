@@ -1,5 +1,10 @@
 import * as React from "react";
-import { render, fireEvent } from "react-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  RenderResult
+} from "react-testing-library";
 import { shallow, mount } from "enzyme";
 import { create } from "react-test-renderer";
 
@@ -9,36 +14,38 @@ import FriendForm from "components/friendForm/friendFormHook";
 
 import { Friend, Locations, WeatherObject } from "models";
 
-import { TestRoot } from "redux/store/configure-store";
+import { TestRoot, SagaTestRoot } from "redux/store/configure-store";
 
 import { FriendsStateMock1 } from "test/mocks";
 
-let component;
+let utils: RenderResult;
 beforeEach(() => {
-  component = mount(
-    <TestRoot
+  (utils as RenderResult) = render(
+    <SagaTestRoot
       initialState={{
         friends: { friendsObj: FriendsStateMock1, isActive: -1, Locations: [] }
       }}
     >
       <FriendsComponent />
-    </TestRoot>
+    </SagaTestRoot>
   );
 });
 
 afterEach(() => {
-  component.unmount();
+  cleanup();
 });
 
 test("it Renders without crashing", () => {
-  expect(component).toBeTruthy();
+  expect(utils.container).toBeTruthy();
 });
 
 test("it renders the correct number of friends", () => {
   let numberOfFriends = Object.keys(FriendsStateMock1).length;
-  expect(component.find(FriendComponent).length).toEqual(numberOfFriends);
+  expect(utils.getAllByTestId("friendComponent").length).toEqual(
+    numberOfFriends
+  );
 });
 
 test("it renders a single Friend Form", () => {
-  expect(component.find(FriendForm).length).toEqual(1);
+  expect(utils.getAllByTestId("friendFormComponent").length).toEqual(1);
 });

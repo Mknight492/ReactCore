@@ -15,12 +15,15 @@ import {
 //styles
 import * as styles from "./weather-page.module.scss";
 
+//models
+import { WeatherObject } from "models";
+
 interface OwnProps {
   path: string;
 }
 interface StateProps {
   position: object;
-  locationWeather: object;
+  locationWeather: WeatherObject | undefined;
 }
 interface DispatchProps {
   dispatchUpdatedPosition: Function;
@@ -32,10 +35,14 @@ type Props = StateProps & DispatchProps & OwnProps & State;
 const WeatherPage: React.SFC<Props> = () => {
   return (
     <div data-testid="weatherPage">
-      <button onClick={() => HF.AppAxios({ url: "api/Authenticate/Throw500" })}>
+      <button
+        onClick={() => HF.ServerAxios({ url: "api/Authenticate/Throw500" })}
+      >
         throw5000
       </button>
-      <button onClick={() => HF.AppAxios({ url: "api/Authenticate/Throw400" })}>
+      <button
+        onClick={() => HF.ServerAxios({ url: "api/Authenticate/Throw400" })}
+      >
         throw400
       </button>
       <Friends />

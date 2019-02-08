@@ -40,13 +40,12 @@ namespace ReactCore.Extensions
 
 
 
-        public static void ConfigureMyDbContext(this IServiceCollection services, IConfiguration config)
+        public static void ConfigureMyDbContext(this IServiceCollection services, IConfiguration Configuration)
         {
-            var connectionString = config["CONNECTION_STRING"];
+            var connectionString = Configuration["a"];
+            var connectionString2 = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(o =>
-                o.UseSqlServer(connectionString,
-                    builder => builder.MigrationsAssembly("ReactCore")
-                    )
+                o.UseSqlServer(connectionString,builder => builder.MigrationsAssembly("ReactCore"))
              );
         }
     
@@ -71,7 +70,7 @@ namespace ReactCore.Extensions
 
         public static void ConfigureLoggerService(this IServiceCollection services)
         {
-            services.AddSingleton<ILoggerManager, LoggerManager>();
+          //  services.AddSingleton<ILoggerManager, LoggerManager>();
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

@@ -12,7 +12,7 @@ function* APIRequest(action) {
   try {
     const APIdata = yield call(
       axios.get,
-      "http://api.openweathermap.org/data/2.5/weather",
+      "https://api.openweathermap.org/data/2.5/weather",
       {
         params: {
           lat: action.payload.latitude,

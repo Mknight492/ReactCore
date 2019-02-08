@@ -4,7 +4,7 @@ import * as React from "react";
 import { createStore, applyMiddleware, compose } from "redux";
 import createRootReducer from "redux/reducers/index";
 import { Provider } from "react-redux";
-
+import { composeWithDevTools } from "redux-devtools-extension";
 //logger imports
 import { createLogger } from "redux-logger";
 
@@ -22,7 +22,7 @@ const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
 
 //generating redux store with middleware NB routerMiddleWare must remain fist
-const middleWares = [logger, sagaMiddleware, thunkMiddleware];
+const middleWares = [sagaMiddleware, thunkMiddleware];
 const storeEnhancers: any[] = [];
 
 const middlewareEnhancer = applyMiddleware(...middleWares);
@@ -32,7 +32,7 @@ const configureStore = () => {
   const store = createStore(
     createRootReducer(),
     initialState,
-    compose(...storeEnhancers)
+    composeWithDevTools(...storeEnhancers)
   );
   SagaManager.startSagas(sagaMiddleware);
   console.log("store created");
@@ -81,9 +81,8 @@ const TestRoot: React.FunctionComponent<IProps> = ({
   );
 };
 
-const SagaTestRoot = ({ SagaRootKit, initialState = {}, children }) => {
-  store = configureTestStore(initialState);
-  SagaRootKit.sagaMiddleware.run(SagaRootKit.rootSaga);
+const SagaTestRoot = ({ initialState = {}, children }) => {
+  store = configureStoreTestSaga(initialState);
   return <Provider store={store}>{children}</Provider>;
 };
 
@@ -114,5 +113,15 @@ function configureTestStore(initialState) {
       console.log("HMR complete");
     });
   }
+  return store;
+}
+
+function configureStoreTestSaga(initialState) {
+  const store = createStore(
+    createRootReducer(),
+    initialState,
+    compose(...storeEnhancers)
+  );
+  SagaManager.startSagas(sagaMiddleware);
   return store;
 }

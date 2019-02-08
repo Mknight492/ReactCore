@@ -352,6 +352,7 @@ yarn-error.log
 security.js
 coverage
 appsettings.json
+appsettings.production.json
 SD
 <<<<<<< HEAD
 ./ReactCore/build/*

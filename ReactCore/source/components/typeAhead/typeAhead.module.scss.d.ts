@@ -13,5 +13,6 @@ export const typeAheadinput: string;
 export const typeAheadlist: string;
 export const typeAheadlistItem: string;
 export const typeAheadlistItemactive: string;
+export const typeAheadlistItemLoading: string;
 export const errorMessage: string;
 export const countryCode: string;

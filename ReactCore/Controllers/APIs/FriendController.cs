@@ -16,6 +16,7 @@ using Entities;
 using Entities.Models;
 using Entities.Models.FriendViewModels;
 using Entities.Extensions;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,10 +33,16 @@ namespace ReactCore.Controllers.APIs
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private IMapper _mapper;
-        private ILoggerManager _logger;
+        private ILogger _logger;
         private readonly IRepositoryWrapper _repoWrapper;
-
-        public FriendController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IMapper mapper, ILoggerManager loggerManager, IRepositoryWrapper repositoryWrapper)
+        
+        public FriendController(
+            ApplicationDbContext db, 
+            UserManager<ApplicationUser> userManager, 
+            IMapper mapper, 
+            ILogger<FriendController> loggerManager, 
+            IRepositoryWrapper repositoryWrapper
+        )
         {
             _db = db;
             _userManager = userManager;
@@ -83,6 +90,7 @@ namespace ReactCore.Controllers.APIs
                 var userId = _userManager.GetUserId(User);
                 if (userId == null)
                 {
+                    
                     _logger.LogError($"Error inside FriendController Create action: UserId not found");
                     return Unauthorized("You must be logged in to add a friend");
                 }

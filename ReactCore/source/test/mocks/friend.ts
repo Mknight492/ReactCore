@@ -10,6 +10,37 @@ export const FriendMock1: Friend = {
   UserId: "811be611-e47f-4117-8f61-4e1781cd6617"
 };
 
+export const FriendMockAsState: FriendsObj = {
+  143: {
+    Id: 143,
+    Location: {
+      Admin1Code: "00",
+      Admin2Code: null,
+      Admin3Code: null,
+      Admin4Code: null,
+      Alternatenames: "Masterton",
+      Asciiname: "Masterton County",
+      Cc2: "NZ",
+      CountryCode: "NZ",
+      Dem: 121,
+      Elevation: null,
+      FeatureClass: "A",
+      FeatureCode: "ADM1H",
+      Geonameid: 2187237,
+      Latitude: -40.91667,
+      Longitude: 175.83333,
+      ModificationDate: "2012-07-21T00:00:00",
+      Name: "Masterton County",
+      Population: 0,
+      Timezone: "Pacific/Auckland"
+    },
+
+    LocationId: 2187237,
+    Name: "me1",
+    UserId: "811be611-e47f-4117-8f61-4e1781cd6617"
+  }
+};
+
 export const FriendsStateMock1: FriendsObj = {
   143: {
     Id: 143,

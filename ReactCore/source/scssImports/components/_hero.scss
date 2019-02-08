@@ -1,0 +1,73 @@
+.large-hero {
+  background-image: linear-gradient(to bottom, rgb(0, 0, 0), #000);
+  position: relative;
+  color: #fff;
+  h1 {
+    margin: 0;
+  }
+
+  &__background-img {
+    color: blue;
+    opacity: 0.4;
+    display: block;
+    line-height: 0;
+    background-image: url(./dist/assets/images/hero--large.jpg);
+    background-size: cover;
+    background-position: 41% 50%;
+    height: 100vh;
+    img {
+      height: auto;
+      width: 100%;
+      display: block;
+    }
+    @include atMedium {
+      min-height: 600px;
+    }
+  }
+  &__text-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 1rem;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    @include atSmall {
+      max-width: 700px;
+      text-align: left;
+      position: absolute;
+      top: 60%;
+      left: 30%;
+      transform: translate(-30%, -50%);
+    }
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    display: inline-block;
+    @include atSmall {
+      font-size: 1.6rem;
+    }
+
+    @include atMedium {
+      font-size: 2rem;
+    }
+  }
+  &__subtitle {
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-weight: 400;
+    padding: 1rem 0;
+    @include atSmall {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    @include atMedium {
+      font-size: 1.4rem;
+    }
+  }
+}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Contracts;
+
 using Microsoft.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Entities;
 using Entities.Models;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,13 +30,13 @@ namespace ReactCore.Controllers.APIs
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private IMapper _mapper;
-        private ILoggerManager _logger;
+        private ILogger _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthenticateController(
             ApplicationDbContext db,
             UserManager<ApplicationUser> userManager,
-            IMapper mapper, ILoggerManager loggerManager,
+            IMapper mapper, ILogger<AuthenticateController> loggerManager,
             SignInManager<ApplicationUser> signInManager)
         {
             _db = db;
@@ -54,6 +55,7 @@ namespace ReactCore.Controllers.APIs
         [AllowAnonymous]
         public async Task<IActionResult> CheckUser()
         {
+            _logger.LogInformation("Attempting CheckUser");
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
@@ -69,7 +71,7 @@ namespace ReactCore.Controllers.APIs
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInfo("User logged out.");
+           // _logger.LogInfo("User logged out.");
             return Ok();
         }
 

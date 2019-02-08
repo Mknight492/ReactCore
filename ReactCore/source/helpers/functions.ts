@@ -8,12 +8,13 @@ import axios from "axios";
 export const HF = {
   AFfetch,
   Appfetch,
-  AppAxios,
+  ServerAxios,
   isNullOrWhiteSpace,
   formatLocation,
   formatWeather,
   Utf8ArrayToStr,
-  generateRandomNumber
+  generateRandomNumber,
+  ExternalAxios
 };
 
 async function AFfetch(url: string, options: any): Promise<any>;
@@ -85,9 +86,9 @@ interface AxiosReturn {
   data: any;
 }
 
-async function AppAxios(options): Promise<AxiosReturn> {
+async function ServerAxios(options): Promise<AxiosReturn> {
   //make sure not in testing env
-  if (!(process.env.NODE_ENV === "test")) {
+  if (!(process.env.NODE_ENV == "test")) {
     //then add the antiforgery token to the header
     options.headers = {
       "X-Requested-With": "json",
@@ -96,11 +97,19 @@ async function AppAxios(options): Promise<AxiosReturn> {
         document.getElementsByName("__RequestVerificationToken")[0]
       )).value
     };
-    // options.headers.RequestVerificationToken = (<HTMLInputElement>(
-    //   document.getElementsByName("__RequestVerificationToken")[0]
-    // )).value;
   }
 
+  try {
+    let res = await axios(options);
+    return res;
+  } catch (error) {
+    let action = handleHTTPError(error.response, error.response.data);
+    store.dispatch(action);
+  }
+  return { data: undefined };
+}
+
+async function ExternalAxios(options): Promise<AxiosReturn> {
   try {
     let res = await axios(options);
     return res;

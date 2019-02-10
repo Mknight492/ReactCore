@@ -1,6 +1,6 @@
-﻿const isTest = String(process.env.NODE_ENV) === "test";
-const isProd = String(process.env.NODE_ENV) === "production";
-const isDev = String(process.env.NODE_ENV) === "development";
+﻿export const isTest = String(process.env.NODE_ENV) === "test";
+export const isProd = String(process.env.NODE_ENV) === "production";
+export const isDev = String(process.env.NODE_ENV) === "development";
 
 export const googleMapsKey = "AIzaSyBSOw1Yu3D1WzfLZItDcBP0KPpPlx23l_k";
 export const weatherAPI = "e81bac36636ec65c6c078f2b889d0e92";

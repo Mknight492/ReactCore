@@ -14,7 +14,7 @@ export const locationServices = {
   getRandom
 };
 
-async function getCities(name) {
+export async function getCities(name) {
   const result = await HF.ServerAxios({
     url: `/api/location/get?type=location&query=${name}`,
     method: "GET",
@@ -26,14 +26,14 @@ async function getCities(name) {
   return result.data;
 }
 
-async function getRandom() {
+export async function getRandom() {
   const result = await HF.ServerAxios({
     url: "/api/location/random"
   });
   return result;
 }
 
-async function addFriend(Name, LocationId) {
+export async function addFriend(Name, LocationId) {
   const data = JSON.stringify({ Name, LocationId });
 
   const result = await HF.ServerAxios({
@@ -49,7 +49,7 @@ async function addFriend(Name, LocationId) {
   return result;
 }
 
-async function editFriend(FriendToEdit: Friend) {
+export async function editFriend(FriendToEdit: Friend) {
   const result = await HF.ServerAxios({
     url: "/api/friend/update",
     method: "PUT",
@@ -63,7 +63,7 @@ async function editFriend(FriendToEdit: Friend) {
   return result;
 }
 
-async function deleteFriend(Id) {
+export async function deleteFriend(Id) {
   const result = await HF.Appfetch("/api/friend/delete/" + Id, {
     method: "DELETE",
     headers: {
@@ -78,7 +78,7 @@ async function deleteFriend(Id) {
 //This should be done via the backend as it exposes the API key to the server
 //however as this was a free
 
-async function getWeather(
+export async function getWeather(
   latitude: number,
   longitude: number
 ): Promise<WeatherObject> {

@@ -6,7 +6,7 @@
   justify-content: start;
 }
 
-.flexItem {
+.flexItemContainer {
   color: $color-primary-3;
   text-align: center;
 
@@ -21,6 +21,12 @@
   @include atLarge {
     width: 33%;
   }
+}
+
+.flexItem {
+  width: 100%;
+  max-width: 45rem;
+  margin: 0 auto;
 }
 
 .border {

@@ -12,6 +12,7 @@ export interface myGlobal extends GlobalWithFetchMock {
       SymbolPath: {
         CIRCLE: any;
       };
+      LatLng: (a) => void;
     };
   };
 }
@@ -63,6 +64,10 @@ var localStorageMock = (function() {
     },
     SymbolPath: {
       CIRCLE: {}
+    },
+    LatLng: function(a) {
+      //@ts-ignore
+      this.a = a;
     }
   }
 };

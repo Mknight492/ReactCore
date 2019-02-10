@@ -1,4 +1,4 @@
-import { userConstants } from "../constants";
+import { userConstants } from "redux/constants";
 
 import { ApplicationUserDto, userState } from "models";
 

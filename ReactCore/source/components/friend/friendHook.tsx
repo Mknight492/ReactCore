@@ -14,7 +14,7 @@ import { HF } from "helpers/index";
 //import styles
 import * as styles from "./friend.module.scss";
 import * as mapStyles from "components/map/friendMap.module.scss";
-
+import * as formStyle from "components/friendForm/friendForm.module.scss";
 //redux imports
 import { connect } from "react-redux";
 import { friendActions } from "redux/actions/index";
@@ -88,6 +88,7 @@ const FriendComponent: React.FunctionComponent<Props> = ({
       <div data-testid="friendComponent">
         <div id={`Friend${Friend.Id}`} data-testid={`Friend${Friend.Id}`}>
           <h3 className={styles.name}>{Friend.Name}</h3>
+
           <h4 className={styles.location}>
             {HF.formatLocation(Friend.Location)}
           </h4>

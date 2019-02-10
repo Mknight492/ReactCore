@@ -7,6 +7,7 @@ export const locationLabel: string;
 export const LocationInput: string;
 export const LocationInputContainer: string;
 export const errorMessage: string;
+export const formButton: string;
 export const suggestions: string;
 export const suggestionActive: string;
 export const matching: string;

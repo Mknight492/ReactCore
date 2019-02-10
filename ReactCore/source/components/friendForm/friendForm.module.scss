@@ -11,7 +11,7 @@
 
 .inputLabel {
   padding: 5px 0;
-  font-size: 24px;
+  font-size: $friendNameFont;
   padding-right: 2rem;
 }
 
@@ -35,7 +35,7 @@
 .locationLabel {
   margin: 0;
   padding: 5px 0;
-  font-size: 22px;
+  font-size: $friendLocationFont;
   padding-right: 2rem;
   @include atSmall {
   }
@@ -65,11 +65,17 @@
 
 .errorMessage {
   display: block;
-  font-size: 1.6rem;
+  font-size: $friendErrorMessageFont;
   color: red !important;
 }
 
+.formButton {
+  margin: 0 1rem;
+}
+
+/* ---------------*/
 //TYPEAHEAD STYLES
+/* ---------------*/
 
 .suggestions {
   border: 1px solid #999;

@@ -198,10 +198,17 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   }
 
   let TypeAheadComponent;
+
+  console.log(
+    !noTAresultsFound &&
+      !formRow.valid &&
+      (!showSuggestions || suggestions.length == 0) &&
+      formRow.touched
+  );
   if (
     !noTAresultsFound &&
     !formRow.valid &&
-    !showSuggestions &&
+    (!showSuggestions || suggestions.length == 0) &&
     formRow.touched
   ) {
     // display an error if no locations are found

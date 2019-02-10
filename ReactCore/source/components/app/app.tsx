@@ -9,7 +9,7 @@ import { Router } from "@reach/router";
 
 //import pages
 import Navigation from "components/navigation/navigation";
-import IndexPage from "../pages/index/index-page";
+
 import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
 import ServerErrorPage from "../errorPages/internalServer/internalServer";
@@ -28,21 +28,35 @@ const WeatherPageLoadable: any = MyLoadable({
   modules: ["../pages/weather/weather-page"],
   webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
-
 WeatherPageLoadable.preload();
+
+const IndexPageLoadable: any = MyLoadable({
+  loader: () => import("components/pages/index/indexPage"),
+  modules: ["components/pages/index/indexPage"],
+  webpack: () => [require.resolveWeak("components/pages/index/indexPage")]
+});
+
+const wrappedComponent: any = (Component: any) => {
+  return () => (
+    <div className={styles.wrapper}>
+      <Component />
+    </div>
+  );
+};
+
+const WWeatherPageLoadable = wrappedComponent(WeatherPageLoadable);
 
 const App = () => {
   return (
     <>
       <Navigation />
-      <div className={styles.wrapper}>
-        <Router>
-          <IndexPage path="/" />
-          <WeatherPageLoadable path="/weather" />
-          <ServerErrorPage path="/500" />
-          <NotFound path="*" />
-        </Router>
-      </div>
+
+      <Router>
+        <IndexPageLoadable path="/" />
+        <WWeatherPageLoadable path="/weather" />
+        <ServerErrorPage path="/500" />
+        <NotFound path="*" />
+      </Router>
     </>
   );
 };

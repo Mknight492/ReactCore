@@ -7,6 +7,8 @@ import { userService } from "redux/services";
 import { connect } from "react-redux";
 import { userActions } from "redux/actions";
 
+import { loginRoute } from "security";
+
 //models
 import { ApplicationUserDto } from "models";
 
@@ -40,8 +42,10 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
   );
 
   const logOut = async () => {
-    // let userService = await getUserService();
-    // debugger;
+    const { userService } = await getUserService();
+    debugger;
+    await userService.logout();
+    window.location.replace(loginRoute());
     // let def = userService.logout;
     // userService.logout();
   };
@@ -50,11 +54,9 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
     <div className={styles.container}>
       <Link to={"/"}>Home</Link>
       <Link to={"/weather"}> Weather</Link>
-      <Link to={"/identity"}> Register </Link>
       <Link
         to={"/identityLogin"}
         onClick={() => {
-          userService.logout();
           logOut();
         }}
       >
@@ -81,7 +83,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getUser: () => dispatch(userActions.getUserRequest())
+    getUser: async () => {
+      const { userService } = await getUserService();
+      dispatch(userActions.getUserRequest());
+    }
   };
 }
 

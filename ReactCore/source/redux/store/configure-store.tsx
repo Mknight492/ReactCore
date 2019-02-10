@@ -14,6 +14,8 @@ import thunkMiddleware from "redux-thunk";
 import rootSaga from "../sagas";
 import SagaManager from "redux/sagas/sagaManager";
 
+import { isDev } from "security";
+
 //generating initial state
 const initialState = {};
 
@@ -28,11 +30,13 @@ const storeEnhancers: any[] = [];
 const middlewareEnhancer = applyMiddleware(...middleWares);
 storeEnhancers.unshift(middlewareEnhancer);
 
+let envCompose = isDev ? composeWithDevTools : compose;
+
 const configureStore = () => {
   const store = createStore(
     createRootReducer(),
     initialState,
-    composeWithDevTools(...storeEnhancers)
+    (envCompose as any)(...storeEnhancers)
   );
   SagaManager.startSagas(sagaMiddleware);
   console.log("store created");

@@ -43,16 +43,20 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
       {friendsObj &&
         Object.values(friendsObj).map(Friend => {
           return (
-            <div className={styles.flexItem} key={Friend.Id}>
-              <div className={styles.border}>
-                <FriendComponentLoadable Friend={Friend} />
+            <div className={styles.flexItemContainer} key={Friend.Id}>
+              <div className={styles.flexItem}>
+                <div className={styles.border}>
+                  <FriendComponentLoadable Friend={Friend} />
+                </div>
               </div>
             </div>
           );
         })}
-      <div className={styles.flexItem}>
-        <div className={styles.border}>
-          <FriendForm edit={false} />
+      <div className={styles.flexItemContainer}>
+        <div className={styles.flexItem}>
+          <div className={styles.border}>
+            <FriendForm edit={false} />
+          </div>
         </div>
       </div>
     </div>

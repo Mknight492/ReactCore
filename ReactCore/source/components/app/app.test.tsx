@@ -4,7 +4,7 @@ import { render, fireEvent } from "react-testing-library";
 import { create } from "react-test-renderer";
 import App from "./app";
 import NavBar from "components/navigation/navigation";
-import IndexPage from "components/pages/index/index-page";
+import IndexPage from "components/pages/index/indexPage";
 
 let component;
 

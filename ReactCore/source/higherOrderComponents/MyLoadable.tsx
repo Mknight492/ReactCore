@@ -29,7 +29,7 @@ export default function MyLoadable(opts) {
   //@ts-ignore
   return Loadable({
     loading: LoadingComponent,
-    delay: 200,
+    delay: 300,
     timeout: 10000,
     ...opts
   });

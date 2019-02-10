@@ -137,6 +137,7 @@ const FriendFormComponent: React.SFC<Props> = ({
     //run the form through validation
     if (id) {
       ownerForm[id].touched = true;
+      console.log(ownerForm[id]);
     }
 
     let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
@@ -277,6 +278,12 @@ const FriendFormComponent: React.SFC<Props> = ({
     "btn--disabled": !isFormValid
   });
 
+  const regularFormButtonStyle = classNames(
+    "btn",
+    "btn--small",
+    styles.formButton
+  );
+
   return (
     <div
       ref={componentRef}
@@ -322,7 +329,7 @@ const FriendFormComponent: React.SFC<Props> = ({
               Confirm Edit
             </button>
             <button
-              className={"btn btn--small"}
+              className={regularFormButtonStyle}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                 SubmitForm(e, "DELETE")
               }
@@ -333,7 +340,7 @@ const FriendFormComponent: React.SFC<Props> = ({
         ) : (
           <button
             type="submit"
-            className={"btn btn--small"}
+            className={regularFormButtonStyle}
             onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
               SubmitForm(e, "ADD")
             }

@@ -57,6 +57,7 @@ namespace ReactCore.Controllers.APIs
         {
             _logger.LogInformation("Attempting CheckUser");
             var user = await _userManager.GetUserAsync(User);
+           
             if (user != null)
             {
                 var userDto = _mapper.Map<ApplicationUserDto>(user);

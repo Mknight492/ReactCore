@@ -19,17 +19,7 @@ import * as styles from "./app.module.scss";
 import "./FA";
 
 //import loadable
-import MyLoadable from "../../higherOrderComponents/MyLoadable";
-
-//redux
-//import { connect } from "react-redux";
-//import { userActions } from "../../redux/actions/index";
-//import { ApplicationUserDto } from "../../models/index";
-//Redux Imports
-//import { Provider } from "react-redux";
-//import { Root } from "../../redux/store/configure-store";
-
-//componet imports
+import MyLoadable from "higherOrderComponents/MyLoadable";
 
 import WeatherPage from "../pages/weather/weather-page";
 
@@ -39,11 +29,12 @@ const WeatherPageLoadable: any = MyLoadable({
   webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
 });
 
+WeatherPageLoadable.preload();
+
 const App = () => {
   return (
     <>
       <Navigation />
-      <h2>test me...</h2>
       <div className={styles.wrapper}>
         <Router>
           <IndexPage path="/" />
@@ -55,18 +46,6 @@ const App = () => {
     </>
   );
 };
-
-// const App = () => {
-//   return (
-//     <div>
-//       <h2>Hello TS</h2>
-//       <Navigation />
-//       <IndexPage path="p" />
-//       <ServerErrorPage path="/500" />
-//       <NotFound path="*" />
-//     </div>
-//   );
-// };
 
 export default hot(module)(App);
 

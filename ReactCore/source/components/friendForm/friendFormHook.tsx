@@ -4,6 +4,7 @@ import * as React from "react";
 import { Form, FormGroup, Col } from "react-bootstrap";
 import { returnInitalFormState, formUtilityActions } from "helpers";
 import * as styles from "./friendForm.module.scss";
+import * as mapStyles from "../map/friendMap.module.scss";
 import classNames from "classnames";
 
 //component imports
@@ -281,6 +282,7 @@ const FriendFormComponent: React.SFC<Props> = ({
       ref={componentRef}
       data-testid="friendFormComponent"
       id={`friendFormComponent${Id}`}
+      className={styles.container}
     >
       <form>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
@@ -307,8 +309,6 @@ const FriendFormComponent: React.SFC<Props> = ({
               />
             );
           })}
-
-        <br />
         {weather && <Weather weather={weather} showLabel={!edit} />}
         {edit ? (
           <>
@@ -345,7 +345,7 @@ const FriendFormComponent: React.SFC<Props> = ({
       <MapComponent
         mapKey={"addNew"}
         position={coords}
-        style={styles.map}
+        style={mapStyles.map}
         zoom={9}
         weather={mapWeather}
       />

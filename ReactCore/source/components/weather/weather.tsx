@@ -19,11 +19,13 @@ export const Weather: React.SFC<IProps> = props => {
         </h5>
       </div>
     );
-  } else
+  }
+  // this will make the widgit the correct size if there is no weather data to display
+  else
     return (
       <div className={styles.weather}>
-        <h5 className={styles.weatherLabel}> </h5>
-        <h5 className={styles.weatherData}> </h5>
+        <h5 className={styles.weatherLabel}>&nbsp;</h5>
+        <h5 className={styles.weatherData}>&nbsp; </h5>
       </div>
     );
 };

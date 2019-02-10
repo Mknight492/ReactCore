@@ -1,9 +1,9 @@
 ﻿const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
-//const webpackMerge = require("webpack-merge");
-//const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
-//const presetConfig = require("./build-utils/loadPresets");
+const webpackMerge = require("webpack-merge");
+const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
+const presetConfig = require("./build-utils/loadPresets");
 const postcssModulesValues = require("postcss-modules-values");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 var autoprefixer = require("autoprefixer");
@@ -43,140 +43,119 @@ const postCSSLoader = {
   }
 };
 
-module.exports = {
-  mode: "development",
-  entry: {
-    main: "./source/index.tsx"
-  },
-  output: {
-    path: path.resolve(__dirname, "wwwroot/dist"),
-    filename: "[name].bundle.js",
-    chunkFilename: "[name].bundle.js",
-    publicPath: "/dist/"
-  },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    publicPath: "/"
-  },
-  devtool: "source-map",
-  optimization: {
-    minimize: false
-  },
-  watch: true,
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-    modules: [path.resolve(__dirname, "./source"), "node_modules"]
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            plugins: [
-              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
-              "react-hot-loader/babel",
-              "@babel/plugin-syntax-dynamic-import"
-            ]
-          }
-        }
+process.env.mode;
+
+module.exports = ({ mode = "production", presets = [] }) => {
+  return webpackMerge(
+    {
+      mode: mode,
+      entry: {
+        main: "./source/index.tsx"
       },
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            cacheDirectory: true,
-            babelrc: false,
-            presets: [
-              [
-                "@babel/preset-env",
-                { targets: { browsers: "last 2 versions" } } //modules: false }
-                // or whatever your project requires
-              ],
-              "@babel/preset-typescript",
-              "@babel/preset-react"
-            ],
-            plugins: [
-              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
-              "react-hot-loader/babel",
-              "@babel/plugin-syntax-dynamic-import"
-            ]
-          }
-        }
+      output: {
+        path: path.resolve(__dirname, "wwwroot/dist"),
+        filename: "[name].bundle.js",
+        chunkFilename: "[name].bundle.js",
+        publicPath: "/dist/"
       },
-      {
-        test: /\.css$/,
-        use: [
-          "style-loader",
+      resolve: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+        modules: [path.resolve(__dirname, "./source"), "node_modules"]
+      },
+      module: {
+        rules: [
           {
-            loader: "css-loader",
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: "[name]__[local]___[hash:base64]"
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader"
             }
           },
           {
-            loader: "postcss-loader",
-            options: {
-              plugins: [postcssModulesValues]
+            test: /\.tsx?$/,
+            exclude: [/node_modules/, /\.test\.tsx?$/],
+            use: {
+              loader: "babel-loader"
             }
-          }
-        ]
-      },
-      {
-        test: /\.html$/,
-        loader: "raw-loader"
-      },
-      {
-        test: /\.scss$/,
-        exclude: [/\.module\.scss$/],
-        use: ["style-loader", CSSLoader, postCSSLoader, "sass-loader"]
-      },
-      {
-        test: /\.module\.scss$/,
-        use: ["style-loader", CSSModuleLoader, postCSSLoader, "sass-loader"]
-      },
-      {
-        test: /\.(gif|jpg|jpeg|tiff|png|svg)$/i,
-        use: [
+          },
           {
-            loader: "url-loader",
-            options: {
-              limit: 500
-            }
+            test: /\.css$/,
+            use: [
+              "style-loader",
+              {
+                loader: "css-loader",
+                options: {
+                  modules: true,
+                  importLoaders: 1,
+                  localIdentName: "[name]__[local]___[hash:base64]"
+                }
+              },
+              {
+                loader: "postcss-loader",
+                options: {
+                  plugins: [postcssModulesValues]
+                }
+              }
+            ]
+          },
+          {
+            test: /\.html$/,
+            loader: "raw-loader"
+          },
+          {
+            test: /\.(gif|jpe?g|tiff|png|svg|ttf|eot|woff2?)$/i,
+            use: [
+              {
+                loader: "url-loader",
+                options: {
+                  limit: 5000
+                }
+              }
+            ]
           }
         ]
-      }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./source/index.html",
-      filename: "index.html",
-      inject: "body"
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "./source/index.html"),
-      filename: path.resolve(__dirname, "./views/home/index.cshtml"),
-      inject: "body"
-    }),
-    new webpack.NamedModulesPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, "./source/assets"),
-        to: ""
-      }
-    ]),
-    new ForkTsCheckerWebpackPlugin()
-  ]
+      },
+      // resolve: {
+      //   alias: {
+      //     react: "preact-compat",
+      //     "react-dom": "preact-compat",
+      //     // Not necessary unless you consume a module using `createClass`
+      //     "create-react-class": "preact-compat/lib/create-react-class",
+      //     // Not necessary unless you consume a module requiring `react-dom-factories`
+      //     "react-dom-factories": "preact-compat/lib/react-dom-factories"
+      //   }
+      // },
+      plugins: [
+        new HtmlWebpackPlugin({
+          template: "./source/index.html",
+          filename: "index.html",
+          inject: "body"
+        }),
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, "./source/index.html"),
+          filename: path.resolve(__dirname, "./views/home/index.cshtml"),
+          inject: "body"
+        }),
+        new webpack.NamedModulesPlugin(),
+        new CopyWebpackPlugin([
+          {
+            from: path.resolve(__dirname, "./source/assets"),
+            to: ""
+          }
+        ]),
+        new CopyWebpackPlugin([
+          {
+            from: path.resolve(__dirname, "./source/assets/webfonts"),
+            to: "../webfonts"
+          }
+        ]),
+        new ForkTsCheckerWebpackPlugin()
+      ]
+    },
+    modeConfig(mode),
+    presetConfig({ mode, presets })
+  );
 };
-
 // Alternative TS lint config
 // {
 //   "extends": [

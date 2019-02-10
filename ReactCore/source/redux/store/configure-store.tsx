@@ -19,7 +19,7 @@ const initialState = {};
 
 //generate middleware
 const sagaMiddleware = createSagaMiddleware();
-const logger = createLogger();
+//const logger = createLogger();
 
 //generating redux store with middleware NB routerMiddleWare must remain fist
 const middleWares = [sagaMiddleware, thunkMiddleware];

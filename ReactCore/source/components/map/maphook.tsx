@@ -1,4 +1,5 @@
 import * as React from "react";
+import createHTMLMapMarker from "./HTMLMapMarker";
 
 const { useEffect } = React;
 
@@ -45,26 +46,37 @@ const MapComponent: React.FunctionComponent<IProps> = ({
       const textAndColor = weatherSelecter(weather);
 
       //map much be created before adding a marker
-      const markerOptions = {
-        position: {
-          lat: center.lat + zoom * 0.008, //puts the marker above the center
-          lng: center.lng
-        },
+      // const markerOptions = {
+      //   position: {
+      //     lat: center.lat + zoom * 0.008, //puts the marker above the center
+      //     lng: center.lng
+      //   },
 
+      //   map: map,
+      //   label: {
+      //     fontFamily: "'Font Awesome 5 Free'",
+      //     fontSize: "3rem",
+      //     fontWeight: "900"
+      //     //...textAndColor
+      //   },
+      //   icon: {
+      //     path: google.maps.SymbolPath.CIRCLE,
+      //     scale: 0.1
+      //   }
+      // };
+
+      // const marker = new google.maps.Marker(markerOptions);
+
+      const latlng = new google.maps.LatLng(
+        center.lat + zoom * 0.008,
+        center.lng
+      );
+
+      const marker2 = createHTMLMapMarker({
+        latlng: latlng,
         map: map,
-        label: {
-          fontFamily: "'Font Awesome 5 Free'",
-          fontSize: "3rem",
-          fontWeight: "900",
-          ...textAndColor
-        },
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 0.1
-        }
-      };
-
-      const marker = new google.maps.Marker(markerOptions);
+        html: weatherSelecter(weather)
+      });
     }
   }
   return weather !== undefined ? (
@@ -76,18 +88,17 @@ const MapComponent: React.FunctionComponent<IProps> = ({
 
 function weatherSelecter(weather: string | undefined) {
   if (weather == "Rain" || weather == "Drizzle")
-    return {
-      text: "\uf73d",
-      color: "rgb(49, 89, 119)"
-    };
+    return `<i class="rain" /> <i class="person"/>`;
   else if (weather == "Clouds")
-    return { text: "\uf0c2", color: "rgb(129, 129, 129)" };
-  else if (weather == "Clear")
-    return {
-      text: "\uf185",
-      color: "#f5d311"
-    };
+    return `<i class="clouds"/>  <i class="person"/>`;
+  else if (weather == "Clear") return `<i class="sun"/>  <i class="person"/>`;
   return { text: "\uf053\uf441\uf054", color: "rgb(49, 89, 119)" };
 }
 
 export default MapComponent;
+
+interface IHTMLMapMarker {
+  div: any;
+}
+
+//@ts-ignore

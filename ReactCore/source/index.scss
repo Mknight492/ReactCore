@@ -3,6 +3,10 @@
 
 //vendor stylesheets (exc normalize)
 
+@import "./scssImports/vendors/FAscss/fontawesome";
+@import "./scssImports/vendors/FAscss/solid";
+@import "./scssImports/vendors/FAscss/brands";
+
 // base
 //@import "./scssImports/base/global.scss;";
 
@@ -13,6 +17,7 @@
 //components
 @import "./scssImports/components/buttons.scss";
 @import "./scssImports/components/hero.scss";
+@import "./scssImports/components/faicons.scss";
 //pages
 
 //misc

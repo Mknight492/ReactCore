@@ -1,16 +1,18 @@
 import * as React from "react";
 import * as styles from "./navigation.module.scss";
 import { Link } from "@reach/router";
-import { HF } from "../../helpers";
-import { userService } from "../../redux/services";
+import { HF } from "helpers";
+import { userService } from "redux/services";
 
 import { connect } from "react-redux";
-import { userActions } from "../../redux/actions";
+import { userActions } from "redux/actions";
 
 //models
-import { ApplicationUserDto } from "../../models";
+import { ApplicationUserDto } from "models";
 
 const { useEffect } = React;
+
+const getUserService = () => import("redux/services/userService");
 
 interface OwnProps {}
 interface StateProps {
@@ -37,12 +39,25 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
     [loaded]
   );
 
+  const logOut = async () => {
+    // let userService = await getUserService();
+    // debugger;
+    // let def = userService.logout;
+    // userService.logout();
+  };
+
   return user ? (
     <div className={styles.container}>
       <Link to={"/"}>Home</Link>
       <Link to={"/weather"}> Weather</Link>
       <Link to={"/identity"}> Register </Link>
-      <Link to={"/identityLogin"} onClick={userService.logout}>
+      <Link
+        to={"/identityLogin"}
+        onClick={() => {
+          userService.logout();
+          logOut();
+        }}
+      >
         {" "}
         Logout{" "}
       </Link>

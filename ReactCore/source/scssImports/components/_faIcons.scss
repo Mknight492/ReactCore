@@ -1,0 +1,161 @@
+@mixin fontAwesomeIcon($group, $icon-name) {
+  @extend %fa-icon;
+  @extend #{$group};
+  &:before {
+    content: fa-content(#{$icon-name});
+  }
+}
+
+@mixin mediumSizeIcon {
+  font-size: 4rem;
+  @include atMedium {
+    font-size: 5rem;
+  }
+}
+
+@mixin smallSizeIcon {
+  font-size: 3rem;
+  @include atMedium {
+    font-size: 4rem;
+  }
+}
+
+@mixin primarySecondaryIconColors {
+  &--primary {
+    color: $color-primary-3;
+  }
+  &--secondary {
+    color: $color-secondary-1-0;
+  }
+}
+
+.stack {
+  @include fontAwesomeIcon(".fab", $fa-var-stack-overflow);
+  @include mediumSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.cogs {
+  @include fontAwesomeIcon(".fas", $fa-var-cogs);
+  @include mediumSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.coins {
+  @include fontAwesomeIcon(".fas", $fa-var-coins);
+  @include mediumSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.laptop {
+  @include fontAwesomeIcon(".fas", $fa-var-laptop-code);
+  @include mediumSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.bars {
+  @include fontAwesomeIcon(".fas", $fa-var-bars);
+  @include smallSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.cross {
+  @include fontAwesomeIcon(".fas", $fa-var-times);
+  @include smallSizeIcon();
+  @include primarySecondaryIconColors();
+}
+.knight {
+  @include fontAwesomeIcon(".fas", $fa-var-chess-knight);
+  @include smallSizeIcon();
+  @include primarySecondaryIconColors();
+}
+
+.cheveron-left {
+  @include fontAwesomeIcon(".fas", $fa-var-chevron-left);
+  @include primarySecondaryIconColors();
+  font-size: 1.5rem;
+  color: #fff;
+  padding-right: 3px;
+  @include atMedium {
+    font-size: 3rem;
+  }
+}
+
+.cheveron-right {
+  @include fontAwesomeIcon(".fas", $fa-var-chevron-right);
+  @include primarySecondaryIconColors();
+  font-size: 1.5rem;
+  color: #fff;
+  padding-left: 2px;
+  @include atMedium {
+    font-size: 3rem;
+  }
+}
+
+.sync {
+  @include fontAwesomeIcon(".fas", $fa-var-sync-alt);
+  @include primarySecondaryIconColors();
+  font-size: 1.5rem;
+  color: $color-primary-0;
+  margin-left: 10px;
+  margin-top: 2px;
+  @include atMedium {
+    font-size: 2.5rem;
+  }
+}
+
+.facebook {
+  @include fontAwesomeIcon(".fab", $fa-var-facebook-square);
+  @include smallSizeIcon();
+}
+
+.stackoverflow {
+  @include fontAwesomeIcon(".fab", $fa-var-stack-overflow);
+  @include smallSizeIcon();
+}
+
+.hackerrank {
+  @include fontAwesomeIcon(".fab", $fa-var-hackerrank);
+  @include smallSizeIcon();
+}
+.github {
+  @include fontAwesomeIcon(".fab", $fa-var-github);
+  @include smallSizeIcon();
+}
+.linkedin {
+  @include fontAwesomeIcon(".fab", $fa-var-linkedin);
+  @include smallSizeIcon();
+}
+
+.clouds {
+  @include fontAwesomeIcon(".fas", $fa-var-cloud);
+  @include smallSizeIcon();
+  color: rgb(82, 82, 82);
+  transform: translate(-50%);
+  display: block;
+}
+
+.sun {
+  @include fontAwesomeIcon(".fas", $fa-var-sun);
+  @include mediumSizeIcon();
+  color: #fc9b40;
+  text-align: center;
+  transform: translate(-50%);
+  display: block;
+}
+
+.rain {
+  @include fontAwesomeIcon(".fas", $fa-var-cloud-showers-heavy);
+  @include smallSizeIcon();
+  color: rgb(43, 53, 116);
+  transform: translate(-50%);
+  display: block;
+}
+
+.person {
+  @include fontAwesomeIcon(".fas", $fa-var-user);
+  @include smallSizeIcon();
+  color: grey;
+  display: block;
+  padding-top: 1rem;
+}

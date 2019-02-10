@@ -1,0 +1,47 @@
+// {
+//   "compilerOptions": {
+//     "module": "system",
+//     "removeComments": true,
+//     "preserveConstEnums": true,
+//     "outFile": "build",
+//     "sourceMap": true,
+//     "lib": ["es2015"],
+//     "noImplicitAny": false,
+//     "baseUrl": "./source",
+//     "jsx": "react"
+//   },
+//   "include": ["source/**/*"],
+//   "exclude": ["node_modules", "**/*.spec.ts"]
+// }
+
+{
+  "compilerOptions": {
+    "baseUrl": "./source",
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "target": "es2018",
+    "jsx": "react",
+    "lib": ["es2018", "dom"],
+    "noEmit": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["bin", "node_modules", "wwwroot", "build"],
+  "include": [
+    "source/**/*",
+    "source/test/testconfig.js",
+    "source/test/setupJest.js"
+  ]
+
+  //having target at the close to current as possible means TS will do minimal
+  // compiling and the rest will be done by babel - (more likely to have interop
+  // with on JS features)
+}

@@ -110,16 +110,24 @@ namespace ReactCore
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true,
+                    EnvironmentVariables =(new Dictionary<string, string>(){
+                        { "mode" , "development" }
+                    }),
+                    EnvParam = new
+                    {
+                        mode = "development"
+                    }
                 });
                 //app.UseDatabaseErrorPage();
             }
             else
             {
                 //app.UseExceptionHandler("/error");
+                //whilst in development
+                app.UseDeveloperExceptionPage();
             }
 
-            //whilst in development
-            app.UseDeveloperExceptionPage();
+
 
             //for linux deploymeny
             app.UseForwardedHeaders(new ForwardedHeadersOptions

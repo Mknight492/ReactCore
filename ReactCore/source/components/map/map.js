@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isEqual } from "lodash";
+import { isEqual } from "lodash-es";
 
 export default class MapComponent extends React.Component {
   constructor(...args) {

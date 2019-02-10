@@ -1,6 +1,7 @@
 import { handleHTTPError } from "../actions";
 import { errorConstants } from "../constants";
 import { navigate } from "@reach/router";
+import { loginRoute } from "security";
 
 const initialState = {
   showErrorModal: false,
@@ -10,7 +11,7 @@ const initialState = {
 const execute401 = state => {
   console.log("executeing 401");
   //navigate("/Account/login");
-  window.location.replace("http://localhost:59853/Account/login");
+  window.location.replace(loginRoute());
   return state;
 };
 

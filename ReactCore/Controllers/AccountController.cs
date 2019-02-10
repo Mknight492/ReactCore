@@ -49,6 +49,7 @@ namespace AutheticationTPO.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
+            _logger.LogInformation("naviagated to login page");
             return View();
         }
 

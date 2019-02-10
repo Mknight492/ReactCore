@@ -33,21 +33,7 @@ interface State {}
 type Props = StateProps & DispatchProps & OwnProps & State;
 
 const WeatherPage: React.SFC<Props> = () => {
-  return (
-    <div data-testid="weatherPage">
-      <button
-        onClick={() => HF.ServerAxios({ url: "api/Authenticate/Throw500" })}
-      >
-        throw5000
-      </button>
-      <button
-        onClick={() => HF.ServerAxios({ url: "api/Authenticate/Throw400" })}
-      >
-        throw400
-      </button>
-      <Friends />
-    </div>
-  );
+  return <Friends />;
 };
 
 const mapStateToProps = state => ({

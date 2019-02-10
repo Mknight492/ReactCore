@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import FriendComponent from "../friend/friendHook";
+//import FriendComponent from "../friend/friendHook";
 import * as styles from "./friends.module.scss";
 
 import FriendForm from "../../components/friendForm/friendFormHook";
@@ -11,6 +11,17 @@ import { friendActions } from "../../redux/actions";
 import { FriendsObj } from "../../models/index";
 
 const { useEffect } = React;
+
+//import loadable
+import MyLoadable from "higherOrderComponents/MyLoadable";
+
+import FriendComponent from "components/friend/friendHook";
+
+const FriendComponentLoadable: any = MyLoadable({
+  loader: () => import("components/friend/friendHook"),
+  modules: ["components/friend/friendHook"],
+  webpack: () => [require.resolveWeak("components/friend/friendHook")]
+});
 
 interface IProps {
   loadFriends: Function;
@@ -34,7 +45,7 @@ const FriendsComponent: React.FunctionComponent<IProps> = ({
           return (
             <div className={styles.flexItem} key={Friend.Id}>
               <div className={styles.border}>
-                <FriendComponent Friend={Friend} />
+                <FriendComponentLoadable Friend={Friend} />
               </div>
             </div>
           );

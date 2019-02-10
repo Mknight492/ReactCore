@@ -1,4 +1,6 @@
 const isTest = String(process.env.NODE_ENV) === "test";
+const isProd = String(process.env.NODE_ENV) === "production";
+const isDev = String(process.env.NODE_ENV) === "development";
 
 module.exports = {
   presets: [
@@ -6,12 +8,7 @@ module.exports = {
     "@babel/typescript",
     ["@babel/env", { modules: isTest ? "commonjs" : false }]
   ],
-  plugins: [
-    "react-hot-loader/babel",
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-modules-commonjs",
-    "babel-plugin-dynamic-import-node"
-  ],
+  plugins: ["react-hot-loader/babel", "@babel/plugin-syntax-dynamic-import"],
   ignore: [/[\/\\]core-js/, /@babel[\/\\]runtime/, "node_modules"],
   env: {
     test: {

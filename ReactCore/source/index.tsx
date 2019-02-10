@@ -5,7 +5,6 @@ import "promise-polyfill/src/polyfill";
 //React imports
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
 
 //Redux Imports
 import { Provider } from "react-redux";
@@ -31,28 +30,30 @@ let render = () => {
   );
 };
 
-if (module.hot) {
-  const renderApp = render;
-  const renderError = error => {
-    const RedBox = require("redbox-react");
-    ReactDOM.render(<RedBox error={error} />, rootEl);
-  };
+if (String(process.env.NODE_ENV) === "development") {
+  if (module.hot) {
+    const renderApp = render;
+    const renderError = error => {
+      const RedBox = require("redbox-react");
+      ReactDOM.render(<RedBox error={error} />, rootEl);
+    };
 
-  render = () => {
-    try {
-      renderApp();
-    } catch (error) {
-      renderError(error);
-    }
-  };
+    render = () => {
+      try {
+        renderApp();
+      } catch (error) {
+        renderError(error);
+      }
+    };
 
-  module.hot.accept("components/app/app", () => {
-    setTimeout(render);
-  });
-}
+    module.hot.accept("components/app/app", () => {
+      setTimeout(render);
+    });
+  }
 
-if (module.hot) {
-  require("./index.html");
+  if (module.hot) {
+    require("./index.html");
+  }
 }
 
 render();

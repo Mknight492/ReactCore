@@ -50,53 +50,49 @@ const FormRow: React.FunctionComponent<IProps> = ({
   switch (formRow.element) {
     case "input":
       inputField = (
-        <div>
-          <div style={{ display: "block" }}>
-            <label className={styles.name} htmlFor={formRow.id} id="name">
-              Name:
-            </label>
-            <input
-              id={formRow.id}
-              className={styles.input}
-              key={formRow.id}
-              type={formRow.type}
-              value={formRow.value}
-              onChange={changed}
-              onBlur={() => {
-                blur(formRow.id);
-              }}
-              onFocus={focus}
-            />
-            <em className={styles.errorMessage}>{errorMessage}</em>
-          </div>
+        <div className={styles.inputBlock}>
+          <label className={styles.inputLabel} htmlFor={formRow.id} id="name">
+            Name:
+          </label>
+          <input
+            id={formRow.id}
+            className={styles.inputField}
+            key={formRow.id}
+            type={formRow.type}
+            value={formRow.value}
+            onChange={changed}
+            onBlur={() => {
+              blur(formRow.id);
+            }}
+            onFocus={focus}
+          />
+          <em className={styles.errorMessage}>{errorMessage} &nbsp; </em>
         </div>
       );
       break;
     case "typeAhead":
       inputField = (
-        <>
-          <div>
-            <label
-              style={{ textAlign: "left" }}
-              className={styles.location}
-              htmlFor={formRow.id}
-            >
-              Location:
-            </label>
-            <TypeAhead
-              name={"Location"}
-              onSelect={selectHandler}
-              suggestions={locations}
-              onChange={changed}
-              onBlur={blur}
-              onFocus={focus}
-              formRow={formRow}
-              errorMessage={errorMessage}
-              formRef={formRef}
-              setFormState={setFormState}
-            />
-          </div>
-        </>
+        <div className={styles.locationBlock}>
+          <label
+            style={{ textAlign: "left" }}
+            className={styles.locationLabel}
+            htmlFor={formRow.id}
+          >
+            Location:
+          </label>
+          <TypeAhead
+            name={"Location"}
+            onSelect={selectHandler}
+            suggestions={locations}
+            onChange={changed}
+            onBlur={blur}
+            onFocus={focus}
+            formRow={formRow}
+            errorMessage={errorMessage}
+            formRef={formRef}
+            setFormState={setFormState}
+          />
+        </div>
       );
       break;
     default:

@@ -10,13 +10,14 @@
   color: $color-primary-3;
   text-align: center;
 
-  //box-sizing: border-box;
-  @include atSmall {
-    width: 100%;
-  }
-  @include atMedium {
+  box-sizing: border-box;
+
+  width: 100%;
+
+  @include atMedium2 {
     width: 50%;
   }
+
   @include atLarge {
     width: 33%;
   }

@@ -20,7 +20,8 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   moduleNameMapper: {
     "\\module.scss$": "identity-obj-proxy",
-    "\\.scss$": "identity-obj-proxy"
+    "\\.scss$": "identity-obj-proxy",
+    "^lodash-es$": "lodash"
   },
   setupFiles: [
     "<rootDir>/source/test/testconfig.d.ts",
@@ -28,9 +29,13 @@ module.exports = {
   ],
   setupTestFrameworkScriptFile: "<rootDir>/source/test/testconfig.ts",
   globals: {
-    NODE_PATH: "source/"
+    NODE_PATH: "source/",
+    "ts-jest": {
+      tsConfig: "<rootDir>/tsconfig.spec.json"
+    }
   },
   roots: ["<rootDir>/source"],
   moduleDirectories: ["node_modules", "source/"],
-  automock: false
+  automock: false,
+  transformIgnorePatterns: ["/!node_modules\\/lodash-es/"]
 };

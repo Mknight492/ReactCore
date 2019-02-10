@@ -15,7 +15,13 @@
 }
 
 @mixin atMedium {
-  @media (min-width: 800px) {
+  @media (min-width: 780px) {
+    @content;
+  }
+}
+
+@mixin atMedium2 {
+  @media (min-width: 780px) {
     @content;
   }
 }

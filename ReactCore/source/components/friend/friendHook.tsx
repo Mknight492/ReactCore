@@ -5,21 +5,22 @@ import * as React from "react";
 import { Weather } from "../weather/weather";
 
 import FriendForm from "../friendForm/friendFormHook";
-import MapComponent from "../map/maphook";
+import MapComponent from "components/map/maphook";
 
 //import helper functions
-import { locationServices } from "../../redux/services/index";
-import { HF } from "../../helpers/index";
+import { locationServices } from "redux/services/index";
+import { HF } from "helpers/index";
 
 //import styles
 import * as styles from "./friend.module.scss";
+import * as mapStyles from "components/map/friendMap.module.scss";
 
 //redux imports
 import { connect } from "react-redux";
-import { friendActions } from "../../redux/actions/index";
+import { friendActions } from "redux/actions/index";
 
 //models
-import { Friend, WeatherObject } from "../../models";
+import { Friend, WeatherObject } from "models";
 
 const { useState, useEffect } = React;
 
@@ -104,7 +105,7 @@ const FriendComponent: React.FunctionComponent<Props> = ({
               latitude: Friend.Location.Latitude,
               longitude: Friend.Location.Longitude
             }}
-            style={styles.map}
+            style={mapStyles.map}
             zoom={9}
             weather={mapWeather}
           />

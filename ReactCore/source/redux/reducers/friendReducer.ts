@@ -1,5 +1,5 @@
 import { friendConstants } from "../constants";
-import { mapKeys, isEqual, omit } from "lodash";
+import { mapKeys, isEqual, omit } from "lodash-es";
 
 import { FriendsObj, Locations } from "../../models";
 import { Action } from "redux";

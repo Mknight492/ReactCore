@@ -66,7 +66,7 @@ beforeEach(() => {
     response: [FriendMock1]
   });
 
-  moxios.stubRequest(/http\:\/\/api.openweathermap.org/, {
+  moxios.stubRequest(/api.openweathermap.org/, {
     status: 200,
     response: weatherMock1
   });
@@ -126,8 +126,10 @@ it("can add a new Friend", async () => {
   await flushPromises();
 
   //selectthe element that has the corresponding drop down bar.
-  await wait(() => getByText(/Wells/i));
-  fireEvent.click(getByText(/Wells/i));
+  let locationTASuggestion = await waitForElement(() => getByText(/Wells/i), {
+    container
+  });
+  fireEvent.click(locationTASuggestion);
   await flushPromises();
 
   //submit the confirm edit button
@@ -148,17 +150,6 @@ it("can add a new Friend", async () => {
   expect(moxios.requests.at(moxios.requests.count() - 2).config.method).toBe(
     "put"
   );
-  //expect(moxios.requests.at(7).url).toMatch("api/friend/getall");
-
-  //await wait(() => {
-  //  getByText("mike");
-  //   });
-  //   expect(locationInput.value).toBeFalsy();
-  //   expect(getByTestId(`Friend${FriendMock1.Id}`)).toBeTruthy();
-  //expect(moxios.requests.count()).toBe(3);
-  //expect(moxios.requests.at(0).url).toMatch("api/friend/create");
-  //expect(moxios.requests.at(1).url).toMatch("api/friend/getall");
-  //expect(moxios.requests.at(2).url).toMatch(/http\:\/\/api.openweathermap.org/);
 });
 
 //RENAME APIS

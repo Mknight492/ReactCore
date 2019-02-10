@@ -1,89 +1,66 @@
 @import "../../scssImports/variables.scss";
 
-.name {
-  margin: 0;
+.container {
+  margin-top: 1rem;
+}
+
+.inputBlock {
+  display: block;
+  width: 100%;
+}
+
+.inputLabel {
   padding: 5px 0;
   font-size: 24px;
   padding-right: 2rem;
 }
-.location {
-  margin: 0;
-  padding: 5px 0;
-  font-size: 22px;
-  padding-right: 2rem;
-}
 
-.input {
-  @extend .name;
+.inputField {
+  @extend .inputLabel;
   color: inherit;
   outline: none;
   appearance: none;
   border: 0px;
   border-bottom: 2.5px dashed $color-primary-3;
   background-color: $friendBGColor;
-  background-color: $transparent; //opacity 0 i.e. inherit BG color
+  background-color: $transparent; /*opacity 0 i.e. inherit BG color*/
   text-align: center;
 }
 
-.weather {
-  //display: inline-block;
-  font-size: $friendWeatherFont;
-  font-weight: 400;
-}
-.weatherLabel {
-  font-size: $friendWeatherFont;
-  display: inline-block;
-  padding-right: 1rem;
-}
-.weatherData {
-  display: inline-block;
+.locationBlock {
+  display: block;
+  width: 100%;
 }
 
-.typeAhead {
-  // have nested css to target imported typeahead component
-  @extend .location;
-  display: inline-block; // have typeAhead in same row as label
-  div {
-    input {
-      //typeahead input component
-      background-color: $transparent; // inherit BG color
-      color: inherit; //inherit as otherwise set to black
-      outline: none;
-      appearance: none;
-      border: 0;
-      font-size: $friendLocationFont;
-      border-bottom: 2.5px dashed $color-primary-3;
-    }
-    div {
-      //typeahead dropdown component NB has significant inline styles...
-      // therefore !important used
-      color: inherit;
-      font-size: $friendLocationFont !important;
-      background-color: $friendBGColor !important;
-      z-index: 1;
-      border: 2px solid $color-primary-3;
-      div {
-        //typeahead label
-        border: 0px;
-        color: inherit;
-        font-size: $friendLocationFont !important;
-        z-index: 1;
-        &:hover {
-          //color: pink !important;
-          background-color: $color-primary-1 !important;
-          z-index: 1;
-        }
-      }
-    }
+.locationLabel {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 22px;
+  padding-right: 2rem;
+  @include atSmall {
   }
 }
-.map {
-  width: 300px;
-  height: 300px;
-  display: block;
-  margin: 0 auto;
-  border-radius: 50%;
-  z-index: 0;
+
+.LocationInput {
+  @extend .locationLabel;
+  color: inherit;
+  outline: none;
+  appearance: none;
+  border: 0px;
+  border-bottom: 2.5px dashed $color-primary-3;
+  background-color: $friendBGColor;
+  background-color: $transparent; /*opacity 0 i.e. inherit BG color*/
+  text-align: center;
+}
+
+.LocationInputContainer {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  @include atMedium {
+    width: 70%;
+    margin-right: -15%;
+  }
 }
 
 .errorMessage {
@@ -92,13 +69,88 @@
   color: red !important;
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-color: green;
-  opacity: 0.3;
+//TYPEAHEAD STYLES
+
+.suggestions {
+  border: 1px solid #999;
+  border-top-width: 0;
+  list-style: none;
+  margin-top: 0;
+  max-height: 143px;
+  overflow-y: auto;
+  padding-left: 0;
+  width: calc(300px + 1rem);
+}
+
+.suggestions li {
+  padding: 0.5rem;
+}
+
+.suggestionActive {
+  background-color: #008f68;
+  color: #fae042;
+  cursor: pointer;
+  font-weight: 700;
+}
+.suggestions li:hover {
+  background-color: #008f68;
+  color: #fae042;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}
+
+.matching {
+  font-weight: bold;
+}
+
+.typeAhead {
+  /*have nested css to target imported typeahead component */
+  &list {
+    /*typeahead dropdown component NB has significant inline styles... */
+    /* therefore !important used */
+    width: 100%;
+    position: absolute;
+    //right: -10%;
+    //left: auto;
+
+    text-align: left;
+    list-style: none;
+    color: inherit;
+    font-size: $friendLocationFont !important;
+    background-color: $friendBGColor !important;
+    z-index: 1;
+    border: 2px solid $color-primary-3;
+    border-radius: 1rem;
+
+    &Item {
+      /*typeahead label */
+      text-decoration: none;
+      border: 0px;
+      color: inherit;
+      font-size: $friendLocationFont !important;
+      z-index: 1;
+      padding-left: 1rem;
+      &active {
+        background-color: $color-primary-1 !important;
+        z-index: 1;
+      }
+      &:hover {
+        background-color: $color-primary-2 !important;
+        z-index: 1;
+      }
+      &Loading {
+        display: block;
+        height: 4rem;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.countryCode {
+  padding-left: 2rem;
 }

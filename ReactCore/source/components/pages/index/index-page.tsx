@@ -15,7 +15,7 @@ interface IProps {
 const IndexPage: React.SFC<IProps> = props => {
   return (
     <div className="large-hero js-waypoint" id="home" data-link="home--link">
-      <img src="dist/images/hero--large.jpg" alt="Laptop and designer" />
+      {/* <img src="dist/images/hero--large.jpg" alt="Laptop and designer" /> */}
       <div className="wrapper">
         <div className="large-hero__text-content">
           <h1>

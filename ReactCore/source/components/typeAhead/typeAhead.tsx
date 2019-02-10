@@ -4,7 +4,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 //styles
-import * as styles from "./typeAhead.module.scss";
+import * as styles from "components/friendForm/friendForm.module.scss";
 import "./typeAhead.scss";
 //models
 import { Locations, formRow } from "models";
@@ -196,8 +196,37 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
       </ul>
     );
   }
+
+  let TypeAheadComponent;
+  if (
+    !noTAresultsFound &&
+    !formRow.valid &&
+    !showSuggestions &&
+    formRow.touched
+  ) {
+    // display an error if no locations are found
+    TypeAheadComponent = (
+      <em className={styles.errorMessage}>{formRow.errorMessage} &nbsp;</em>
+    );
+  } else if (
+    noTAresultsFound &&
+    !formRow.valid &&
+    !loadingTA &&
+    formRow.touched
+  ) {
+    // display the error message if fromRom is invalid and there is no "no Locations error message"
+    TypeAheadComponent = (
+      <em className={styles.errorMessage}>
+        No Locations with that name exist{" "}
+      </em>
+    );
+  } else {
+    //display a placeholder error container
+    TypeAheadComponent = <em className={styles.errorMessage}> &nbsp; </em>;
+  }
+
   return (
-    <div className={styles.typeAhead}>
+    <>
       <input
         id={name}
         name={name}
@@ -205,7 +234,7 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
         value={formRow.value}
-        className={styles.typeAheadinput}
+        className={styles.LocationInput}
         onFocus={() => {
           setshowSuggestions(true);
         }}
@@ -216,20 +245,15 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         list="suggestions"
         role="comboBox"
       />
-      {/* display the list of results if there is at least 1 to display */}
-      {(filteredSuggestions.length > 0 || loadingTA) &&
-        suggestionsListComponent}
-      {/* display the errotr message if fromRom is invalid and there is no "no Locations error message" */}
-      {!noTAresultsFound && !formRow.valid && (
-        <em className={styles.errorMessage}>{formRow.errorMessage}</em>
-      )}
-
-      {noTAresultsFound && !formRow.valid && (
-        <em className={styles.errorMessage}>
-          No Locations with that name exist{" "}
-        </em>
-      )}
-    </div>
+      <div className={styles.LocationInputContainer}>
+        {/* display the list of results if there is at least 1 to display */}
+        {(filteredSuggestions.length > 0 || loadingTA) &&
+          suggestionsListComponent}
+        {/* display the errotr message if fromRom is invalid and there is no "no Locations error message" */}{" "}
+        {/* display the errotr message if fromRom is invalid and there is no "no Locations error message" */}
+        {TypeAheadComponent}
+      </div>
+    </>
   );
 };
 
@@ -254,19 +278,3 @@ const connectedTypeAheadComponent = connect<
 )(TypeAheadComponent);
 
 export default connectedTypeAheadComponent;
-
-function doTheHighlight(value, term) {
-  // Escape any regexy type characters so they don't bugger up the other reg ex
-  term = term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1");
-
-  // Join the terms with a pipe as an 'OR'
-  term = term.split(" ").join("|");
-
-  return value.replace(
-    new RegExp(
-      "(?![^&;]+;)(?!<[^<>]*)(" + term + ")(?![^<>]*>)(?![^&;]+;)",
-      "gi"
-    ),
-    "<strong>$1</strong>"
-  );
-}

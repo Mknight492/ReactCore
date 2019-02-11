@@ -37,5 +37,8 @@ module.exports = {
   roots: ["<rootDir>/source"],
   moduleDirectories: ["node_modules", "source/"],
   automock: false,
-  transformIgnorePatterns: ["/!node_modules\\/lodash-es/"]
+  transformIgnorePatterns: [
+    "/!node_modules\\/lodash-es/",
+    "<rootDir>/node_modules/.*"
+  ]
 };

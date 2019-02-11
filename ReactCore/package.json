@@ -91,8 +91,10 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@babel/plugin-proposal-decorators": "^7.2.3",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-stage-0": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.10",

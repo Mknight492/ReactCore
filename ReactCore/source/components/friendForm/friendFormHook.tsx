@@ -135,9 +135,10 @@ const FriendFormComponent: React.SFC<Props> = ({
 
   function validateFormAndUpdateState(id?: string): boolean {
     //run the form through validation
+    //if passed an id then make that element as touched
+    //(i.e comming from an input field handler)
     if (id) {
       ownerForm[id].touched = true;
-      console.log(ownerForm[id]);
     }
 
     let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(

@@ -39,10 +39,10 @@ const postCSSLoader = {
 
 module.exports = () => ({
   optimization: {
-    minimize: true
-    // splitChunks: {
-    //   chunks: "all"
-    // }
+    minimize: true,
+    splitChunks: {
+      chunks: "all"
+    }
   },
   devtool: "none",
   watch: false,

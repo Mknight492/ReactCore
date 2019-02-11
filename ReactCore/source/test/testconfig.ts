@@ -1,6 +1,7 @@
 import * as Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { GlobalWithFetchMock } from "jest-fetch-mock";
+import { any } from "prop-types";
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -13,6 +14,7 @@ export interface myGlobal extends GlobalWithFetchMock {
         CIRCLE: any;
       };
       LatLng: (a) => void;
+      OverlayView: (a) => void;
     };
   };
 }
@@ -68,6 +70,12 @@ var localStorageMock = (function() {
     LatLng: function(a) {
       //@ts-ignore
       this.a = a;
+    },
+    OverlayView: function(a) {
+      //@ts-ignore
+      this.a = a;
+      //@ts-ignore
+      this.setMap = () => {};
     }
   }
 };

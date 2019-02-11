@@ -32,7 +32,8 @@
     "strictNullChecks": true,
     "strict": true,
     "allowJs": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "experimentalDecorators": true
   },
   "exclude": ["bin", "node_modules", "wwwroot", "build"],
   "include": [

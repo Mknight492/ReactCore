@@ -1,8 +1,15 @@
-export default function createHTMLMapMarker({
+import { inherits } from "util";
+
+export default createHTMLMapMarker;
+
+function createHTMLMapMarker({
   OverlayView = google.maps.OverlayView,
   ...args
 }) {
   class HTMLMapMarker extends google.maps.OverlayView {
+    latlng: any;
+    html: any;
+    div: any;
     constructor() {
       super();
       this.latlng = args.latlng;

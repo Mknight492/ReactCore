@@ -9,6 +9,7 @@ import { Router } from "@reach/router";
 
 //import pages
 import Navigation from "components/navigation/navigation";
+import IndexPage from "components/pages/index/indexPage";
 
 import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
@@ -30,12 +31,6 @@ const WeatherPageLoadable: any = MyLoadable({
 });
 WeatherPageLoadable.preload();
 
-const IndexPageLoadable: any = MyLoadable({
-  loader: () => import("components/pages/index/indexPage"),
-  modules: ["components/pages/index/indexPage"],
-  webpack: () => [require.resolveWeak("components/pages/index/indexPage")]
-});
-
 const wrappedComponent: any = (Component: any) => {
   return () => (
     <div className={styles.wrapper}>
@@ -52,7 +47,7 @@ const App = () => {
       <Navigation />
 
       <Router>
-        <IndexPageLoadable path="/" />
+        <IndexPage path="/" />
         <WWeatherPageLoadable path="/weather" />
         <ServerErrorPage path="/500" />
         <NotFound path="*" />

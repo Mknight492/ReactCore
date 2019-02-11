@@ -8,7 +8,22 @@ module.exports = {
     "@babel/typescript",
     ["@babel/env", { modules: isTest ? "commonjs" : false }]
   ],
-  plugins: ["react-hot-loader/babel", "@babel/plugin-syntax-dynamic-import"],
+  plugins: [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        legacy: true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        loose: false
+      }
+    ],
+    "react-hot-loader/babel",
+    "@babel/plugin-syntax-dynamic-import"
+  ],
   ignore: [/[\/\\]core-js/, /@babel[\/\\]runtime/, "node_modules"],
   env: {
     test: {

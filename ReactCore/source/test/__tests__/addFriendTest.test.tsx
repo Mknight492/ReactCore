@@ -1,7 +1,13 @@
 import * as React from "react";
 
 //testing
-import { render, fireEvent, wait, cleanup } from "react-testing-library";
+import {
+  render,
+  fireEvent,
+  wait,
+  cleanup,
+  waitForElement
+} from "react-testing-library";
 
 //components
 import { Root, SagaTestRoot, SagaRootKit } from "redux/store/configure-store";
@@ -91,10 +97,10 @@ it("can add a new Friend", async () => {
 
   locationInput2.focus();
 
-  await flushPromises();
+  let WellsTA = await waitForElement(() => getByText(/Wells/i), { container });
 
   //selectthe element that has the corresponding drop down bar.
-  fireEvent.click(getByText(/Wells/i));
+  fireEvent.click(WellsTA);
   await flushPromises();
   expect(nameInput.value).toBe("mike");
   expect(moxios.requests.count()).toBe(7);

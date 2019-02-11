@@ -72,11 +72,11 @@ const MapComponent: React.FunctionComponent<IProps> = ({
         center.lng
       );
 
-      // const marker2 = createHTMLMapMarker({
-      //   latlng: latlng,
-      //   map: map,
-      //   html: weatherSelecter(weather)
-      // });
+      const marker2 = createHTMLMapMarker({
+        latlng: latlng,
+        map: map,
+        html: weatherSelecter(weather)
+      });
     }
   }
   return weather !== undefined ? (

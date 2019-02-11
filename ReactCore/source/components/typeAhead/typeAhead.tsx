@@ -127,7 +127,7 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
       setshowSuggestions(true);
     }
 
-    if (formRow.value.length <= 1) {
+    if (formRow.value.length < 1) {
       setshowSuggestions(false);
     }
   };
@@ -199,12 +199,6 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
 
   let TypeAheadComponent;
 
-  console.log(
-    !noTAresultsFound &&
-      !formRow.valid &&
-      (!showSuggestions || suggestions.length == 0) &&
-      formRow.touched
-  );
   if (
     !noTAresultsFound &&
     !formRow.valid &&

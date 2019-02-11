@@ -129,7 +129,6 @@ it("won't attempt to add a friend unless the correct values are filled", async (
   let addButton = utils.getByText(/add/i);
   fireEvent.click(addButton);
   await flushPromises();
-  console.log(moxios.requests.mostRecent().url);
 
   //expect the add friend request not to be sent
 

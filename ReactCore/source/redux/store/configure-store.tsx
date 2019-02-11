@@ -39,20 +39,15 @@ const configureStore = () => {
     (envCompose as any)(...storeEnhancers)
   );
   SagaManager.startSagas(sagaMiddleware);
-  console.log("store created");
   if (module.hot) {
-    console.log("attempting HMR");
     // Enable Webpack hot module replacement for reducers
     module.hot.accept("../reducers", () => {
-      console.log("here");
       const nextRootReducer = require("../reducers").default();
       store.replaceReducer(nextRootReducer);
-      console.log("reducer complete");
     });
     module.hot.accept("../sagas/sagaManager", () => {
       SagaManager.cancelSagas(store);
       require("../sagas/sagaManager").default.startSagas(sagaMiddleware);
-      console.log("saga HMR complete");
     });
   }
   return store;
@@ -107,16 +102,6 @@ function configureTestStore(initialState) {
     initialState,
     compose(...storeEnhancers)
   );
-  console.log("store created");
-  if (module.hot) {
-    console.log("attempting HMR");
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept("../reducers", () => {
-      const nextRootReducer = require("../reducers").default();
-      store.replaceReducer(nextRootReducer);
-      console.log("HMR complete");
-    });
-  }
   return store;
 }
 

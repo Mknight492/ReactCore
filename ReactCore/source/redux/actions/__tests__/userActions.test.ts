@@ -1,13 +1,11 @@
-import { userConstants } from "../constants/index";
-import { userService } from "../services/index";
-import { alertActions } from "./index";
+import { userConstants } from "../../constants/index";
+import { userService } from "../../services/index";
+import { alertActions } from "../index";
 //import { history } from "../../helpers/index";
 import { ApplicationUserDto } from "models";
-import { userActions } from "./index";
+import { userActions } from "../index";
 
 import { ApplicationUserMock1 } from "test/mocks";
-
-console.log(process.env.NODE_ENV);
 
 describe("getUserRequest", () => {
   it("has the right type", () => {

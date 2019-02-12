@@ -1,11 +1,52 @@
 .background {
-  width: 100vw;
-  max-height: 100vh;
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: #f6f6f6;
+
+  * {
+    // position: absolute;
+    // top: 0;
+    // left: 0%;
+    // right: 0;
+    // bottom: 0;
+    // margin: auto;
+    // min-width: 50%;
+    // min-height: 50%;
+    // background-image: url();
+  }
+}
+
+.placeholder {
+  background-color: #f6f6f6;
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  // position: relative;
+  // overflow: hidden;
+}
+
+.background img {
+  opacity: 0;
+
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0.9;
-  background-color: white;
-  overflow: hidden;
-  background-position: 33% 30%;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+  transition: opacity 5s linear;
+}
+.placeholder img.loaded {
+  opacity: 1 !important;
+}
+
+.imgSmall {
+  filter: blur(50px);
+  /* this is needed so Safari keeps sharp edges */
+  opacity: 0 !important;
+  // transform: scale(1);
 }

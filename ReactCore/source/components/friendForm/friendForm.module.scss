@@ -30,14 +30,29 @@
 .locationBlock {
   display: block;
   width: 100%;
+  position: relative;
+  @include atMedium {
+    text-align: left;
+  }
+}
+
+.infrontOfLocationBlock {
+  display: inline;
+
+  position: static;
+  @include atMedium {
+    position: relative;
+  }
 }
 
 .locationLabel {
   margin: 0;
-  padding: 5px 0;
+  padding: 5px 2rem 5px 0;
   font-size: $friendLocationFont;
-  padding-right: 2rem;
-  @include atSmall {
+  display: inline-block;
+  margin: 0 auto;
+  @include atMedium {
+    //margin-left: 0;
   }
 }
 
@@ -50,21 +65,45 @@
   border-bottom: 2.5px dashed $color-primary-3;
   background-color: $friendBGColor;
   background-color: $transparent; /*opacity 0 i.e. inherit BG color*/
-  text-align: center;
+  text-align: left;
+  z-index: 1;
+  position: absolute;
+  /*positioning*/
+  left: 0;
+  top: 2.4rem;
+  width: 100%;
+  @include atMedium {
+    /* display to the right of the location bar */
+    left: 0;
+    top: inherit;
+    margin: 0;
+    padding: 5px 0;
+    width: 26rem;
+  }
+}
+
+.greySuggestion {
+  @extend .LocationInput;
+  color: grey;
+  text-decoration: none;
+  position: absolute;
+  background: none;
 }
 
 .LocationInputContainer {
-  display: inline-block;
-  position: relative;
-  width: 100%;
+  display: block;
+  position: static;
+  margin: 0 auto;
+  margin-top: 2.5rem;
   @include atMedium {
-    width: 70%;
-    margin-right: -15%;
+    width: 80%;
+    margin-top: 0;
   }
 }
 
 .errorMessage {
   display: block;
+  text-align: center;
   font-size: $friendErrorMessageFont;
   color: red !important;
 }

@@ -1,0 +1,40 @@
+.background {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+  }
+}
+
+.background img.loaded {
+  animation: 0.3s linear fadein;
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.img-small {
+  filter: blur(50px);
+  /* this is needed so Safari keeps sharp edges */
+  transform: scale(1);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    filter: blur(50px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}

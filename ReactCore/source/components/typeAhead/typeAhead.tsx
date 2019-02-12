@@ -13,6 +13,7 @@ import { Locations, formRow } from "models";
 import { HookHelpers } from "customHooks";
 import { HF, locationHelpers } from "helpers";
 import useOnClickOutside from "use-onclickoutside";
+import { relative } from "path";
 
 interface OwnProps {
   name: string;
@@ -226,26 +227,59 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     TypeAheadComponent = <em className={styles.errorMessage}> &nbsp; </em>;
   }
 
+  let taInlineSuggestion;
+  if (
+    !noTAresultsFound &&
+    !formRow.valid &&
+    showSuggestions &&
+    suggestions.length > 0 &&
+    formRow.touched
+  ) {
+    let regexp = formRow.value;
+    const re = new RegExp(`^${regexp}`, "i");
+
+    let matchingSuggestion = filteredSuggestions.find(location => {
+      return HF.formatLocation(location).match(re) ? true : false;
+    });
+
+    for (let i = 0; i < filteredSuggestions.length; i++) {
+      const currentSuggestion = HF.formatLocation(filteredSuggestions[i]);
+      if (currentSuggestion.match(re)) {
+        console.log(currentSuggestion.split(re));
+        console.log(currentSuggestion.match(re));
+      }
+    }
+  }
+
   return (
     <>
-      <input
-        id={name}
-        name={name}
-        type="text"
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        value={formRow.value}
-        className={styles.LocationInput}
-        onFocus={() => {
-          setshowSuggestions(true);
-        }}
-        onBlur={() => {
-          onBlur("Location");
-        }}
-        //cannot use on blur as the dropdown is outside the list...
-        list="suggestions"
-        role="comboBox"
-      />
+      <div className={styles.infrontOfLocationBlock}>
+        <input
+          className={styles.greySuggestion}
+          value={""}
+          readOnly
+          autoComplete="off"
+        />
+        <input
+          id={name}
+          name={name}
+          type="text"
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={formRow.value}
+          className={styles.LocationInput}
+          onFocus={() => {
+            setshowSuggestions(true);
+          }}
+          onBlur={() => {
+            onBlur("Location");
+          }}
+          //cannot use on blur as the dropdown is outside the list...
+          list="suggestions"
+          role="comboBox"
+          defaultValue="hi"
+        />
+      </div>
       <div className={styles.LocationInputContainer}>
         {/* display the list of results if there is at least 1 to display */}
         {(filteredSuggestions.length > 0 || loadingTA) &&

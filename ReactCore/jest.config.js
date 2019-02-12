@@ -27,7 +27,6 @@ module.exports = {
     "<rootDir>/source/test/testconfig.ts"
     //"<rootDir>/source/test/setupJest.ts"
   ],
-  // setupTestFrameworkScriptFile: "<rootDir>/source/test/testconfig.ts",
   globals: {
     NODE_PATH: "source/",
     "ts-jest": {

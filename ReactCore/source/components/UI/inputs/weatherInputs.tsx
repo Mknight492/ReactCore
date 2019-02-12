@@ -73,13 +73,10 @@ const FormRow: React.FunctionComponent<IProps> = ({
     case "typeAhead":
       inputField = (
         <div className={styles.locationBlock}>
-          <label
-            style={{ textAlign: "left" }}
-            className={styles.locationLabel}
-            htmlFor={formRow.id}
-          >
+          <label className={styles.locationLabel} htmlFor={formRow.id}>
             Location:
           </label>
+
           <TypeAhead
             name={"Location"}
             onSelect={selectHandler}

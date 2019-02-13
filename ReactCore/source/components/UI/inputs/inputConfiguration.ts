@@ -17,7 +17,7 @@ export const returnInitalFormState = (config: string[] = []): formState => ({
     element: "typeAhead",
     type: "text",
     value: config[1] || "",
-    validation: { required: true, minLength: 5, maxLength: 60, location: true },
+    validation: { required: true, minLength: 3, maxLength: 60, location: true },
     valid: false,
     touched: config[1] ? true : false, //treat values as touched if they have had a value
     errorMessage: "",

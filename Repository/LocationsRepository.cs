@@ -20,12 +20,28 @@ namespace Repository
         }
         public IEnumerable<Locations> GetLocationsBySearchTerm(string searchTerm, int LocationsToReturn = 10)
         {
-            return _db.Locations
+            var LocationsStartingWithTerm = _db.Locations
                       .AsNoTracking()
                       .Where(L => L.Name.ToLower()
-                      .Contains(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                      .StartsWith(searchTerm.ToLower()))
                       .Take(LocationsToReturn)
                       .ToList();
+
+            LocationsStartingWithTerm = LocationsStartingWithTerm.Where(L => HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude)).ToList();
+
+
+            if (LocationsStartingWithTerm.Any())
+            {
+                return LocationsStartingWithTerm;
+            }
+
+            return  _db.Locations
+                        .AsNoTracking()
+                        .Where(L => L.Name.ToLower()
+                        .StartsWith(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+                        .Take(LocationsToReturn)
+                        .ToList();
+
         }
 
 

@@ -86,7 +86,9 @@ function checkValidity(value, validation, LocationArray: Locations[]) {
 
     if (validationObject.isValid && validation.minLength) {
       validationObject.isValid = value.length >= validation.minLength;
-      validationObject.errorMessage = "Length must exceed 5 charachters";
+      validationObject.errorMessage = `Length must exceed ${
+        validation.minLength
+      } characters`;
     }
 
     if (validationObject.isValid && validation.maxLength) {

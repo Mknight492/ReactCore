@@ -14,6 +14,8 @@ import { HookHelpers } from "customHooks";
 import { HF, locationHelpers } from "helpers";
 import useOnClickOutside from "use-onclickoutside";
 import { relative } from "path";
+import { debug } from "util";
+import { identity } from "lodash-es";
 
 interface OwnProps {
   name: string;
@@ -50,6 +52,13 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   formRef,
   setFormState
 }) => {
+  //initialise variable
+  let TypeAheadComponent;
+  let suggestionsListComponent;
+
+  const [match, setMatch] = React.useState(false);
+  const [taInlineSuggestion, setTaInlineSuggestion] = React.useState("");
+
   // Event fired when the input value is changed
   const [activeSuggestion, setActiveSuggestion] = React.useState(0);
 
@@ -87,6 +96,17 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     setshowSuggestions(false);
   };
 
+  //Event fired when user click on the input field
+  const inputOnClick = () => {
+    if (
+      formRow.validation.minLength &&
+      formRow.value.length >= formRow.validation.minLength
+    ) {
+      showSuggestions ? null : setshowSuggestions(true);
+      determineTAInput("", true);
+    }
+  };
+
   // Event fired when the user presses a key down
   const onKeyDown = (e: React.KeyboardEvent) => {
     // User pressed the enter key, update the input and close the
@@ -108,14 +128,17 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     }
     // User pressed the down arrow, increment the index
     else if (e.keyCode === 40) {
-      if (activeSuggestion + 1 >= filteredSuggestions.length) {
+      if (activeSuggestion >= filteredSuggestions.length) {
         return;
       }
       setActiveSuggestion(activeSuggestion + 1);
     }
     //if backspace is pressed and the list is show in'st show erro message
     else if (e.keyCode === 8) {
-      if (formRow.value.length <= 3) {
+      if (
+        formRow.validation.minLength &&
+        formRow.value.length < formRow.validation.minLength
+      ) {
         setshowSuggestions(false);
         return;
       }
@@ -124,16 +147,23 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     else if (e.keyCode === 9) {
       setshowSuggestions(false);
       return;
+    }
+    //the the right arrow key is pressed
+    else if (e.keyCode === 39) {
+      if (showSuggestions && taInlineSuggestion && match) {
+      }
+      return;
     } else {
       setshowSuggestions(true);
-    }
 
-    if (formRow.value.length < 1) {
-      setshowSuggestions(false);
+      if (formRow.value.length < 1) {
+        setshowSuggestions(false);
+      }
+    }
+    if (e.keyCode !== 8) {
+      determineTAInput(e.key, true);
     }
   };
-  let suggestionsListComponent;
-
   if (showSuggestions) {
     suggestionsListComponent = (
       <ul className={styles.typeAheadlist} ref={ref}>
@@ -160,8 +190,10 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
+                console.log("here");
                 onClick(e);
                 onSelect(suggestion);
+                determineTAInput("", true);
               }}
               ref={formRef}
               onBlur={() => {}}
@@ -198,8 +230,6 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     );
   }
 
-  let TypeAheadComponent;
-
   if (
     !noTAresultsFound &&
     !formRow.valid &&
@@ -227,36 +257,59 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     TypeAheadComponent = <em className={styles.errorMessage}> &nbsp; </em>;
   }
 
-  let taInlineSuggestion;
-  if (
-    !noTAresultsFound &&
-    !formRow.valid &&
-    showSuggestions &&
-    suggestions.length > 0 &&
-    formRow.touched
-  ) {
-    let regexp = formRow.value;
-    const re = new RegExp(`^${regexp}`, "i");
+  function determineTAInput(currentKey = "", force = false) {
+    if (
+      (!noTAresultsFound &&
+        !formRow.valid &&
+        showSuggestions &&
+        suggestions.length > 0 &&
+        formRow.touched) ||
+      force
+    ) {
+      console.log("here ");
+      const currentValue = formRow.value + currentKey;
+      const re = new RegExp(`^${escapeRegExp(currentValue)}`, "i");
 
-    let matchingSuggestion = filteredSuggestions.find(location => {
-      return HF.formatLocation(location).match(re) ? true : false;
-    });
-
-    for (let i = 0; i < filteredSuggestions.length; i++) {
-      const currentSuggestion = HF.formatLocation(filteredSuggestions[i]);
-      if (currentSuggestion.match(re)) {
-        console.log(currentSuggestion.split(re));
-        console.log(currentSuggestion.match(re));
+      let matchCount = 0;
+      debugger;
+      console.log("here");
+      //go through each of the filtered suggestions
+      //this is doen using a for loop so you can use "break;""
+      for (let i = 0; i < filteredSuggestions.length; i++) {
+        //format the location of the current index
+        const currentSuggestion = HF.formatLocation(filteredSuggestions[i]);
+        //determine if the start of the formated location matches the input value
+        if (currentSuggestion.match(re)) {
+          matchCount++;
+          //let the new suggestion = the current value + the remained of the current suggestion
+          const newSuggestion = currentValue + currentSuggestion.split(re)[1];
+          //it must be the first match otherwise the state can infintely cycle
+          //between two different matches
+          if (newSuggestion != taInlineSuggestion && matchCount === 1) {
+            //console.log(newSuggestion, taInlineSuggestion, i);
+            setTaInlineSuggestion(newSuggestion);
+            if (!match) {
+              setMatch(true);
+            }
+            break;
+          }
+        }
+        //if there are no matches and match is currently set to true- set to false
+        if (matchCount === 0 && match) setMatch(false);
+        if (matchCount !== 0 && !match) setMatch(true);
       }
     }
   }
 
+  // taInlineSuggestion = match ? taInlineSuggestion : "";
+
+  determineTAInput();
   return (
     <>
       <div className={styles.infrontOfLocationBlock}>
         <input
           className={styles.greySuggestion}
-          value={""}
+          value={match && showSuggestions ? taInlineSuggestion : ""}
           readOnly
           autoComplete="off"
         />
@@ -268,16 +321,14 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           onKeyDown={onKeyDown}
           value={formRow.value}
           className={styles.LocationInput}
-          onFocus={() => {
-            setshowSuggestions(true);
-          }}
+          onFocus={inputOnClick}
           onBlur={() => {
             onBlur("Location");
           }}
+          onClick={inputOnClick}
           //cannot use on blur as the dropdown is outside the list...
           list="suggestions"
           role="comboBox"
-          defaultValue="hi"
         />
       </div>
       <div className={styles.LocationInputContainer}>
@@ -313,3 +364,7 @@ const connectedTypeAheadComponent = connect<
 )(TypeAheadComponent);
 
 export default connectedTypeAheadComponent;
+
+function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}

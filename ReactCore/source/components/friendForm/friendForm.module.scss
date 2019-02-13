@@ -17,7 +17,7 @@
 
 .inputField {
   @extend .inputLabel;
-  color: inherit;
+  color: inherit !important;
   outline: none;
   appearance: none;
   border: 0px;
@@ -68,6 +68,7 @@
   text-align: left;
   z-index: 1;
   position: absolute;
+
   /*positioning*/
   left: 0;
   top: 2.4rem;
@@ -94,7 +95,7 @@
   display: block;
   position: static;
   margin: 0 auto;
-  margin-top: 2.5rem;
+  margin-top: 1.7rem;
   @include atMedium {
     width: 80%;
     margin-top: 0;
@@ -157,10 +158,6 @@
   &list {
     /*typeahead dropdown component NB has significant inline styles... */
     /* therefore !important used */
-    width: 100%;
-    position: absolute;
-    //right: -10%;
-    //left: auto;
 
     text-align: left;
     list-style: none;
@@ -170,6 +167,15 @@
     z-index: 1;
     border: 2px solid $color-primary-3;
     border-radius: 1rem;
+
+    width: 100%;
+    position: absolute;
+
+    @include atMedium {
+      width: 80%;
+
+      left: 20%;
+    }
 
     &Item {
       /*typeahead label */

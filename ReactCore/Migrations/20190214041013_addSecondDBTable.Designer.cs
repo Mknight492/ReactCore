@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ReactCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190214041013_addSecondDBTable")]
+    partial class addSecondDBTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,60 +137,13 @@ namespace ReactCore.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long?>("Population");
-
-                    b.Property<string>("Timezone");
-
-                    b.HasKey("Geonameid");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("Entities.Models.Locations2", b =>
-                {
-                    b.Property<int>("Geonameid")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Admin1Code");
-
-                    b.Property<string>("Admin2Code");
-
-                    b.Property<string>("Admin3Code");
-
-                    b.Property<string>("Admin4Code");
-
-                    b.Property<string>("Alternatenames");
-
-                    b.Property<string>("Asciiname");
-
-                    b.Property<string>("Cc2");
-
-                    b.Property<string>("CountryCode");
-
-                    b.Property<int?>("Dem");
-
-                    b.Property<int?>("Elevation");
-
-                    b.Property<string>("FeatureClass");
-
-                    b.Property<string>("FeatureCode");
-
-                    b.Property<double>("Latitude");
-
-                    b.Property<double>("Longitude");
-
-                    b.Property<DateTime?>("ModificationDate");
-
-                    b.Property<string>("Name");
-
                     b.Property<int?>("Population");
 
                     b.Property<string>("Timezone");
 
                     b.HasKey("Geonameid");
 
-                    b.ToTable("Locations2");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

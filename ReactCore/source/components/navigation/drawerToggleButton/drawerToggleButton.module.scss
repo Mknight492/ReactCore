@@ -1,0 +1,32 @@
+@import "scssImports/variables.scss";
+
+$buttonWidth: 3rem;
+
+.toggleButton {
+  display: flex;
+  /* display items below one another */
+  flex-direction: column;
+  justify-content: space-around;
+  height: 2.4rem;
+  width: $buttonWidth;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  /*don't display on large screens*/
+  @include atMedium {
+    display: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &Line {
+    /* should be the same as the toggle button width */
+    width: $buttonWidth;
+    height: 3px;
+    background: white;
+    border-radius: 10%;
+  }
+}

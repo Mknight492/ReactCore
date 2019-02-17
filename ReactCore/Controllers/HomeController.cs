@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Entities.Models.AccountViewModels;
 using Entities.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace ReactCore.Controllers
 {
@@ -15,17 +18,32 @@ namespace ReactCore.Controllers
     {
         public IConfiguration Configuration { get; }
         public string connectionString { get; private set; }
+        private readonly UserManager<ApplicationUser> _userManager;
+        private IMapper _mapper;
 
-        public HomeController(IConfiguration configuration)
+        public HomeController(IConfiguration configuration, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             // LogManager.LoadConfiguration( "../../../nlog.config");
             Configuration = configuration;
             connectionString = Configuration.GetConnectionString("DefaultConnection");
+            _mapper = mapper;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var userDto = _mapper.Map<ApplicationUserDto>(user);
+                var JsonObj = new JsonClass
+                {
+                    Json = JsonConvert.SerializeObject(userDto)
+                };
+  
+                return View(userDto);
+            }
+            return View(new ApplicationUserDto());
         }
 
         public IActionResult Net()

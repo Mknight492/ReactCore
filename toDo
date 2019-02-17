@@ -1,0 +1,41 @@
+Front End
+
+Features
+
+make a mobile friendly nav bar
+have a series of models the first time someone logs in 
+ =>so that they can be guided through the process
+add icons to the location TA dropdown
+add date-time to the friends components and dynamic styling based on this
+refactor TA and form logic into redux for unified state inc error messages
+improve TA boliding formula
+style the index page
+refactor all authentication to pages ro react/redux making
+then add authenticate routes which redirect which will be easier afteer making it handled by react/redux
+add aria-labeling to the typeahead components
+
+
+styling
+
+improve styling of friend forms
+ * make friend form grids
+ * improve color scheme
+ * add comments to the scss
+
+
+improve performance:
+
+- add more codesplitting and remove bundled export from index pages
+- 
+
+testing:
+
+- specify coverage more acurately
+- test the typeahead more - wait until refactored into redux
+
+Back End
+
+all locations from around the world
+testing
+refactor source into in own folder
+server side rendering

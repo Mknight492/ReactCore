@@ -1,28 +1,38 @@
 ﻿@using Microsoft.AspNetCore.Antiforgery;
 <!-- - -->
+@using Newtonsoft.Json;
+<!-- - -->
 @Html.AntiForgeryToken()
 <!-- - -->
 @inject IAntiforgery Antiforgery
 <!-- - -->
 @{ Layout=null; }
 <!-- --- -->
+@model Entities.Models.ApplicationUserDto
+<!-- --- -->
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="Weather, Friends, Location" />
-    <meta
-      name="description"
-      content="Keep tabs on the weather wherever your friends are"
-    />
+    <meta name="description"
+          content="Keep tabs on the weather wherever your friends are" />
+    <link type="text/css"
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans" />
     <title>Weather Wherever</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="app"></div>
-    <script
-      async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSOw1Yu3D1WzfLZItDcBP0KPpPlx23l_k"
-    ></script>
-  </body>
+    <script type="text/javascript">
+        let user = @Html.Raw(JsonConvert.SerializeObject(Model))
+        user =JSON.stringify(user)
+        sessionStorage.setItem('user', user)
+    </script>
+    <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSOw1Yu3D1WzfLZItDcBP0KPpPlx23l_k"></script>
+</body>
 </html>

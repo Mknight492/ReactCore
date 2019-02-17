@@ -20,27 +20,27 @@ namespace Repository
         }
         public IEnumerable<Locations> GetLocationsBySearchTerm(string searchTerm, int LocationsToReturn = 10)
         {
-            var LocationsStartingWithTerm = _db.Locations
+            return  _db.Locations
                       .AsNoTracking()
                       .Where(L => L.Name.ToLower()
                       .StartsWith(searchTerm.ToLower()))
-                      .Take(LocationsToReturn)
+                      .Take(10)
                       .ToList();
 
-            LocationsStartingWithTerm = LocationsStartingWithTerm.Where(L => HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude)).ToList();
+            //LocationsStartingWithTerm = LocationsStartingWithTerm.Where(L => HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude)).ToList();
 
+           
+            //if (LocationsStartingWithTerm.Any())
+            //{
+            //    return LocationsStartingWithTerm;
+            //}
 
-            if (LocationsStartingWithTerm.Any())
-            {
-                return LocationsStartingWithTerm;
-            }
-
-            return  _db.Locations
-                        .AsNoTracking()
-                        .Where(L => L.Name.ToLower()
-                        .StartsWith(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
-                        .Take(LocationsToReturn)
-                        .ToList();
+            //return  _db.Locations
+            //            .AsNoTracking()
+            //            .Where(L => L.Name.ToLower()
+            //            .StartsWith(searchTerm.ToLower()) && HasTwoDecimalPlace(L.Latitude) && HasTwoDecimalPlace(L.Longitude))
+            //            .Take(LocationsToReturn)
+            //            .ToList();
 
         }
 

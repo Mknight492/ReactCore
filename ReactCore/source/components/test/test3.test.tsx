@@ -4,7 +4,7 @@ import {
   render,
   fireEvent,
   cleanup,
-  flushEffects
+
 } from "react-testing-library";
 import { create } from "react-test-renderer";
 import { Test3 } from "./test3";
@@ -19,11 +19,6 @@ let component;
 beforeEach(() => {
   component = mount(<Test3 />);
 
-  window.fetch = jest.fn(async () => {
-    return {
-      ok: true
-    };
-  });
 });
 
 afterEach(() => {

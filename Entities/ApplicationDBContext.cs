@@ -17,6 +17,7 @@ namespace Entities
 
         public DbSet<Friend> Friends { get; set; }
         public DbSet<Locations> Locations { get; set; }
+        public DbSet<Locations2> Locations2 { get; set; }
 
         // Specify DbSet properties etc
         protected override void OnModelCreating(ModelBuilder modelBuilder)

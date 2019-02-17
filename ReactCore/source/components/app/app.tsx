@@ -7,9 +7,13 @@ import { Router } from "@reach/router";
 //import { PrivateRoute } from "../privateRoute/privateRoute";
 //import { Private } from "../privateRoute/private";
 
+//import components
+import Backdrop from "components/backdrop/backdrop";
+
 //import pages
 import Navigation from "components/navigation/navigation";
 import IndexPage from "components/pages/index/indexPage";
+import WeatherPage from "components/pages/weather/weather-page";
 
 import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
@@ -22,14 +26,12 @@ import "./FA";
 //import loadable
 import MyLoadable from "higherOrderComponents/MyLoadable";
 
-import WeatherPage from "../pages/weather/weather-page";
-
 const WeatherPageLoadable: any = MyLoadable({
-  loader: () => import("../pages/weather/weather-page"),
-  modules: ["../pages/weather/weather-page"],
-  webpack: () => [require.resolveWeak("../pages/weather/weather-page")]
+  loader: () => import("components/pages/weather/weather-page"),
+  modules: ["components/pages/weather/weather-page"],
+  webpack: () => [require.resolveWeak("components/pages/weather/weather-page")]
 });
-WeatherPageLoadable.preload();
+//WeatherPageLoadable.preload();
 
 const wrappedComponent: any = (Component: any) => {
   return () => (
@@ -43,16 +45,15 @@ const WWeatherPageLoadable = wrappedComponent(WeatherPageLoadable);
 
 const App = () => {
   return (
-    <>
+    <div style={{ height: "100%" }}>
       <Navigation />
-
       <Router>
         <IndexPage path="/" />
         <WWeatherPageLoadable path="/weather" />
         <ServerErrorPage path="/500" />
         <NotFound path="*" />
       </Router>
-    </>
+    </div>
   );
 };
 

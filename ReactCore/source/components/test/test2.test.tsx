@@ -3,8 +3,7 @@ import { shallow, mount } from "enzyme";
 import {
   render,
   fireEvent,
-  cleanup,
-  flushEffects
+  cleanup
 } from "react-testing-library";
 import { create } from "react-test-renderer";
 import { Test2 } from "./test2";
@@ -19,11 +18,7 @@ let component;
 beforeEach(() => {
   component = mount(<Test2 />);
 
-  window.fetch = jest.fn(async () => {
-    return {
-      ok: true
-    };
-  });
+
 });
 
 afterEach(() => {

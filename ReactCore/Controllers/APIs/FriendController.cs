@@ -63,7 +63,11 @@ namespace ReactCore.Controllers.APIs
                 .Include(f=>f.Location)
                 .AsNoTracking()
                 .ToListAsync();
-            return new JsonResult(userFriends);
+            if (userFriends != null && userFriends.Any())
+            {
+                return new JsonResult(userFriends);
+            }
+            else return Ok();
         }
 
 

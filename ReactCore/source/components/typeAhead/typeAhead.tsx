@@ -15,14 +15,14 @@ import { HF, locationHelpers } from "helpers";
 import useOnClickOutside from "use-onclickoutside";
 import { relative } from "path";
 import { debug } from "util";
-import { identity } from "lodash-es";
+import { identity, escapeRegExp } from "lodash-es";
 
 interface OwnProps {
   name: string;
   suggestions: Locations[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: ((id: string) => void);
-  onFocus: ((e: React.ChangeEvent<HTMLInputElement>, value: string) => void);
+  onBlur: (id: string) => void;
+  onFocus: (e: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onSelect: (value: Locations) => void;
   formRow: formRow;
   errorMessage: string | "";
@@ -56,8 +56,21 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   let TypeAheadComponent;
   let suggestionsListComponent;
 
+  type StringLocationsTuple = [[string, Locations | undefined], any];
+
   const [match, setMatch] = React.useState(false);
-  const [taInlineSuggestion, setTaInlineSuggestion] = React.useState("");
+  const [
+    taInlineSuggestion,
+    setTaInlineSuggestion
+  ]: StringLocationsTuple = React.useState([
+    "" as string,
+    undefined as Locations | undefined
+  ] as [string, Locations | undefined]);
+
+  //reCheck the typeAhead when new Locations are added
+  React.useEffect(() => {
+    determineTAInput("", true);
+  }, [suggestions]);
 
   // Event fired when the input value is changed
   const [activeSuggestion, setActiveSuggestion] = React.useState(0);
@@ -150,7 +163,13 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
     }
     //the the right arrow key is pressed
     else if (e.keyCode === 39) {
-      if (showSuggestions && taInlineSuggestion && match) {
+      if (
+        showSuggestions &&
+        taInlineSuggestion &&
+        match &&
+        taInlineSuggestion[1]
+      ) {
+        onSelect(taInlineSuggestion[1]);
       }
       return;
     } else {
@@ -159,9 +178,6 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
       if (formRow.value.length < 1) {
         setshowSuggestions(false);
       }
-    }
-    if (e.keyCode !== 8) {
-      determineTAInput(e.key, true);
     }
   };
   if (showSuggestions) {
@@ -266,13 +282,9 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
         formRow.touched) ||
       force
     ) {
-      console.log("here ");
       const currentValue = formRow.value + currentKey;
       const re = new RegExp(`^${escapeRegExp(currentValue)}`, "i");
-
       let matchCount = 0;
-      debugger;
-      console.log("here");
       //go through each of the filtered suggestions
       //this is doen using a for loop so you can use "break;""
       for (let i = 0; i < filteredSuggestions.length; i++) {
@@ -285,9 +297,9 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           const newSuggestion = currentValue + currentSuggestion.split(re)[1];
           //it must be the first match otherwise the state can infintely cycle
           //between two different matches
-          if (newSuggestion != taInlineSuggestion && matchCount === 1) {
-            //console.log(newSuggestion, taInlineSuggestion, i);
-            setTaInlineSuggestion(newSuggestion);
+          if (newSuggestion != taInlineSuggestion[0] && matchCount === 1) {
+            console.log(newSuggestion, taInlineSuggestion, i, currentValue, re);
+            setTaInlineSuggestion([newSuggestion, filteredSuggestions[i]]);
             if (!match) {
               setMatch(true);
             }
@@ -303,13 +315,14 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
 
   // taInlineSuggestion = match ? taInlineSuggestion : "";
 
-  determineTAInput();
+  //determineTAInput("");
+
   return (
     <>
       <div className={styles.infrontOfLocationBlock}>
         <input
           className={styles.greySuggestion}
-          value={match && showSuggestions ? taInlineSuggestion : ""}
+          value={match && showSuggestions ? taInlineSuggestion[0] : ""}
           readOnly
           autoComplete="off"
         />
@@ -318,7 +331,13 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           name={name}
           type="text"
           onChange={onChange}
-          onKeyDown={onKeyDown}
+          onKeyDown={e => {
+            onKeyDown(e);
+
+            if (e.keyCode !== 8) {
+              determineTAInput(e.key, true);
+            }
+          }}
           value={formRow.value}
           className={styles.LocationInput}
           onFocus={inputOnClick}
@@ -365,6 +384,6 @@ const connectedTypeAheadComponent = connect<
 
 export default connectedTypeAheadComponent;
 
-function escapeRegExp(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
+// function escapeRegExp(text) {
+//   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+// }

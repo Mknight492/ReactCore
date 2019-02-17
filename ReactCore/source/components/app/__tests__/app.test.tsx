@@ -2,7 +2,7 @@ import * as React from "react";
 import { shallow, mount } from "enzyme";
 import { render, fireEvent } from "react-testing-library";
 import { create } from "react-test-renderer";
-import App from "./app";
+import App from "../app";
 import NavBar from "components/navigation/navigation";
 import IndexPage from "components/pages/index/indexPage";
 
@@ -11,11 +11,6 @@ let component;
 beforeEach(() => {
   component = shallow(<App />);
 
-  window.fetch = jest.fn(async () => {
-    return {
-      ok: true
-    };
-  });
 });
 
 afterEach(() => {

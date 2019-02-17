@@ -70,6 +70,11 @@ beforeEach(() => {
     status: 200,
     response: weatherMock1
   });
+
+  sessionStorage.setItem(
+    "user",
+    '{"Id":"b6b62585-3b8c-4b0c-a65e-1b0a17ec8fb8","FirstName":"Michael","LastName":"Knight","Email":"michaelknight492@gmail.com"}'
+  );
 });
 
 it("can add a new Friend", async () => {
@@ -91,8 +96,8 @@ it("can add a new Friend", async () => {
 
   //navigate to the weather page
   //must wait until user is logged in and detected
-  await wait(() => getByText(/weather/i));
-  fireEvent.click(getByText(/weather/i));
+  const weatherLink = await waitForElement(() => getByTestId("weatherLink"));
+  fireEvent.click(weatherLink);
   await flushPromises();
 
   //check that we are on the weather page

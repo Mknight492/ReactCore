@@ -9,8 +9,15 @@ import { userActions } from "redux/actions";
 
 import { loginRoute } from "security";
 
+//components
+import DrawerToggleButton from "./drawerToggleButton/drawerToggleButton";
+import Backdrop from "components/backdrop/backdrop";
+import SideDrawer from "components/navigation/sideDrawer/sideDrawer";
+import Links from "./links/links";
 //models
 import { ApplicationUserDto } from "models";
+
+//import loadable
 
 const { useEffect } = React;
 
@@ -24,22 +31,20 @@ interface StateProps {
 interface DispatchProps {
   getUser: Function;
 }
-interface State {}
 
-type Props = OwnProps & StateProps & DispatchProps & State;
+type Props = OwnProps & StateProps & DispatchProps;
 
 const NavigationComponent: React.FunctionComponent<Props> = ({
   user,
   LoggedIn,
   getUser
 }) => {
+  //get the user from backend authentication API - would only be
+  //needed in serverless/AWS lamda
   let loaded;
-  useEffect(
-    () => {
-      getUser();
-    },
-    [loaded]
-  );
+  useEffect(() => {
+    getUser();
+  }, [loaded]);
 
   const logOut = async () => {
     const { userService } = await getUserService();
@@ -50,27 +55,46 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
     // userService.logout();
   };
 
-  return user ? (
-    <div className={styles.container}>
-      <Link to={"/"}>Home</Link>
-      <Link to={"/weather"}> Weather</Link>
-      <Link
-        to={"/identityLogin"}
-        onClick={() => {
-          logOut();
-        }}
-      >
-        {" "}
-        Logout{" "}
-      </Link>
-      <a href="/Manage/index">{user.FirstName}</a>
-    </div>
-  ) : (
-    <div className={styles.container}>
-      <Link to={"/"}>Home</Link>
-      <a href={"/Account/register"}> Register </a>
-      <a href={"/Account/login"}> Login </a>
-    </div>
+  const [sideDrawerState, toggleSideDrawerState] = React.useState(false);
+
+  const drawerToggleClickHandler = () => {
+    toggleSideDrawerState(currentlyOpenOrShut => !currentlyOpenOrShut);
+  };
+
+  const backdropClickHandler = () => {
+    toggleSideDrawerState(false);
+  };
+
+  return (
+    <>
+      <header className={styles.navbar}>
+        <nav className={styles.navbarNavigation}>
+          <div>
+            <DrawerToggleButton clickHandler={drawerToggleClickHandler} />
+          </div>
+          <div className={styles.navbarLogo}>
+            <a>
+              Weather Wherever <i className={`sunCloud ${styles.icon}`} />
+            </a>
+          </div>
+          <div className={styles.spacer} />
+          <div className={styles.navbarNavigationItems}>
+            <Links />
+          </div>
+        </nav>
+      </header>
+
+      <div style={{ marginTop: "6rem" }} />
+      <SideDrawer
+        open={sideDrawerState}
+        closeDrawerClick={backdropClickHandler}
+      />
+      {sideDrawerState && (
+        <>
+          <Backdrop clickHandler={backdropClickHandler} />
+        </>
+      )}
+    </>
   );
 };
 

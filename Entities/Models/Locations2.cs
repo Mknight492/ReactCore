@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Entities.Models
 {
-    public partial class Locations
+    public partial class Locations2
     {
         [Key]
         public int Geonameid { get; set; }
@@ -21,7 +22,7 @@ namespace Entities.Models
         public string Admin2Code { get; set; }
         public string Admin3Code { get; set; }
         public string Admin4Code { get; set; }
-        public long? Population { get; set; }
+        public int? Population { get; set; }
         public int? Elevation { get; set; }
         public int? Dem { get; set; }
         public string Timezone { get; set; }

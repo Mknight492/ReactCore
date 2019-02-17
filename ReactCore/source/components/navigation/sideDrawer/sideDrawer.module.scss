@@ -1,0 +1,90 @@
+@import "scssImports/variables.scss";
+
+.sideDrawer {
+  height: 100%;
+  background: white;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  /*must be above all app items a side drawer */
+  z-index: $sideDrawerZIndex;
+  color: #000;
+  width: 70%;
+  max-width: 20rem;
+  transform: translateX(-100%);
+
+  @include atMedium {
+    display: none;
+  }
+
+  &.animated {
+    transition: transform 0.7s ease-in-out;
+  }
+  &.open {
+    transform: translateX(0%);
+  }
+  ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+  }
+  li {
+    padding: 1rem;
+    display: block;
+  }
+  a {
+    color: $color-primary-0;
+    text-decoration: none;
+    font-size: 2rem;
+    padding: 0 2rem;
+    &:hover {
+      color: orange;
+    }
+  }
+  a:hover,
+  a:hover {
+    color: orange;
+  }
+}
+
+$crossHeight: 40px;
+$negCrossHeight: -40px;
+.cross {
+  width: 40px;
+  height: $crossHeight;
+  background-color: inherit;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px 0 white;
+  /*allows the block to be position to the right */
+  /* -ve margin bottm pulls the next element up */
+  display: block;
+  margin: 1rem 1rem $negCrossHeight auto;
+
+  cursor: pointer;
+}
+
+.cross:before,
+.cross:after {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 4px;
+  background-color: $rgba-primary-0;
+  border-radius: 2px;
+  top: 16px;
+  box-shadow: 0 0 2px 0 #ccc;
+}
+
+.cross:before {
+  transform: rotate(45deg);
+  left: 2px;
+}
+.cross:after {
+  transform: rotate(-45deg);
+  right: 2px;
+}

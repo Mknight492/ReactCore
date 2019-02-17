@@ -32,11 +32,16 @@ beforeEach(() => {
     response: ApplicationUserMock1
   });
   component = mount(
-    <SagaTestRoot  initialState={{}}>
+    <SagaTestRoot initialState={{}}>
       <NavBar />
     </SagaTestRoot>
   );
   NavBarComponent = component.find(NavBar);
+
+  sessionStorage.setItem(
+    "user",
+    '{"Id":"b6b62585-3b8c-4b0c-a65e-1b0a17ec8fb8","FirstName":"Michael","LastName":"Knight","Email":"michaelknight492@gmail.com"}'
+  );
 });
 
 afterEach(() => {

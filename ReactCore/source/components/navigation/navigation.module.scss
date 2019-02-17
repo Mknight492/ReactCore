@@ -1,3 +1,5 @@
+@import "scssImports/variables.scss";
+
 .container {
   overflow: hidden;
   position: sticky;
@@ -5,7 +7,6 @@
   color: blue;
   width: 100vw;
   //margin-bottom: 20px;
-  background-color: grey;
   z-index: 5;
 
   a {
@@ -21,4 +22,70 @@
 
 .main {
   margin-top: 30px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.navbar {
+  /* make the nav bar at the top left and take 100% of width */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: $color-primary-0;
+  /*NB has a div with a margin top of 6rem just below the nav component
+   to keep content just below the navbar */
+  height: 5.6rem;
+  z-index: 5;
+
+  &Logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 2rem;
+    /* to make room for the burger icon */
+    padding-left: 1rem;
+    @include atMedium {
+      font-size: 2.4rem;
+    }
+  }
+  &Navigation {
+    max-width: 144rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+
+    &Items {
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        /*dont display on small screens */
+        display: none;
+        @include atMedium {
+          display: flex;
+        }
+      }
+      li {
+        padding: 0 1rem;
+      }
+      a {
+        color: white;
+        text-decoration: none;
+        font-size: 2rem;
+      }
+      a:hover,
+      a:hover {
+        color: orange;
+      }
+    }
+  }
+}
+
+.icon {
+  display: inline-block !important;
+  padding: 0 1rem;
 }

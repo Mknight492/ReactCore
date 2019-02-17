@@ -60,20 +60,27 @@ namespace ReactCore.Controllers.APIs
         {
             try
             {
-                var randomLocations = _repoWrapper.Locations.GetRandom(count);
+               // var randomLocations = _repoWrapper.Locations.GetRandom(count);
 
-                if(randomLocations.Count() == 0)
+                var randomLocation = _db.Locations.FromSql("SELECT TOP 1 * FROM Locations WHERE geonameid >= RAND(CHECKSUM(NEWID())) * (SELECT MAX(geonameid) FROM Locations)").ToList();
+                if(randomLocation != null)
                 {
-                    _logger.LogError("Error inside FriendController Delete action: Unable to find any Locations in the databas");
-                    return StatusCode(404, "Unable to find any Locations in the database");
+                    return Ok(randomLocation);
                 }
+                return StatusCode(404, "Unhandle exception in Location Controller");
 
-                return Ok(randomLocations);
+                //if (randomLocations.Count() == 0)
+                //{
+                //    _logger.LogError("Error inside FriendController Delete action: Unable to find any Locations in the databas");
+                //    return StatusCode(404, "Unable to find any Locations in the database");
+                //}
+
+                //return Ok(randomLocations);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error inside FriendController Delete action: unable to find friend with matching Id");
-                return StatusCode(404, "Unable to find any Locations in the database");
+                _logger.LogError("Error inside LocationController Random action: unable to findrandom locationd");
+                return StatusCode(404, "Unhandle exception in Location Controller");
             }
 
 

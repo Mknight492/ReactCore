@@ -1,3 +1,5 @@
+@import "scssImports/variables.scss";
+
 .background {
   position: fixed;
   top: -50%;
@@ -17,6 +19,27 @@
     // min-height: 50%;
     // background-image: url();
   }
+}
+
+.textBoxContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.heading {
+  color: white;
+
+  font-size: 2rem;
+  @include atMedium {
+    font-size: 3rem;
+  }
+}
+
+.button {
+  margin: 0 1rem;
 }
 
 .placeholder {

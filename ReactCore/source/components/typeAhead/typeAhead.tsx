@@ -16,6 +16,7 @@ import useOnClickOutside from "use-onclickoutside";
 import { relative } from "path";
 import { debug } from "util";
 import { identity, escapeRegExp } from "lodash-es";
+import { countryCodeToCountry } from "helpers/countryCode";
 
 interface OwnProps {
   name: string;
@@ -124,7 +125,7 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   const onKeyDown = (e: React.KeyboardEvent) => {
     // User pressed the enter key, update the input and close the
     // suggestions
-
+    determineTAInput("", true);
     if (e.keyCode === 13) {
       e.preventDefault();
       setActiveSuggestion(0);
@@ -180,9 +181,24 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
       }
     }
   };
+
   if (showSuggestions) {
     suggestionsListComponent = (
       <ul className={styles.typeAheadlist} ref={ref}>
+        {loadingTA && (
+          <li>
+            <div className={styles.typeAheadlistItemLoading} data-testid={""}>
+              <div className="lds-css ng-scope">
+                <div className="lds-bars">
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                </div>
+              </div>
+            </div>
+          </li>
+        )}
         {filteredSuggestions.map((suggestion, index) => {
           let className;
 
@@ -199,6 +215,10 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           let Match = Name.match(new RegExp(formRow.value, "gi"));
           let Filtered = Name.split(new RegExp(formRow.value, "gi"));
 
+          let country = countryCodeToCountry(suggestion.CountryCode);
+          console.log(countryCodeToCountry);
+          console.log(country);
+          console.log(String(suggestion.CountryCode));
           return (
             <li
               className={className}
@@ -221,27 +241,11 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
                 <span className={styles.matching}>{Match && Match[1]}</span>
                 {Filtered[2]}
 
-                <div className={styles.countryCode}>
-                  {suggestion.CountryCode}
-                </div>
+                <div className={styles.countryCode}>{country}</div>
               </div>
             </li>
           );
         })}
-        {loadingTA && (
-          <li>
-            <div className={styles.typeAheadlistItemLoading} data-testid={""}>
-              <div className="lds-css ng-scope">
-                <div className="lds-bars">
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
-              </div>
-            </div>
-          </li>
-        )}
       </ul>
     );
   }

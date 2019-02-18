@@ -22,8 +22,8 @@ namespace Repository
         {
             return  _db.Locations
                       .AsNoTracking()
-                      .Where(L => L.Name.ToLower()
-                      .StartsWith(searchTerm.ToLower()))
+                       .Where(L => L.Name
+                                    .StartsWith(searchTerm))
                       .Take(10)
                       .ToList();
 

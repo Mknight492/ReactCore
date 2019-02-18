@@ -130,6 +130,7 @@
 
 .suggestions li {
   padding: 0.5rem;
+  height: 3rem;
 }
 
 .suggestionActive {
@@ -155,6 +156,7 @@
 
 .typeAhead {
   /*have nested css to target imported typeahead component */
+
   &list {
     /*typeahead dropdown component NB has significant inline styles... */
     /* therefore !important used */
@@ -171,6 +173,9 @@
     width: 100%;
     position: absolute;
 
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 30rem;
     @include atMedium {
       width: 80%;
 
@@ -197,6 +202,7 @@
         display: block;
         height: 4rem;
         text-align: center;
+        margin: 0 auto;
       }
     }
   }
@@ -204,4 +210,5 @@
 
 .countryCode {
   padding-left: 2rem;
+  width: 100%;
 }

@@ -43,7 +43,11 @@
 }
 
 .ng-scope {
-  display: inline-block;
+  display: block;
+  width: 40%;
+  margin-top: 1rem;
+  //margin: 0 auto;
+  //left: 33% !important;
 }
 
 .lds-bars {

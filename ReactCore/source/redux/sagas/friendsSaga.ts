@@ -1,4 +1,5 @@
 import { put, call, takeLatest, all } from "redux-saga/effects/"; //select allows you to access values from state
+import { delay } from "redux-saga";
 import { friendConstants } from "redux/constants/index";
 import { friendActions, handleHTTPError } from "../actions/index";
 import { HF } from "../../helpers/index";
@@ -20,6 +21,7 @@ function* loadFriendsData() {
 function* getLocationTypeAhead(action) {
   const { searchTerm, Id } = action;
   try {
+    yield call(delay, 300);
     const results = yield locationServices.getCities(searchTerm);
     yield put(friendActions.loadLocationTASuccess(results, Id));
   } catch (error) {

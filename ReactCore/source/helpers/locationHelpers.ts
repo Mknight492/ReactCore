@@ -6,7 +6,7 @@ export const locationHelpers = {
   uniqueLocationsList
 };
 
-function uniqueTAValues(TAArray, limit = 5) {
+function uniqueTAValues(TAArray, limit = 10) {
   return TAArray.reduce((acc, curr, i, arr) => {
     let formatedValue = HF.formatLocation(curr);
     if (!acc.includes(formatedValue) && acc.length < limit) {
@@ -17,7 +17,7 @@ function uniqueTAValues(TAArray, limit = 5) {
 }
 
 //allows the array to be filtered in O(n) time
-function uniqueLocationsList(LocationsArray: Locations[], limit: number = 5) {
+function uniqueLocationsList(LocationsArray: Locations[], limit: number = 10) {
   let UniqueArray: Locations[] = [];
   let FormatedLocationSet = new Set();
   for (let location of LocationsArray) {

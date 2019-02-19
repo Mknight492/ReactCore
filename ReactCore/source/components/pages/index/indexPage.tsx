@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Link } from "@reach/router";
 import { connect } from "react-redux";
-import { Test2 } from "../../test/test2";
-import { Test3 } from "../../test/test3";
 import { userActions } from "../../../redux/actions";
 
 import TypeAhead from "components/typeAhead/typeAhead";

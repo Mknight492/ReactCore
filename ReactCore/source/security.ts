@@ -10,9 +10,9 @@ export const weatherAPI = "e81bac36636ec65c6c078f2b889d0e92";
 // weatherAPI2= e81bac36636ec65c6c078f2b889d0e92
 export const loginRoute = (): string => {
   if (isDev) {
-    return "http://localhost:59853/Account/login";
+    return "http://localhost:59853/react/login";
   } else if (isProd) {
-    return "https://reactcore20181208112428.azurewebsites.net/Account/login";
+    return "https://reactcore20181208112428.azurewebsites.net/react/login";
   } else return "";
 };
 

@@ -4,7 +4,7 @@ import { formState } from "models";
 
 export const returnInitalFormState = (config: string[] = []): formState => ({
   formRows: {
-    Name: {
+    Email: {
       element: "input",
       type: "text",
       value: config[0] || "",

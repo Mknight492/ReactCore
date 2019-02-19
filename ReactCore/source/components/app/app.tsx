@@ -13,8 +13,8 @@ import Backdrop from "components/backdrop/backdrop";
 //import pages
 import Navigation from "components/navigation/navigation";
 import IndexPage from "components/pages/index/indexPage";
-import WeatherPage from "components/pages/weather/weather-page";
 import Login from "components/pages/login/loginPage";
+import RegisterPage from "components/pages/register/registerPage";
 
 import NotFound from "../errorPages/notFound/notFound";
 //import { IdentityLoginPage } from "../pages/IdentityLogin/identityLogin";
@@ -52,6 +52,7 @@ const App = () => {
         <IndexPage path="/" />
         <WWeatherPageLoadable path="/weather" />
         <Login path="/react/login" />
+        <RegisterPage path="/react/register" />
         <ServerErrorPage path="/500" />
         <NotFound path="*" />
       </Router>

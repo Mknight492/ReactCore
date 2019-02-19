@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { userActions } from "redux/actions";
 
 //form components
-import { returnInitalFormState } from "components/UI/inputs/accountInput.config";
+import { returnInitalFormState } from "components/UI/inputs/loginForm";
 import FormRow from "components/UI/inputs/accountInputs";
 import { formUtilityActions } from "components/UI/inputs/formUtility";
 
@@ -34,7 +34,7 @@ const LoginPage: React.FunctionComponent<IProps> = ({
     //if passed an id then make that element as touched
     //(i.e comming from an input field handler)
     if (id) {
-      form[id].touched = true;
+      form.formRows[id].touched = true;
     }
 
     let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
@@ -55,16 +55,30 @@ const LoginPage: React.FunctionComponent<IProps> = ({
   ) {
     //NB directly mutating nested state here
     //but by calling validate form and update state after this state is appropriatly updated
-    form[id].touched = true;
-    form[id].value = event.target.value;
+    form.formRows[id].touched = true;
+    form.formRows[id].value = event.target.value;
     validateFormAndUpdateState();
   }
 
+  function onClick(id: string) {
+    form.formRows[id].touched = true;
+    setForm(form);
+  }
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (form.isValid) {
+      const currentFormValues = formUtilityActions.convertStateToValuesObject(
+        form
+      );
+      console.log(currentFormValues);
+      dispatch(userActions.login(currentFormValues));
+    }
+  };
   return (
     <>
       <div className={styles.background} />
 
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmitHandler}>
         <h2 className={styles.title}>Account Login</h2>
         {/*takes the form obj from state and creates a series of labels/inputs/error messages,
     thus allowing the UI/from to refelct the current state */}
@@ -83,6 +97,9 @@ const LoginPage: React.FunctionComponent<IProps> = ({
                 }}
                 blur={validateFormAndUpdateState}
                 styles={styles}
+                onClick={() => {
+                  onClick(formRow.id);
+                }}
               />
             );
           })}

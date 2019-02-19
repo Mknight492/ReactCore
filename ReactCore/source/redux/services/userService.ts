@@ -1,5 +1,6 @@
 import { authHeader, config, HF } from "../../helpers";
 import { Route } from "security";
+import { loginViewModel } from "models";
 
 export const userService = {
   login,
@@ -11,11 +12,11 @@ export const userService = {
   delete: _delete
 };
 
-function login(email, password) {
+function login(form: loginViewModel) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify(form)
   };
 
   return fetch("/account2/login", requestOptions)
@@ -71,10 +72,11 @@ function register(user) {
     body: JSON.stringify(user)
   };
 
-  return fetch("users/register", requestOptions).then(
-    handleResponse,
-    handleError
-  );
+  fetch("/account2/register", requestOptions)
+    .then(handleResponse, handleError)
+    .then(user => {
+      window.location.replace(Route());
+    });
 }
 
 function update(user) {

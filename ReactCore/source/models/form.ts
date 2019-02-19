@@ -47,3 +47,14 @@ export interface ValidationObject {
   location?: boolean;
   email?: boolean;
 }
+
+export interface loginViewModel {
+  Email: string;
+  Password: string;
+}
+
+export interface registerViewModel extends loginViewModel {
+  FirstName: string;
+  LastName: string;
+  ConfirmPassword: string;
+}

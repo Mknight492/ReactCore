@@ -19,13 +19,15 @@ interface IProps {
   changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
   blur: (id: string) => void;
   styles: any;
+  onClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormRow: React.FunctionComponent<IProps> = ({
   formRow,
   changed,
   blur,
-  styles
+  styles,
+  onClick
 }) => {
   let inputField;
   let errorMessage;
@@ -52,7 +54,7 @@ const FormRow: React.FunctionComponent<IProps> = ({
             onBlur={() => {
               blur(formRow.id);
             }}
-            onFocus={focus}
+            onFocus={onClick}
           />
           <em className={styles.errorMessage}>{errorMessage} &nbsp; </em>
         </>

@@ -150,8 +150,7 @@ async function IdentityRegister(user) {
     Password: user.password,
     RememberMe: true
   });
-  console.log(data);
-  const loggedIn = await fetch("/Account/Login?returnUrl=~/Home/Index", {
+  const loggedIn = await fetch("/Account2/Register?returnUrl=~/Home/Index", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -159,7 +158,6 @@ async function IdentityRegister(user) {
     },
     body: data
   });
-  console.log(loggedIn);
 }
 
 export default connectedIdentityPage;

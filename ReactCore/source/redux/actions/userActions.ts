@@ -2,7 +2,7 @@ import { userConstants } from "../constants/index";
 import { userService } from "../services/index";
 import { alertActions } from "./index";
 //import { history } from "../../helpers/index";
-import { ApplicationUserDto } from "models";
+import { ApplicationUserDto, loginViewModel } from "models";
 
 export const userActions = {
   login,
@@ -32,11 +32,11 @@ function getUserSuccess(user: ApplicationUserDto) {
   };
 }
 
-function login(username, password) {
+function login(form: loginViewModel) {
   return dispatch => {
-    dispatch(request({ username }));
+    dispatch(request({ username: form.Email }));
 
-    userService.login(username, password).then(
+    userService.login(form).then(
       user => {
         dispatch(success(user));
         //history.push("/");

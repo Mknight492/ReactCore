@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@reach/router";
 
-import { loginRoute } from "security";
+import { loginRoute, Route } from "security";
 
 const Links = props => {
   let user;
@@ -13,7 +13,6 @@ const Links = props => {
   const getUserService = () => import("redux/services/userService");
   const logOut = async () => {
     const { userService } = await getUserService();
-    debugger;
     await userService.logout();
     window.location.replace(loginRoute());
     // let def = userService.logout;
@@ -33,8 +32,10 @@ const Links = props => {
       <li>
         <a
           href=""
-          onClick={async () => {
+          onClick={async e => {
+            e.preventDefault();
             await logOut();
+            window.location.replace(loginRoute());
           }}
         >
           Logout
@@ -50,17 +51,17 @@ const Links = props => {
         <Link to={"/"}>Home</Link>
       </li>
       <li>
-        <a href={"/Account/register"}> Register </a>
+        <Link to={"/react/register"}>Register </Link>
+      </li>
+
+      <li>
+        <Link to={"/react/login"}> Login </Link>
       </li>
       <li>
-        <a href={"/Account/login"}> Login </a>
+        <Link to={"/weather"} data-testid="weatherLink">
+          Weather
+        </Link>
       </li>
-      <li>
-        <a href={"/react/login"}>React Login </a>
-      </li>
-      <Link to={"/weather"} data-testid="weatherLink">
-        Weather
-      </Link>
     </ul>
   );
 };

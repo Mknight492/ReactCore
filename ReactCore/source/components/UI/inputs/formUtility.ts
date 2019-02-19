@@ -7,7 +7,8 @@ export const formUtilityActions = {
   convertStateToArrayOfFormObjects,
   executeValidationAndReturnFormElement,
   checkIfFormValid,
-  executeFormValidationAndReturnForm
+  executeFormValidationAndReturnForm,
+  convertStateToValuesObject
 };
 
 function convertStateToArrayOfFormObjects(formObject: formState) {
@@ -16,6 +17,16 @@ function convertStateToArrayOfFormObjects(formObject: formState) {
       id: el,
       ...formObject.formRows[el]
     })
+  );
+}
+
+function convertStateToValuesObject(formObject: formState) {
+  return Object.keys(formObject.formRows).reduce(
+    (acc, el): any => {
+      acc[el] = formObject.formRows[el].value;
+      return acc;
+    },
+    {} as any
   );
 }
 
@@ -66,6 +77,7 @@ function executeFormValidationAndReturnForm(
       element.errorMessage = validationResponse.errorMessage;
     }
   });
+  ownerForm.isValid = checkIfFormValid(ownerForm);
 
   return ownerForm;
 }

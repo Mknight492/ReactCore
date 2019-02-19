@@ -4,135 +4,108 @@ import { connect } from "react-redux";
 
 import { userActions } from "../../../redux/actions";
 
-class RegisterPage extends React.Component {
-  constructor(props) {
-    super(props);
+//form
+import FormRow from "components/UI/inputs/accountInputs";
+import { formUtilityActions } from "components/UI/inputs/formUtility";
+import { returnInitalFormState } from "components/UI/inputs/registerForm";
 
-    this.state = {
-      user: {
-        firstName: "",
-        lastName: "",
-        username: "",
-        password: ""
-      },
-      submitted: false
-    };
+//styles
+import * as styles from "components/pages/login/loginPage.module.scss";
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    const { name, value } = event.target;
-    const { user } = this.state;
-    this.setState({
-      user: {
-        ...user,
-        [name]: value
-      }
-    });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-
-    this.setState({ submitted: true });
-    const { user } = this.state;
-    const { dispatch } = this.props;
-    if (user.firstName && user.lastName && user.username && user.password) {
-      dispatch(userActions.register(user));
-    }
-  }
-
-  render() {
-    const { registering } = this.props;
-    const { user, submitted } = this.state;
-    return (
-      <div className="col-md-6 col-md-offset-3">
-        <h2>Register</h2>
-        <form name="form" onSubmit={this.handleSubmit}>
-          <div
-            className={
-              "form-group" + (submitted && !user.firstName ? " has-error" : "")
-            }
-          >
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              name="firstName"
-              value={user.firstName}
-              onChange={this.handleChange}
-            />
-            {submitted && !user.firstName && (
-              <div className="help-block">First Name is required</div>
-            )}
-          </div>
-          <div
-            className={
-              "form-group" + (submitted && !user.lastName ? " has-error" : "")
-            }
-          >
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              name="lastName"
-              value={user.lastName}
-              onChange={this.handleChange}
-            />
-            {submitted && !user.lastName && (
-              <div className="help-block">Last Name is required</div>
-            )}
-          </div>
-          <div
-            className={
-              "form-group" + (submitted && !user.username ? " has-error" : "")
-            }
-          >
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              value={user.username}
-              onChange={this.handleChange}
-            />
-            {submitted && !user.username && (
-              <div className="help-block">Username is required</div>
-            )}
-          </div>
-          <div
-            className={
-              "form-group" + (submitted && !user.password ? " has-error" : "")
-            }
-          >
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              value={user.password}
-              onChange={this.handleChange}
-            />
-            {submitted && !user.password && (
-              <div className="help-block">Password is required</div>
-            )}
-          </div>
-          <div className="form-group">
-            <button className="btn btn-primary">Register</button>
-            {registering && (
-              <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            )}
-            <Link to="/login" className="btn btn-link">
-              Cancel
-            </Link>
-          </div>
-        </form>
-      </div>
-    );
-  }
+interface IProps {
+  dispatch: any;
+  registering: any;
+  path: string;
 }
+
+const RegisterPage: React.FunctionComponent<IProps> = ({
+  dispatch,
+  registering,
+  path
+}) => {
+  const [form, setForm] = React.useState(returnInitalFormState());
+
+  function validateFormAndUpdateState(id?: string) {
+    //run the form through validation
+    let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
+      form
+    );
+    //update forms state
+    setForm(updatedForm);
+  }
+
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) {
+    //NB directly mutating nested state here
+    //but by calling validate form and update state after this state is appropriatly updated
+    form.formRows[id].touched = true;
+    form.formRows[id].value = event.target.value;
+
+    validateFormAndUpdateState();
+  }
+
+  function onClick(id: string) {
+    form.formRows[id].touched = true;
+    setForm(form);
+  }
+
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (form.isValid) {
+      const currentFormValues = formUtilityActions.convertStateToValuesObject(
+        form
+      );
+      console.log(currentFormValues);
+      dispatch(userActions.register(currentFormValues));
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.background} />
+
+      <form className={styles.form} onSubmit={onSubmitHandler}>
+        <h2 className={styles.title}>Register Account</h2>
+        {/*takes the form obj from state and creates a series of labels/inputs/error messages,
+    thus allowing the UI/from to refelct the current state */}
+        {formUtilityActions
+          .convertStateToArrayOfFormObjects(form)
+          .map(formRow => {
+            return (
+              //map over the form state
+              //pass the each row its props
+              // including event handlers to pass state back to friendform component
+              <FormRow
+                key={formRow.id + "row"}
+                formRow={formRow}
+                changed={e => {
+                  handleChange(e, formRow.id);
+                }}
+                blur={validateFormAndUpdateState}
+                styles={styles}
+                onClick={() => {
+                  onClick(formRow.id);
+                }}
+              />
+            );
+          })}
+        <div className={styles.buttonBlock}>
+          <button className="btn btn--small btn-primary">Login</button>
+          {registering && (
+            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          )}
+          <button className="btn btn--small btn--secondary">
+            <Link to="/register" style={{ color: "white" }}>
+              Register
+            </Link>
+          </button>
+        </div>
+      </form>
+    </>
+  );
+};
 
 function mapStateToProps(state) {
   const { registering } = state.registration;
@@ -142,4 +115,4 @@ function mapStateToProps(state) {
 }
 
 const connectedRegisterPage = connect(mapStateToProps)(RegisterPage);
-export { connectedRegisterPage as RegisterPage };
+export default connectedRegisterPage;

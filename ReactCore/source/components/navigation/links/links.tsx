@@ -10,7 +10,6 @@ const Links = props => {
     user = JSON.parse(Json);
   }
   if (user && user.Id === null) user = null;
-  console.log(user);
   const getUserService = () => import("redux/services/userService");
   const logOut = async () => {
     const { userService } = await getUserService();
@@ -56,6 +55,12 @@ const Links = props => {
       <li>
         <a href={"/Account/login"}> Login </a>
       </li>
+      <li>
+        <a href={"/react/login"}>React Login </a>
+      </li>
+      <Link to={"/weather"} data-testid="weatherLink">
+        Weather
+      </Link>
     </ul>
   );
 };

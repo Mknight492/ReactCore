@@ -8,28 +8,26 @@ export const returnInitalFormState = (config: string[] = []): formState => ({
       element: "input",
       type: "text",
       value: config[0] || "",
-      validation: { required: true },
+      validation: { required: true, email: true },
       valid: false,
       touched: config[0] ? true : false, //treat values as touched if they have had a value
       errorMessage: "",
-      label: "Name:"
+      label: "Email:"
     },
-    Location: {
-      element: "typeAhead",
-      type: "text",
+    Password: {
+      element: "input",
+      type: "password",
       value: config[1] || "",
-      validation: {
-        required: true,
-        minLength: 3,
-        maxLength: 60,
-        location: true
-      },
+      validation: { required: true, minLength: 3, maxLength: 60 },
       valid: false,
       touched: config[1] ? true : false, //treat values as touched if they have had a value
       errorMessage: "",
-      label: "Location:",
+      label: "Password:",
       showDropdown: false
     }
   },
-  isValid: false
+  isValid: config.reduce((acc, cur) => {
+    if (acc && cur) return true;
+    else return false;
+  }, true)
 });

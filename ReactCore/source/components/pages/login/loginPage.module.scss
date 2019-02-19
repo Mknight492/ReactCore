@@ -1,0 +1,95 @@
+@import "scssImports/variables.scss";
+
+.background {
+  z-index: -1;
+  background-color: #f1f1f1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.inputBase {
+  font-size: $friendNameFont;
+  padding-right: 2rem;
+  @include atMedium {
+    padding: 5px 0;
+  }
+}
+
+.form {
+  border: 2px solid $color-primary-l;
+  border-radius: 2rem;
+  position: static;
+
+  max-width: 60rem;
+  margin: 15rem auto;
+  opacity: 0.8;
+  padding: 2rem 2rem 2rem 1rem;
+  background-color: #fff;
+
+  background-color: white;
+  border-radius: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  width: 90%;
+
+  @include atMedium {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+  }
+
+  .title {
+    font-size: 2.4rem;
+    margin: 0 auto;
+    grid-column: 1/3;
+    margin-bottom: 2rem;
+  }
+
+  .label {
+    @extend .inputBase;
+    text-align: center;
+
+    @include atMedium {
+      grid-column: 1/2;
+      text-align: right;
+    }
+  }
+  .input {
+    @extend .inputBase;
+    color: inherit !important;
+    outline: none;
+    appearance: none;
+    border: 0px;
+    border-bottom: 2.5px dashed $color-primary-3;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    @include atMedium {
+      grid-column: 2/3;
+    }
+  }
+  .errorMessage {
+    display: block;
+    text-align: center;
+    font-size: $friendErrorMessageFont;
+    color: red !important;
+    width: 100%;
+    @include atMedium {
+      grid-column: 2/3;
+    }
+  }
+  .buttonBlock {
+    width: 90%;
+    margin: 1rem auto;
+    text-align: center;
+    button {
+      margin: 0 1rem;
+    }
+    @include atMedium {
+      grid-column: 2/3;
+    }
+  }
+}

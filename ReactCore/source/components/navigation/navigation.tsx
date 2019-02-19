@@ -25,26 +25,28 @@ const getUserService = () => import("redux/services/userService");
 
 interface OwnProps {}
 interface StateProps {
-  user?: ApplicationUserDto;
-  LoggedIn?: boolean;
+  //user?: ApplicationUserDto;
+  //LoggedIn?: boolean;
 }
 interface DispatchProps {
-  getUser: Function;
+  // getUser: Function;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-const NavigationComponent: React.FunctionComponent<Props> = ({
-  user,
-  LoggedIn,
-  getUser
-}) => {
+const NavigationComponent: React.FunctionComponent<Props> = (
+  {
+    // user,
+    // LoggedIn,
+    // getUser
+  }
+) => {
   //get the user from backend authentication API - would only be
   //needed in serverless/AWS lamda
-  let loaded;
-  useEffect(() => {
-    getUser();
-  }, [loaded]);
+  // let loaded;
+  // useEffect(() => {
+  //   getUser();
+  // }, [loaded]);
 
   const logOut = async () => {
     const { userService } = await getUserService();
@@ -98,29 +100,31 @@ const NavigationComponent: React.FunctionComponent<Props> = ({
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.users.user,
-    LoggedIn: state.users.LoggedIn
-  };
-}
+export default NavigationComponent;
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getUser: async () => {
-      const { userService } = await getUserService();
-      dispatch(userActions.getUserRequest());
-    }
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     user: state.users.user,
+//     LoggedIn: state.users.LoggedIn
+//   };
+// }
 
-export default connect<StateProps, DispatchProps, OwnProps>(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavigationComponent);
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     getUser: async () => {
+//       const { userService } = await getUserService();
+//       dispatch(userActions.getUserRequest());
+//     }
+//   };
+// }
 
-async function getUser() {
-  const user = await HF.Appfetch("/api/Authenticate/CheckUser");
-  const userJson = await user.json();
-  return userJson;
-}
+// export default connect<StateProps, DispatchProps, OwnProps>(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(NavigationComponent);
+
+// async function getUser() {
+//   const user = await HF.Appfetch("/api/Authenticate/CheckUser");
+//   const userJson = await user.json();
+//   return userJson;
+// }

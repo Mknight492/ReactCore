@@ -15,3 +15,11 @@ export const loginRoute = (): string => {
     return "https://reactcore20181208112428.azurewebsites.net/Account/login";
   } else return "";
 };
+
+export const Route = (): string => {
+  if (isDev) {
+    return "http://localhost:59853";
+  } else if (isProd) {
+    return "https://reactcore20181208112428.azurewebsites.net";
+  } else return "";
+};

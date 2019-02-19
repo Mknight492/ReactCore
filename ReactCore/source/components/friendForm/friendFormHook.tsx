@@ -112,7 +112,6 @@ const FriendFormComponent: React.SFC<Props> = ({
   const initalForm = Friend
     ? returnInitalFormState([Friend.Name, HF.formatLocation(Friend.Location)])
     : returnInitalFormState();
-
   const [ownerForm, setownerForm] = useState(initalForm);
 
   const [isFormValid, setIsFormValid] = useState(true);
@@ -138,7 +137,7 @@ const FriendFormComponent: React.SFC<Props> = ({
     //if passed an id then make that element as touched
     //(i.e comming from an input field handler)
     if (id) {
-      ownerForm[id].touched = true;
+      ownerForm.formRows[id].touched = true;
     }
 
     let updatedForm = formUtilityActions.executeFormValidationAndReturnForm(
@@ -162,8 +161,8 @@ const FriendFormComponent: React.SFC<Props> = ({
   ) {
     //NB directly mutating nested state here
     //but by calling validate form and update state after this state is appropriatly updated
-    ownerForm[id].touched = true;
-    ownerForm[id].value = event.target.value;
+    ownerForm.formRows[id].touched = true;
+    ownerForm.formRows[id].value = event.target.value;
     validateFormAndUpdateState();
 
     if (id === "Location") {
@@ -185,8 +184,8 @@ const FriendFormComponent: React.SFC<Props> = ({
     //NB directly mutating nested state here
     //but by calling validate form and update state after this state is appropriatly updated
 
-    ownerForm[id].value = HF.formatLocation(location);
-    ownerForm[id].touched = true;
+    ownerForm.formRows[id].value = HF.formatLocation(location);
+    ownerForm.formRows[id].touched = true;
     validateFormAndUpdateState();
 
     setCoords({
@@ -214,10 +213,10 @@ const FriendFormComponent: React.SFC<Props> = ({
     event.preventDefault();
 
     setownerForm(ownerForm => {
-      Object.keys(ownerForm).map(key => {
+      Object.keys(ownerForm.formRows).map(key => {
         //map over each value in the formObj.
         //turn touched to true add error message
-        const element = ownerForm[key];
+        const element = ownerForm.formRows[key];
         element.touched = true;
       });
       return ownerForm;
@@ -244,7 +243,10 @@ const FriendFormComponent: React.SFC<Props> = ({
   }
 
   async function addFriend() {
-    await locationServices.addFriend(ownerForm.Name.value, selectedLocationId);
+    await locationServices.addFriend(
+      ownerForm.formRows.Name.value,
+      selectedLocationId
+    );
     await loadFriends();
     setownerForm(returnInitalFormState([]));
   }
@@ -252,7 +254,7 @@ const FriendFormComponent: React.SFC<Props> = ({
   async function editFriend() {
     if (Friend) {
       let EditedFriend: Friend = {
-        Name: ownerForm.Name.value,
+        Name: ownerForm.formRows.Name.value,
         LocationId: selectedLocationId,
         Id: Friend.Id,
         UserId: Friend.UserId,
@@ -435,20 +437,17 @@ function useWeather(
   // but only do this if not inital weather was supplied or irs, not the
   // first time this function is called
 
-  useEffect(
-    () => {
-      if (!initialWeather || shouldWeatherLoad) {
-        locationServices
-          .getWeather(coords.latitude, coords.longitude)
-          .then(result => {
-            setWeather(result);
-          });
-      } else {
-        shouldWeatherLoad = true;
-      }
-    },
-    [coords.latitude, coords.longitude]
-  );
+  useEffect(() => {
+    if (!initialWeather || shouldWeatherLoad) {
+      locationServices
+        .getWeather(coords.latitude, coords.longitude)
+        .then(result => {
+          setWeather(result);
+        });
+    } else {
+      shouldWeatherLoad = true;
+    }
+  }, [coords.latitude, coords.longitude]);
 
   return [weather, setWeather, coords, setCoords];
 }
@@ -459,12 +458,9 @@ function useLocation(LocationArrayProps, initialLocation) {
   const [LocationArray, setlocationArray] = useState(
     LocationArrayProps || initialLocation
   );
-  useEffect(
-    () => {
-      setlocationArray(LocationArrayProps || initialLocation || []);
-    },
-    [LocationArrayProps]
-  );
+  useEffect(() => {
+    setlocationArray(LocationArrayProps || initialLocation || []);
+  }, [LocationArrayProps]);
 
   return [LocationArray];
 }

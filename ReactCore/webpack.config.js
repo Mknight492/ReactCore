@@ -10,41 +10,6 @@ var autoprefixer = require("autoprefixer");
 var ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 //const { CheckerPlugin } = require("awesome-typescript-loader");
 
-const CSSModuleLoader = {
-  loader: "typings-for-css-modules-loader",
-  options: {
-    modules: true,
-    sourceMap: true,
-    localIdentName: "[local]__[hash:base64:5]",
-    minimize: true,
-    namedExport: true
-  }
-};
-
-const CSSLoader = {
-  loader: "css-loader",
-  options: {
-    modules: false,
-    sourceMap: true,
-    minimize: true
-  }
-};
-
-const postCSSLoader = {
-  loader: "postcss-loader",
-  options: {
-    ident: "postcss",
-    sourceMap: true,
-    plugins: () => [
-      autoprefixer({
-        browsers: [">1%", "last 4 versions", "Firefox ESR", "not ie < 9"]
-      })
-    ]
-  }
-};
-
-process.env.mode;
-
 module.exports = ({ mode = "production", presets = [] }) => {
   return webpackMerge(
     {
@@ -115,16 +80,6 @@ module.exports = ({ mode = "production", presets = [] }) => {
           }
         ]
       },
-      // resolve: {
-      //   alias: {
-      //     react: "preact-compat",
-      //     "react-dom": "preact-compat",
-      //     // Not necessary unless you consume a module using `createClass`
-      //     "create-react-class": "preact-compat/lib/create-react-class",
-      //     // Not necessary unless you consume a module requiring `react-dom-factories`
-      //     "react-dom-factories": "preact-compat/lib/react-dom-factories"
-      //   }
-      // },
       plugins: [
         new HtmlWebpackPlugin({
           template: "./source/index.html",
@@ -156,17 +111,3 @@ module.exports = ({ mode = "production", presets = [] }) => {
     presetConfig({ mode, presets })
   );
 };
-// Alternative TS lint config
-// {
-//   "extends": [
-//     "tslint:recommended",
-//     "tslint-react",
-//     "tslint-config-prettier"
-//   ],
-//   "rules": {
-//     "ordered-imports": false,
-//     "object-literal-sort-keys": false,
-//     "interface-name": false,
-//     "member-ordering": false
-//   }
-// }

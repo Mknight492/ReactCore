@@ -108,17 +108,17 @@ it("can add a new Friend", async () => {
   fireEvent.click(WellsTA);
   await flushPromises();
   expect(nameInput.value).toBe("mike");
-  expect(moxios.requests.count()).toBe(7);
-  expect(moxios.requests.at(0).url).toMatch("/api/Authenticate/CheckUser");
-  expect(moxios.requests.at(1).url).toMatch(/api\/location\/random/);
-  expect(moxios.requests.at(2).url).toMatch(/api.openweathermap.org/);
-  expect(moxios.requests.at(3).url).toMatch("api/friend/getall");
-  expect(moxios.requests.at(4).url).toMatch(
+  expect(moxios.requests.count()).toBe(6);
+
+  expect(moxios.requests.at(0).url).toMatch(/api\/location\/random/);
+  expect(moxios.requests.at(1).url).toMatch(/api.openweathermap.org/);
+  expect(moxios.requests.at(2).url).toMatch("api/friend/getall");
+  expect(moxios.requests.at(3).url).toMatch(
     /api\/location\/get\?type=location&query=/
   );
   //need to change the way the weather API is called to reduced unnecessary calls
+  expect(moxios.requests.at(4).url).toMatch(/api.openweathermap.org/);
   expect(moxios.requests.at(5).url).toMatch(/api.openweathermap.org/);
-  expect(moxios.requests.at(6).url).toMatch(/api.openweathermap.org/);
   moxios.uninstall();
   moxios.install();
   moxios.stubOnce("GET", "api/friend/getall", {

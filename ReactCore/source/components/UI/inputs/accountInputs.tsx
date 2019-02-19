@@ -18,22 +18,14 @@ interface IProps {
   formRow: formRow;
   changed: (event: React.ChangeEvent<HTMLInputElement>) => void;
   blur: (id: string) => void;
-  items: any[];
-  selectHandler: (value: Locations) => void;
-  locations: Locations[];
-  formRef: React.MutableRefObject<any>;
-  setFormState?: any;
+  styles: any;
 }
 
 const FormRow: React.FunctionComponent<IProps> = ({
   formRow,
   changed,
   blur,
-  items = [],
-  selectHandler,
-  locations,
-  formRef,
-  setFormState
+  styles
 }) => {
   let inputField;
   let errorMessage;
@@ -46,13 +38,13 @@ const FormRow: React.FunctionComponent<IProps> = ({
   switch (formRow.element) {
     case "input":
       inputField = (
-        <div className={styles.inputBlock}>
-          <label className={styles.inputLabel} htmlFor={formRow.id} id="name">
-            Name:
+        <>
+          <label className={styles.label} htmlFor={formRow.id}>
+            {formRow.label}
           </label>
           <input
             id={formRow.id}
-            className={styles.inputField}
+            className={styles.input}
             key={formRow.id}
             type={formRow.type}
             value={formRow.value}
@@ -63,36 +55,14 @@ const FormRow: React.FunctionComponent<IProps> = ({
             onFocus={focus}
           />
           <em className={styles.errorMessage}>{errorMessage} &nbsp; </em>
-        </div>
-      );
-      break;
-    case "typeAhead":
-      inputField = (
-        <div className={styles.locationBlock}>
-          <label className={styles.locationLabel} htmlFor={formRow.id}>
-            Location:
-          </label>
-
-          <TypeAhead
-            name={"Location"}
-            onSelect={selectHandler}
-            suggestions={locations}
-            onChange={changed}
-            onBlur={blur}
-            onFocus={focus}
-            formRow={formRow}
-            errorMessage={errorMessage}
-            formRef={formRef}
-            setFormState={setFormState}
-          />
-        </div>
+        </>
       );
       break;
     default:
       inputField = null;
   }
 
-  return <div>{inputField}</div>;
+  return inputField;
 };
 
 export default FormRow;

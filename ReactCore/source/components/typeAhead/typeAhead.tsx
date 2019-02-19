@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import * as styles from "components/friendForm/friendForm.module.scss";
 import "./typeAhead.scss";
 //models
-import { Locations, formRow } from "models";
+import { Locations, formRow, formState } from "models";
 
 //helpers
 import { HookHelpers } from "customHooks";
@@ -81,8 +81,8 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
   const ref = React.useRef(null as any);
   const setshowSuggestionsToFalse = () => {
     setshowSuggestions(false);
-    setFormState(form => {
-      form.Location.touched = true;
+    setFormState((form: formState) => {
+      form.formRows.Location.touched = true;
       return form;
     });
   };
@@ -216,9 +216,6 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           let Filtered = Name.split(new RegExp(formRow.value, "gi"));
 
           let country = countryCodeToCountry(suggestion.CountryCode);
-          console.log(countryCodeToCountry);
-          console.log(country);
-          console.log(String(suggestion.CountryCode));
           return (
             <li
               className={className}
@@ -302,7 +299,6 @@ const TypeAheadComponent: React.FunctionComponent<IProps> = ({
           //it must be the first match otherwise the state can infintely cycle
           //between two different matches
           if (newSuggestion != taInlineSuggestion[0] && matchCount === 1) {
-            console.log(newSuggestion, taInlineSuggestion, i, currentValue, re);
             setTaInlineSuggestion([newSuggestion, filteredSuggestions[i]]);
             if (!match) {
               setMatch(true);

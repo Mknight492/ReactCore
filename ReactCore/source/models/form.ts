@@ -11,18 +11,33 @@ export interface formRow {
   showDropdown?: boolean | false;
 }
 
+interface formObjectRow {
+  element: string;
+  type: string;
+  value: string;
+  validation: ValidationObject;
+  valid: boolean;
+  touched: boolean;
+  errorMessage: string;
+  label: string;
+  showDropdown?: boolean | false;
+}
+
 export interface formState {
-  [key: string]: {
-    element: string;
-    type: string;
-    value: string;
-    validation: ValidationObject;
-    valid: boolean;
-    touched: boolean;
-    errorMessage: string;
-    label: string;
-    showDropdown?: boolean | false;
+  formRows: {
+    [key: string]: {
+      element: string;
+      type: string;
+      value: string;
+      validation: ValidationObject;
+      valid: boolean;
+      touched: boolean;
+      errorMessage: string;
+      label: string;
+      showDropdown?: boolean | false;
+    };
   };
+  isValid: boolean;
 }
 
 export interface ValidationObject {
@@ -30,4 +45,5 @@ export interface ValidationObject {
   minLength?: number;
   maxLength?: number;
   location?: boolean;
+  email?: boolean;
 }

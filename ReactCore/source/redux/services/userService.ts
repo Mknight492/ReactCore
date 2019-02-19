@@ -1,7 +1,8 @@
 import { authHeader, config, HF } from "../../helpers";
+import { Route } from "security";
 
 export const userService = {
-  //login,
+  login,
   logout,
   register,
   getAll,
@@ -10,25 +11,28 @@ export const userService = {
   delete: _delete
 };
 
-/*function login(username, password) {
+function login(email, password) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ email, password })
   };
 
-  return fetch("users/authenticate", requestOptions)
+  return fetch("/account2/login", requestOptions)
     .then(handleResponse, handleError)
     .then(user => {
       // login successful if there's a jwt token in the response
+      //@ts-ignore
       if (user && user.token) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem("user", JSON.stringify(user));
       }
+      //must reload the page to update the antiforgerytoken
+      window.location.replace(Route());
 
       return user;
     });
-}*/
+}
 
 async function logout() {
   // remove user from local storage to log user out

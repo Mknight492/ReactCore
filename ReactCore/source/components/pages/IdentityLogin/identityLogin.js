@@ -143,7 +143,6 @@ function mapStateToProps(state) {
 }
 
 const connectedIdentityPage = connect(mapStateToProps)(IdentityLoginPage);
-export { connectedIdentityPage as IdentityLoginPage };
 
 async function IdentityRegister(user) {
   const data = JSON.stringify({
@@ -162,3 +161,5 @@ async function IdentityRegister(user) {
   });
   console.log(loggedIn);
 }
+
+export default connectedIdentityPage;

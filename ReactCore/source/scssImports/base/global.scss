@@ -1,9 +1,14 @@
+html {
+  //font-size: 10px; // wouldn't allow users to overwrite base font size
+  font-size: 62.5%; //allows users to overwrite font size but translates to 10px
+}
+
 body {
   font-family: "europa", "Roboto", sans-serif;
   color: #555;
   overflow-x: visible;
   font-weight: 400;
-  font-size: 0.1rem;
+  //font-size: 1rem;
   line-height: 1.65;
   box-sizing: border-box;
   scroll-behavior: smooth;

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Entities.Models;
+using Entities.Models.AccountViewModels;
 using Entities.Models.ManageViewModels;
 using ReactCore.Services;
 

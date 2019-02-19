@@ -21,7 +21,7 @@ namespace ReactCore.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class AccountController2 : Controller
+    public class Account2Controller : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,11 +29,11 @@ namespace ReactCore.Controllers
         private readonly ILogger _logger;
         private IMapper _mapper;
 
-        public AccountController2(
+        public Account2Controller(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController2> logger,
+            ILogger<Account2Controller> logger,
             IMapper mapper)
         {
             _userManager = userManager;

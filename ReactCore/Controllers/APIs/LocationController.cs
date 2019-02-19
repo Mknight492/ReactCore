@@ -56,7 +56,7 @@ namespace ReactCore.Controllers.APIs
 
 
         [HttpGet]
-        public async Task<IActionResult> Random(int count = 1)
+        public IActionResult Random(int count = 1)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ReactCore.Controllers.APIs
                 {
                     return Ok(randomLocation);
                 }
-                return StatusCode(404, "Unhandle exception in Location Controller");
+                return StatusCode(404, "No random Locations found in Location controller");
 
                 //if (randomLocations.Count() == 0)
                 //{
